@@ -1,0 +1,31 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>КОТ — Вход</title>
+  <link type="text/css" href="{% static 'events_app/css/login.css' %}" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h1 class="logo">КОТ</h1>
+    <p class="subtitle">Красноярск открытый тебе</p>
+
+    <form class="login-form">
+      <input type="email" placeholder="Почта" required>
+      <input type="password" placeholder="Пароль" required>
+      <a href="#" class="forgot">Забыли пароль?</a>
+
+      <button class="btn yellow">Войти</button>
+
+    </form>
+    <div class="social">
+      <button class="btn blue">VK</button>
+      <button class="btn red">Google</button>
+    </div>
+    <button class="btn yellow-outline">Зарегистрироваться</button>
+  </div>
+</body>
+</html>

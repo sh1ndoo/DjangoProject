@@ -1,0 +1,91 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>КОТ — Профиль</title>
+  <link type="text/css" href="{% static 'events_app/css/profile.css' %}" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+        <div class="profile-header">
+          <label for="bg-upload">
+            <img class="bg-image" id="bgPreview" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1400&q=80" alt="Фон">
+            <input type="file" id="bg-upload" accept="image/*" hidden>
+          </label>
+        </div>
+
+        <!-- Плашка с именем и аватаром -->
+        <div class="profile-card">
+          <label for="avatar-upload">
+            <img class="avatar" id="avatarPreview" src="https://via.placeholder.com/80x80.png?text=User" alt="Аватар">
+            <input type="file" id="avatar-upload" accept="image/*" hidden>
+          </label>
+          <div class="name-status">
+            <h2 id="name" contenteditable="true">Дмитрий Трофимов</h2>
+            <p id="status" contenteditable="true">Статус чтобы не было пусто</p>
+          </div>
+        </div>
+
+    <!-- Статистика -->
+    <div class="stats">
+      <div class="stat-block"><span>⭐</span><p>Рейтинг<br><strong>0</strong></p></div>
+      <div class="stat-block"><span>📍</span><p>Местоположение<br><strong>адрес</strong></p></div>
+      <div class="stat-block"><span>👍</span><p>Оценок<br><strong>0</strong></p></div>
+      <div class="stat-block"><span>🎫</span><p>Посещено<br><strong>0</strong></p></div>
+    </div>
+
+    <!-- Вкладки -->
+    <div class="tabs">
+      <button class="tab active" data-tab="liked">Понравившиеся</button>
+      <button class="tab" data-tab="events">Ваши мероприятия</button>
+      <button class="tab" data-tab="rates">Оценки</button>
+    </div>
+
+    <!-- Содержимое -->
+    <div id="tab-content">
+      <div class="tab-pane active" id="liked">
+        <div class="heart">❤️</div>
+        <p>Пока ничего нет</p>
+      </div>
+      <div class="tab-pane" id="events">
+        <div class="heart">❤️</div>
+        <p>Пока ничего нет</p>
+      </div>
+      <div class="tab-pane" id="rates">
+        <div class="heart">❤️</div>
+        <p>Пока ничего нет</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Переключение вкладок
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Аватар / фон превью
+    const avatarInput = document.getElementById('avatar-upload');
+    const avatarPreview = document.getElementById('avatarPreview');
+    avatarInput.addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (file) avatarPreview.src = URL.createObjectURL(file);
+    });
+
+    const bgInput = document.getElementById('bg-upload');
+    const bgPreview = document.getElementById('bgPreview');
+    bgInput.addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (file) bgPreview.src = URL.createObjectURL(file);
+    });
+  </script>
+</body>
+</html>

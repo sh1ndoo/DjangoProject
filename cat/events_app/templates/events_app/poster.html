@@ -1,0 +1,123 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рекомендации</title>
+  <link type="text/css" href="{% static 'events_app/css/poster.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div class="calendar-bar">
+        <button onclick="window.location.href = '{% url "login" %}';" class="calendar-date">☺<br>Войти</button>
+        <button class="nav-btn">←</button>
+        <div class="calendar-scroll">
+            <div class="calendar-date selected">Сб<br>05</div>
+            <div class="calendar-date">Пн<br>07</div>
+            <div class="calendar-date">Вт<br>08</div>
+            <div class="calendar-date">Ср<br>09</div>
+            <div class="calendar-date">Чт<br>10</div>
+            <div class="calendar-date">Пт<br>11</div>
+            <div class="calendar-date">Сб<br>12</div>
+            <div class="calendar-date">Вс<br>13</div>
+            <div class="calendar-date">Пн<br>14</div>
+            <div class="calendar-date">Вт<br>15</div>
+            <div class="calendar-date">Ср<br>16</div>
+            <div class="calendar-date">Чт<br>17</div>
+            <div class="calendar-date">Пт<br>18</div>
+            <div class="calendar-date">Сб<br>19</div>
+            <div class="calendar-date">Вс<br>20</div>
+            <div class="calendar-date">Пн<br>21</div>
+        </div>
+        <button class="nav-btn">→</button>
+        <button onclick="window.location.href = '{% url "profile" %}';" class="calendar-date">☺<br>Профиль</button>
+    </div>
+
+    <div class="filters">
+        <select>
+            <option>Тип мероприятия</option>
+            <option>Комедия</option>
+            <option>Драма</option>
+            <option>Инсталляция</option>
+            <option>Шоу</option>
+        </select>
+        <select>
+            <option>Скидки</option>
+        </select>
+        <select>
+            <option>Детские</option>
+        </select>
+    </div>
+
+    <div class="container">
+        <h1>Рекомендации для вас</h1>
+        <div class="cards">
+            <div class="card">
+                <img src="https://avatars.mds.yandex.net/i?id=b0d416642bd7a2978c7c4f6fc33d8254_sr-13013137-images-thumbs&n=13" alt="Батя 2. Дед">
+                <div class="info">
+                    <h2>Батя 2. Дед</h2>
+                    <p>Комедия</p>
+                    <button>Билеты</button>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://avatars.mds.yandex.net/i?id=b0d416642bd7a2978c7c4f6fc33d8254_sr-13013137-images-thumbs&n=13" alt="Futurione">
+                <div class="info">
+                    <h2>Futurione</h2>
+                    <p>Инсталляция</p>
+                    <button>Билеты</button>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://avatars.mds.yandex.net/i?id=b0d416642bd7a2978c7c4f6fc33d8254_sr-13013137-images-thumbs&n=13" alt="Сальвадор Дали и Пабло Пикассо">
+                <div class="info">
+                    <h2>Сальвадор Дали и Пабло Пикассо</h2>
+                    <p>Графика</p>
+                    <button>Билеты</button>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://avatars.mds.yandex.net/i?id=b0d416642bd7a2978c7c4f6fc33d8254_sr-13013137-images-thumbs&n=13" alt="Цифровое шоу VI Океан">
+                <div class="info">
+                    <h2>Цифровое шоу VI Океан</h2>
+                    <p>Новые медиа</p>
+                    <button>Билеты</button>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://avatars.mds.yandex.net/i?id=b0d416642bd7a2978c7c4f6fc33d8254_sr-13013137-images-thumbs&n=13" alt="Пророк. История Александра Пушкина">
+                <div class="info">
+                    <h2>Пророк. История Александра Пушкина</h2>
+                    <p>Драма</p>
+                    <button>Билеты</button>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://avatars.mds.yandex.net/i?id=b0d416642bd7a2978c7c4f6fc33d8254_sr-13013137-images-thumbs&n=13" alt="Дали. Женщины-цветы">
+                <div class="info">
+                    <h2>Дали. Женщины-цветы</h2>
+                    <p>Графика</p>
+                    <button>Билеты</button>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://avatars.mds.yandex.net/i?id=b0d416642bd7a2978c7c4f6fc33d8254_sr-13013137-images-thumbs&n=13" alt="Собачье сердце">
+                <div class="info">
+                    <h2>Собачье сердце</h2>
+                    <p>Драматический спектакль</p>
+                    <button>От 1200 ₽</button>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://avatars.mds.yandex.net/i?id=b0d416642bd7a2978c7c4f6fc33d8254_sr-13013137-images-thumbs&n=13" alt="Свободная пара">
+                <div class="info">
+                    <h2>Свободная пара</h2>
+                    <p>Комедия</p>
+                    <button>От 1500 ₽</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

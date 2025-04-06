@@ -1,0 +1,195 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #121212;
+  color: white;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px 40px;
+}
+
+/* Шапка */
+.profile-header {
+  position: relative;
+  height: 200px;
+  margin-bottom: 80px;
+}
+
+.bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.profile-info {
+  position: absolute;
+  bottom: -40px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid #121212;
+}
+
+.name-status h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.name-status p {
+  margin: 4px 0 0;
+  color: #ccc;
+  font-size: 14px;
+}
+
+/* Статистика */
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.stat-block {
+  flex: 1 1 45%;
+  background: #1e1e1e;
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.stat-block span {
+  display: block;
+  font-size: 20px;
+  margin-bottom: 6px;
+}
+
+/* Вкладки */
+.tabs {
+  display: flex;
+  justify-content: space-around;
+  margin: 30px 0 20px;
+}
+
+.tab {
+  background: none;
+  border: none;
+  padding: 10px;
+  font-weight: bold;
+  font-size: 14px;
+  color: #ffeb3b;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+}
+
+.tab.active {
+  border-color: #ffeb3b;
+}
+
+/* Понравившееся */
+.favorites {
+  text-align: center;
+  color: #888;
+}
+
+.heart {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+/* Адаптация */
+@media (min-width: 768px) {
+  .profile-info {
+    bottom: -50px;
+  }
+
+  .name-status h2 {
+    font-size: 24px;
+  }
+
+  .stat-block {
+    flex: 1 1 22%;
+    font-size: 16px;
+  }
+
+  .tab {
+    font-size: 16px;
+  }
+}
+
+.tab-pane {
+  display: none;
+  text-align: center;
+  color: #888;
+}
+
+.tab-pane.active {
+  display: block;
+}
+
+
+/* Новая плашка */
+.profile-card {
+  background-color: #1e1e1e;
+  margin-top: -40px;
+  margin-bottom: 30px;
+  padding: 20px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  flex-wrap: wrap;
+}
+
+.profile-card .avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid #ffeb3b;
+}
+
+.profile-card .name-status h2 {
+  margin: 0;
+  font-size: 20px;
+  color: white;
+}
+
+.profile-card .name-status p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: #ccc;
+}
+
+/* Адаптация */
+@media (min-width: 768px) {
+  .profile-card {
+    padding: 30px;
+  }
+
+  .profile-card .name-status h2 {
+    font-size: 24px;
+  }
+
+  .profile-card .name-status p {
+    font-size: 16px;
+  }
+
+  .profile-card .avatar {
+    width: 100px;
+    height: 100px;
+  }
+}
