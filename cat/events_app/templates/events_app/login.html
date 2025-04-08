@@ -3,29 +3,44 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>КОТ — Вход</title>
-  <link type="text/css" href="{% static 'events_app/css/login.css' %}" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>КОТ - Вход</title>
+    <link type="text/css" href="{% static 'events_app/css/styles.css' %}" rel="stylesheet">
 </head>
-<body>
-  <div class="container">
-    <h1 class="logo">КОТ</h1>
-    <p class="subtitle">Красноярск открытый тебе</p>
+<body class="login-page-body"> <!-- Добавим класс для специфичных стилей body если нужно -->
 
-    <form class="login-form">
-      <input type="email" placeholder="Почта" required>
-      <input type="password" placeholder="Пароль" required>
-      <a href="#" class="forgot">Забыли пароль?</a>
+    <div class="login-container">
+        <div class="login-box">
+            <img src="{% static 'events_app/images/logo.png' %}" alt="Логотип КОТ" class="login-logo">
+            <h1 class="login-title">КОТ</h1>
+            <p class="login-subtitle">Красноярск открытый тебе</p>
 
-      <button class="btn yellow">Войти</button>
+            <form class="login-form" action="#"> <!-- Добавлен form для семантики -->
+                <div class="form-group">
+                    <input type="email" id="email" placeholder="Почта" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" placeholder="Пароль" required>
+                </div>
+                <a href="#" class="forgot-password">Забыли пароль?</a>
 
-    </form>
-    <div class="social">
-      <button class="btn blue">VK</button>
-      <button class="btn red">Google</button>
+                <button type="submit" class="btn btn-login">Войти</button>
+            </form>
+
+            <div class="social-login">
+                <button type="button" class="btn btn-social btn-vk">VK</button>
+                <button type="button" class="btn btn-social btn-google">Google</button>
+            </div>
+
+            <button type="button" class="btn btn-register" onclick="window.location.href='#';">Зарегистрироваться</button>
+             <!-- Замените '#' на реальную ссылку для регистрации -->
+
+        </div>
     </div>
-    <button class="btn yellow-outline">Зарегистрироваться</button>
-  </div>
+
+    <!-- Вставляем тот же футер, что и на главной странице -->
+    {% include 'events_app/includes/footer.html' %}
+
 </body>
 </html>

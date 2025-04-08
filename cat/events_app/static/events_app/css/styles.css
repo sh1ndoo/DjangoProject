@@ -1,0 +1,1149 @@
+/* Основные стили и переменные */
+:root {
+    --bg-color: #121212;; /* Темный фон */
+    --card-bg-color: #1e1e1e; /* Фон карточек и элементов */
+    --text-color: #e0e0e0; /* Основной цвет текста */
+    --text-muted-color: #a0a0a0; /* Приглушенный текст (даты, локации) */
+    --primary-accent-color: #ffd700; /* Желтый акцент (главные кнопки, активные элементы) */
+    --secondary-accent-color: #ffa500; /* Оранжевый акцент (второстепенные кнопки, ховеры) */
+    --border-color: #444; /* Цвет границ */
+    --link-hover-color: var(--secondary-accent-color);
+    --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --border-radius: 8px;
+}
+
+/* Сброс и базовые настройки */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+a {
+    color: var(--primary-accent-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--link-hover-color);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+h1, h2, h3 {
+    margin-bottom: 0.8em;
+    color: #fff; /* Заголовки чуть ярче */
+}
+
+h1 { font-size: 2.2em; }
+h2 { font-size: 1.3em; } /* Для карточек */
+h3 { font-size: 1.1em; } /* Для фильтров */
+
+/* Стили кнопок */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+}
+
+.btn-primary { /* Для основных действий, например "Сбросить фильтры" */
+    background-color: var(--primary-accent-color);
+    color: #222; /* Темный текст на желтом */
+}
+.btn-primary:hover {
+    background-color: var(--secondary-accent-color);
+    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+}
+
+.btn-secondary { /* Например, кнопка "Войти" */
+    background-color: var(--card-bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+.btn-secondary:hover {
+    background-color: #3a3a3a;
+    border-color: #666;
+}
+
+.btn-icon {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted-color);
+    padding: 8px 10px;
+    margin-left: 10px;
+}
+.btn-icon svg {
+    height: 1em;
+    vertical-align: middle;
+}
+.btn-icon:hover {
+    background-color: var(--card-bg-color);
+    color: var(--text-color);
+}
+
+.btn-tag, .btn-filter { /* Кнопки категорий и фильтров даты/времени */
+    background-color: var(--card-bg-color);
+    color: var(--text-muted-color);
+    padding: 8px 15px;
+    font-size: 0.9em;
+    border: 1px solid transparent; /* Для сохранения размера при active */
+}
+.btn-tag:hover, .btn-filter:hover {
+    background-color: #3a3a3a;
+    color: var(--text-color);
+}
+.btn-tag.active, .btn-filter.active {
+    background-color: transparent;
+    color: var(--primary-accent-color);
+    border: 1px solid var(--primary-accent-color);
+    font-weight: bold;
+}
+
+.btn-filter-secondary { /* Кнопка "Выбрать даты/время" */
+    background-color: transparent;
+    color: var(--primary-accent-color);
+    border: 1px solid var(--border-color);
+    padding: 8px 15px;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+.btn-filter-secondary:hover {
+    background-color: rgba(255, 215, 0, 0.1);
+    border-color: var(--primary-accent-color);
+}
+
+.full-width {
+    width: 100%;
+    display: block; /* Чтобы занимала всю ширину */
+    margin-top: 8px; /* Небольшой отступ сверху */
+}
+
+/* Шапка сайта */
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+.logo img {
+    height: 40px; /* Настройте высоту лого */
+    margin-right: 10px;
+    background-color: transparent;
+    border-radius: 4px;
+}
+.logo span {
+    font-weight: bold;
+    font-size: 1.1em;
+    line-height: 1.2;
+    color: #fff;
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 25px; /* Расстояние между пунктами меню */
+}
+.main-nav a {
+    color: var(--text-muted-color);
+    font-weight: 500;
+    padding-bottom: 5px;
+    border-bottom: 2px solid transparent;
+}
+.main-nav a:hover {
+    color: var(--text-color);
+}
+.main-nav a.active {
+    color: var(--primary-accent-color);
+    border-bottom-color: var(--primary-accent-color);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+}
+
+/* Основной контент и сайдбар */
+.content-wrapper {
+    display: flex;
+    gap: 30px; /* Расстояние между основным контентом и сайдбаром */
+}
+
+.main-content {
+    flex: 1; /* Занимает все доступное пространство */
+}
+
+.sidebar-filters {
+    flex-basis: 280px; /* Фиксированная ширина сайдбара */
+    flex-shrink: 0;
+    background-color: var(--card-bg-color);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    align-self: flex-start; /* Чтобы сайдбар не растягивался по высоте */
+}
+
+/* Фильтры категорий (теги) */
+.category-filters ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+/* Сетка событий */
+.event-grid {
+    display: grid;
+    /* УМЕНЬШАЕМ minmax ЗНАЧИТЕЛЬНО, чтобы влезло 4-5 карточек */
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    /* Можно еще уменьшить значение (180px, 170px), если нужно больше карточек */
+    gap: 15px; /* Уменьшаем расстояние между карточками */
+}
+
+.event-card {
+    background-color: var(--card-bg-color);
+    /* Можно сделать фон карточек чуть светлее, если хочется контраста как на светлой теме */
+    /* background-color: #333; */
+    border-radius: 12px; /* Более скругленные углы как на фото */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Ускорим анимацию */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Более легкая тень */
+}
+.event-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.event-card img {
+    width: 100%;
+    /* Соотношение сторон ближе к квадрату или легкому пейзажу */
+    aspect-ratio: 201 / 278; /* Попробуйте 1/1 для квадрата или 4/3 */
+    object-fit: cover;
+    display: block;
+    /* Убираем filter: brightness(0.9); если он был */
+}
+
+.event-card-content {
+    padding: 10px; /* СИЛЬНО УМЕНЬШАЕМ внутренние отступы */
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Оставляем, чтобы контент занимал место */
+}
+
+.event-card h2 {
+    margin-top: 0;
+    margin-bottom: 5px; /* СИЛЬНО УМЕНЬШАЕМ отступ */
+    font-size: 0.95em; /* СИЛЬНО УМЕНЬШАЕМ размер заголовка */
+    font-weight: 600; /* Можно сделать чуть жирнее */
+    line-height: 1.3;
+    /* Ограничение заголовка 2 строками */
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Максимум 2 строки */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 2.6em; /* Резервируем место под 2 строки (line-height * 2) */
+}
+
+.event-description {
+    font-size: 0.75em;  /* СИЛЬНО УМЕНЬШАЕМ размер описания */
+    color: var(--text-muted-color);
+    margin-bottom: 8px; /* УМЕНЬШАЕМ отступ */
+    flex-grow: 1; /* Описание растягивается */
+    line-height: 1.4;
+    /* Ограничение описания 3 строками */
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Максимум 3 строки */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+     /* Если нужно зарезервировать место */
+    /* min-height: 4.2em; /* line-height * 3 */
+}
+
+.event-details {
+    font-size: 0.7em; /* СИЛЬНО УМЕНЬШАЕМ размер деталей */
+    color: var(--text-muted-color);
+    margin-bottom: 5px; /* УМЕНЬШАЕМ отступ */
+    display: flex;
+    flex-direction: column;
+    gap: 2px; /* УМЕНЬШАЕМ расстояние */
+    margin-top: auto; /* Прижимаем блок деталей к цене */
+}
+/* Стили для иконок (если используете Font Awesome или SVG) */
+.event-details span {
+   display: flex;
+   align-items: center;
+   gap: 5px; /* Расстояние иконка-текст */
+   white-space: nowrap; /* Предотвратить перенос внутри детали */
+   overflow: hidden; /* Обрезать, если не влезает */
+   text-overflow: ellipsis; /* Многоточие для длинных локаций */
+}
+.event-details span i, /* Если используете <i> для иконок FA */
+.event-details span svg { /* Если используете SVG */
+    flex-shrink: 0; /* Не сжимать иконку */
+    color: var(--text-muted-color); /* Или немного другой цвет */
+    opacity: 0.8;
+    font-size: 0.9em; /* Размер иконки относительно текста детали */
+}
+/* Уберите ::before если используете иконки внутри span */
+/* .event-date::before { content: none; } */
+/* .event-location::before { content: none; } */
+
+
+.event-price {
+    font-weight: bold;
+    color: var(--primary-accent-color); /* Оставляем желтый акцент */
+    font-size: 0.9em; /* УМЕНЬШАЕМ размер цены */
+    margin-top: 0; /* Убираем верхний отступ, т.к. детали теперь прижаты */
+    padding-top: 3px;
+    align-self: flex-end;
+    white-space: nowrap; /* Чтобы цена не переносилась */
+}
+
+/* Сайдбар фильтров */
+.filter-group {
+    margin-bottom: 25px;
+}
+.filter-group h3 {
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 5px;
+    font-size: 1em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted-color);
+}
+
+.filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.button-group .btn-filter {
+    flex: 1 1 45%; /* Позволяет кнопкам занимать примерно половину ширины */
+}
+
+.price-range .price-inputs {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9em;
+    color: var(--text-muted-color);
+    margin-bottom: 10px;
+}
+.price-slider {
+    width: 100%;
+    cursor: pointer;
+    accent-color: var(--primary-accent-color); /* Стилизация ползунка */
+}
+
+.reset-filters {
+    margin-top: 10px; /* Отступ от последнего фильтра */
+}
+
+.app-buttons {
+    display: flex;
+    flex-direction: column; /* Кнопки друг под другом */
+    gap: 10px;
+    align-items: flex-start; /* Выравнивание по левому краю */
+}
+.app-button img {
+    height: 40px; /* Фиксированная высота кнопок */
+    width: auto;
+    display: block;
+    border-radius: 6px;
+    transition: opacity 0.3s ease;
+}
+.app-button:hover img {
+    opacity: 0.85;
+}
+/* Специфичные стили для Google Play кнопки, если стандартный бейдж */
+.google-play-button img {
+     background-color: black; /* Если оригинальный бейдж прозрачный */
+     padding: 0; /* Убрать возможный паддинг */
+}
+
+
+/* Навигационные ссылки в футере */
+.footer-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.footer-nav ul li {
+    margin-bottom: 8px;
+}
+.footer-nav ul li a {
+    color: var(--text-muted-color);
+    text-decoration: none; /* Убрано подчеркивание по умолчанию */
+    border-bottom: 1px solid transparent; /* Место для подчеркивания при ховере */
+    padding-bottom: 2px;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+.footer-nav ul li a:hover {
+    color: var(--text-color);
+    border-bottom-color: var(--secondary-accent-color); /* Оранжевое подчеркивание при ховере */
+}
+
+/* Форма подписки */
+.footer-newsletter p {
+    margin-bottom: 15px;
+}
+.newsletter-form {
+    display: flex;
+    flex-direction: column; /* Элементы формы друг под другом */
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.newsletter-form input[type="email"] {
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 10px 12px;
+    border-radius: var(--border-radius);
+    font-size: 1em;
+}
+.newsletter-form input[type="email"]::placeholder {
+    color: var(--text-muted-color);
+    opacity: 0.7;
+}
+.btn-subscribe {
+    background-color: var(--secondary-accent-color); /* Оранжевая кнопка */
+    color: #fff; /* Белый текст на оранжевом */
+    padding: 11px 20px; /* Чуть больше паддинг для кнопки */
+    font-weight: bold;
+}
+.btn-subscribe:hover {
+    background-color: #e69500; /* Чуть темнее оранжевый при наведении */
+    box-shadow: 0 2px 8px rgba(255, 165, 0, 0.3);
+}
+.newsletter-disclaimer {
+    font-size: 0.8em;
+    color: #888;
+    margin-top: 5px;
+}
+.newsletter-disclaimer a {
+    color: #aaa;
+    text-decoration: underline;
+}
+.newsletter-disclaimer a:hover {
+    color: var(--text-color);
+}
+
+
+/* Соцсети и контакты */
+.social-icons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+.social-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--border-radius);
+    color: #fff;
+    font-weight: bold;
+    font-size: 0.9em;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+.social-icon:hover {
+    opacity: 0.85;
+}
+.tg-icon {
+    background-color: #2AABEE; /* Цвет Telegram */
+}
+.vk-icon {
+    background-color: #4C75A3; /* Цвет VK */
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+.contact-link {
+    color: var(--text-muted-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+.contact-link svg {
+    color: var(--secondary-accent-color); /* Иконки оранжевые */
+}
+.contact-link:hover {
+    color: var(--text-color);
+}
+
+.copyright {
+    font-size: 0.8em;
+    color: #888;
+    margin-top: 10px;
+}
+
+/* ... (предыдущие стили остаются) ... */
+
+/* --- Изменения для основных стилей и расположения --- */
+
+h1 {
+    font-size: 2em; /* Можно чуть уменьшить заголовок, если нужно */
+    margin-bottom: 20px; /* Уменьшаем отступ под заголовком */
+}
+
+/* Фильтры категорий (теги) */
+.category-filters { /* Добавляем стиль для обертки тегов */
+    margin-bottom: 25px; /* Отступ под тегами перед основной сеткой */
+}
+.category-filters ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    /* Убираем margin-bottom отсюда, так как он теперь на .category-filters */
+}
+
+/* Кнопки фильтров с тонкой обводкой */
+.btn-tag, .btn-filter {
+    background-color: var(--card-bg-color);
+    color: var(--text-muted-color);
+    padding: 7px 14px; /* Немного уменьшим паддинг */
+    font-size: 0.85em; /* Немного уменьшим шрифт */
+    border: 1px solid var(--border-color); /* ДОБАВЛЯЕМ тонкую обводку */
+    /* Удаляем 'border: 1px solid transparent;' если он был */
+}
+.btn-tag:hover, .btn-filter:hover {
+    background-color: #3a3a3a;
+    color: var(--text-color);
+    border-color: #666; /* Можно менять цвет обводки при ховере */
+}
+.btn-tag.active, .btn-filter.active {
+    background-color: transparent; /* Оставляем прозрачный фон */
+    color: var(--primary-accent-color);
+    border: 1px solid var(--primary-accent-color); /* Активная обводка остается яркой */
+    font-weight: bold;
+}
+
+/* Основной контент и сайдбар */
+.content-wrapper {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start; /* ВАЖНО: выравнивание по верху */
+}
+
+/* Карточка события - выравнивание даты */
+.event-card-content {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Это важно, чтобы контент занимал всю высоту */
+}
+.event-description {
+    font-size: 0.9em;
+    color: var(--text-muted-color);
+    margin-bottom: 15px;
+    flex-grow: 1; /* ВАЖНО: Описание растягивается, отодвигая дату и цену вниз */
+}
+.event-details {
+    font-size: 0.85em;
+    color: var(--text-muted-color);
+    margin-bottom: 10px; /* Отступ под деталями перед ценой */
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    /* margin-top: auto; Убираем это, т.к. flex-grow на описании делает свою работу */
+}
+.event-price {
+    font-weight: bold;
+    color: var(--primary-accent-color);
+    font-size: 1.1em;
+    margin-top: auto; /* Оставляем это, чтобы цена была внизу, если нет деталей */
+    padding-top: 5px; /* Небольшой отступ сверху от деталей */
+    align-self: flex-end;
+}
+
+
+/* --- Стили Футера - Уменьшение размера --- */
+.site-footer {
+    background-color: var(--card-bg-color);
+    color: var(--text-muted-color);
+    padding: 25px 0; /* УМЕНЬШАЕМ вертикальные паддинги */
+    margin-top: 40px; /* Можно немного уменьшить отступ сверху */
+    font-size: 0.85em; /* Немного уменьшаем базовый шрифт футера */
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Можно чуть уменьшить minmax */
+    gap: 20px; /* УМЕНЬШАЕМ расстояние между колонками */
+    align-items: start;
+}
+
+.footer-section {
+    padding-bottom: 10px; /* УМЕНЬШАЕМ отступ */
+}
+
+.footer-title {
+    font-size: 0.85em; /* Уменьшаем заголовки */
+    margin-bottom: 10px; /* УМЕНЬШАЕМ отступ */
+    padding-bottom: 3px; /* Уменьшаем паддинг */
+}
+
+/* Уменьшаем отступы у параграфов и списков */
+.footer-app p,
+.footer-newsletter p {
+    margin-bottom: 10px;
+}
+.footer-nav ul li {
+    margin-bottom: 5px;
+}
+.newsletter-form {
+    margin-bottom: 8px;
+    gap: 8px;
+}
+.newsletter-form input[type="email"] {
+    padding: 8px 10px; /* Уменьшаем инпут */
+    font-size: 0.95em;
+}
+.btn-subscribe {
+    padding: 9px 15px; /* Уменьшаем кнопку */
+    font-size: 0.95em;
+}
+.newsletter-disclaimer {
+    font-size: 0.75em;
+}
+
+/* Уменьшаем отступы у контактов и соцсетей */
+.social-icons {
+    margin-bottom: 10px;
+    gap: 8px;
+}
+.social-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 0.8em;
+}
+.contact-info {
+    margin-bottom: 10px;
+    gap: 6px;
+}
+.copyright {
+    font-size: 0.75em;
+    margin-top: 8px;
+}
+.app-buttons {
+    gap: 8px;
+}
+.app-button img {
+    height: 35px; /* Уменьшаем кнопки магазинов */
+}
+
+/* --- Стили для страницы входа (login.html) --- */
+
+/* Заставляем body занимать всю высоту и используем flex для центрирования и прижатия футера */
+.login-page-body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #121212; /* Чуть другой черный, как на скрине */
+}
+
+/* Контейнер для центрирования блока входа */
+.login-container {
+    flex-grow: 1; /* Занимает все доступное пространство между хэдером (если бы он был) и футером */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px; /* Отступы сверху/снизу и по бокам */
+}
+
+/* Сам блок с формой */
+.login-box {
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+}
+
+.login-logo {
+    display: block; /* Чтобы margin: auto сработал */
+    max-width: 200px; /* Ограничьте ширину логотипа, подберите значение */
+    height: auto; /* Сохранять пропорции */
+    margin: 0 auto 5px; /* Центрировать и добавить отступ снизу */
+}
+
+/* ИЗМЕНЕНО: Стили для заголовка КОТ */
+.login-title {
+    color: var(--primary-accent-color);
+    font-size: 2.8em; /* УМЕНЬШАЕМ размер шрифта */
+    font-weight: bold;
+    margin-bottom: 5px; /* Оставляем небольшой отступ */
+    letter-spacing: 1px; /* Можно немного уменьшить */
+}
+
+.login-subtitle {
+    color: var(--text-muted-color);
+    font-size: 0.9em;
+    margin-bottom: 40px; /* Отступ до формы */
+}
+
+/* Стилизация формы и полей ввода */
+.login-form .form-group {
+    margin-bottom: 15px;
+}
+
+.login-form input[type="email"],
+.login-form input[type="password"] {
+    display: block;
+    width: 100%;
+    background-color: #2c2c2c; /* Темно-серый фон поля */
+    border: 1px solid #444; /* Тонкая граница */
+    color: var(--text-color);
+    padding: 14px 18px; /* Увеличенные паддинги */
+    border-radius: 10px; /* Скругление углов полей */
+    font-size: 1em;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-form input[type="email"]:focus,
+.login-form input[type="password"]:focus {
+    outline: none;
+    border-color: var(--primary-accent-color); /* Желтая обводка при фокусе */
+    box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.2); /* Легкое свечение при фокусе */
+}
+
+.login-form input::placeholder {
+    color: #888; /* Цвет плейсхолдера */
+}
+
+.forgot-password {
+    display: block;
+    text-align: right;
+    font-size: 0.8em;
+    color: var(--text-muted-color);
+    margin-top: -5px; /* Чуть поднять к полю пароля */
+    margin-bottom: 25px; /* Отступ до кнопки "Войти" */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+.forgot-password:hover {
+    color: var(--text-color);
+}
+
+/* Стилизация кнопок (используем базовый .btn и добавляем специфику) */
+.login-box .btn {
+    display: block;
+    width: 100%;
+    padding: 13px 20px; /* Паддинги для кнопок */
+    border: none;
+    border-radius: 10px; /* Скругление углов кнопок */
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-login {
+    background-color: var(--primary-accent-color); /* Желтый фон */
+    color: #111; /* Темный текст */
+}
+.btn-login:hover {
+    background-color: #e6c300; /* Темнее желтый */
+    box-shadow: 0 4px 10px rgba(255, 215, 0, 0.2);
+}
+
+/* Контейнер для кнопок соцсетей */
+.social-login {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px; /* Отступ до кнопки регистрации */
+}
+
+.btn-social {
+    flex: 1; /* Занимают равное место */
+    color: #fff;
+    padding: 12px 15px; /* Паддинги можно чуть меньше для соц кнопок */
+}
+.btn-vk {
+    background-color: #4C75A3; /* Синий VK */
+}
+.btn-vk:hover {
+    background-color: #40658a;
+}
+.btn-google {
+    background-color: #DB4437; /* Красный Google */
+}
+.btn-google:hover {
+    background-color: #c43d30;
+}
+
+.btn-register {
+    background-color: transparent;
+    border: 2px solid var(--primary-accent-color); /* Желтая обводка */
+    color: var(--primary-accent-color); /* Желтый текст */
+}
+.btn-register:hover {
+    background-color: rgba(255, 215, 0, 0.1); /* Легкий желтый фон при наведении */
+    color: #fff; /* Можно менять текст на белый */
+    border-color: #fff; /* И обводку на белую */
+}
+
+/* Убеждаемся, что футер прижат к низу */
+.login-page-body .site-footer {
+    margin-top: auto; /* Это прижмет футер к низу, так как .login-container имеет flex-grow: 1 */
+}
+
+/* --- Стили Профиля (Новый дизайн с нуля) --- */
+
+.profile-page-body {
+    background-color: var(--bg-color); /* Темный фон всей страницы */
+    color: var(--text-color);
+}
+
+.profile-container-new {
+    max-width: 900px; /* Макс. ширина контента профиля */
+    margin: 0 auto 30px auto; /* Центрирование, отступ снизу до футера */
+}
+
+/* 1. Обложка */
+.profile-cover {
+    height: 300px; /* Высота обложки */
+    background-color: #444; /* Цвет фона, если картинка не загрузится */
+    background-image: url('https://sun9-47.userapi.com/pYvsE4i2v-hOv_Ei3n8Ps7RhLQhhsx6ngeWk9w/rfIhZPOGhzk.jpg'); /* ЗАМЕНИТЕ URL */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    border-radius: 10px 10px 10px 10px; /* Скругление низа */
+    margin: -10px 20px 20px 20px;
+}
+
+.btn-cover-edit { /* Кнопка смены обложки */
+    position: absolute;
+    bottom: 18.5em;
+    right: 15px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 0.85em;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.3s ease;
+    z-index: 2; /* Над обложкой */
+}
+.btn-cover-edit:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+.btn-cover-edit i { font-size: 0.9em; }
+
+/* 2. Карточка с инфо */
+.profile-info-card {
+    background-color: var(--card-bg-color); /* Фон карточки */
+    padding: 20px;
+    margin: -50px 20px 20px 20px; /* Отрицательный margin-top для наложения, отступы по бокам, отступ снизу */
+    position: relative; /* Для позиционирования аватара */
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 5; /* Выше обложки */
+}
+
+.profile-avatar-overlap { /* Аватар */
+    width: 140px; /* Размер аватара */
+    height: 140px;
+    border-radius: 50%;
+    border: 5px solid var(--card-bg-color); /* Обводка */
+    object-fit: cover;
+    position: absolute;
+    left: 20px;
+    top: -70px; /* Половина высоты */
+    z-index: 10; /* Выше карточки */
+}
+
+.profile-info-content { /* Контент справа от аватара */
+    display: flex;
+    align-items: start; /* Выровнять низ текста и кнопок */
+    padding-left: 160px; /* Отступ = ширина аватара + запас */
+    min-height: 75px; /* Половина высоты аватара + запас */
+}
+
+.profile-text-details {
+    flex-grow: 1; /* Занять место */
+    margin-right: 15px; /* Отступ до кнопок */
+}
+
+.profile-user-name {
+    font-size: 1.7em;
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 0 0 5px 0;
+}
+
+.profile-user-status {
+    font-size: 0.9em;
+    color: var(--text-muted-color);
+    line-height: 1.4;
+    margin: 0;
+}
+
+.profile-card-actions { /* Кнопки Редактировать/Еще */
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0; /* Не сжиматься */
+}
+.profile-card-actions .btn { /* Общие стили кнопок в карточке */
+    background-color: #3a3a3a;
+    color: var(--text-color);
+    border: none;
+    padding: 9px 16px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.3s ease;
+}
+.profile-card-actions .btn:hover {
+    background-color: #4f4f4f;
+}
+.profile-card-actions .btn i { font-size: 0.8em; }
+
+/* 3. Блок статистики */
+.profile-user-stats {
+    background-color: var(--card-bg-color);
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin: 0 20px 20px 20px; /* Отступы */
+}
+
+.stat-item { /* Элемент статистики */
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.9em;
+}
+.stat-item:last-child { border-bottom: none; }
+
+.stat-icon {
+    color: var(--primary-accent-color); /* Желтый */
+    font-size: 1.2em;
+    min-width: 30px; /* Ширина для иконки */
+    text-align: center;
+    margin-right: 12px;
+}
+.stat-icon i { vertical-align: middle; }
+
+.stat-label {
+    color: var(--text-muted-color);
+    flex-grow: 1;
+}
+
+.stat-value {
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+/* 4. Табы */
+.profile-user-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
+    margin: 0 20px; /* Отступы по бокам */
+    /* position: sticky; top: 0; z-index: 20; Если нужно прилипание */
+}
+
+.profile-tab-link {
+    background: none;
+    border: none;
+    color: var(--text-muted-color);
+    padding: 12px 25px; /* Паддинги таба */
+    cursor: pointer;
+    font-size: 0.95em;
+    font-weight: 500;
+    border-bottom: 3px solid transparent;
+    transition: color 0.3s ease, border-color 0.3s ease;
+    margin-bottom: -1px; /* Компенсация границы */
+}
+.profile-tab-link:hover { color: var(--text-color); }
+.profile-tab-link.active {
+    color: var(--primary-accent-color);
+    border-bottom-color: var(--primary-accent-color);
+}
+
+/* 5. Контент табов */
+.profile-tab-content-area {
+    padding: 25px; /* Паддинг для контента */
+    margin: 0 20px 20px 20px; /* Отступы */
+    background-color: var(--card-bg-color); /* Фон */
+    border-radius: 0 0 10px 10px; /* Скругление низа */
+    min-height: 250px; /* Мин. высота */
+}
+
+.profile-tab-pane { display: none; }
+.profile-tab-pane.active { display: block; }
+
+.liked-placeholder { text-align: center; padding: 50px 0; }
+.big-heart-icon {
+    font-size: 6em;
+    color: var(--secondary-accent-color); /* Оранжевый */
+    opacity: 0.6;
+}
+
+.tab-placeholder-text {
+    color: var(--text-muted-color);
+    text-align: center;
+    padding: 50px 0;
+    font-style: italic;
+}
+
+
+
+/* --- Конец стилей Профиля (Новый) --- */
+
+/* Адаптивность */
+@media (max-width: 992px) {
+    .content-wrapper {
+        flex-direction: column; /* Ставим сайдбар под основной контент */
+    }
+    .sidebar-filters {
+        flex-basis: auto; /* Сбрасываем фиксированную ширину */
+        width: 100%;
+    }
+    .event-grid {
+        /* Может быть, на планшетах оставить 3 или 2 колонки? */
+         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Пример: подстройка для планшета */
+    }
+}
+
+
+@media (max-width: 768px) {
+    .footer-container {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Уменьшаем мин. ширину колонки */
+        gap: 20px;
+    }
+    .footer-app { /* Блок с приложением и подпиской могут занять больше места */
+       grid-column: span 2; /* Занимает 2 колонки */
+    }
+     .footer-newsletter {
+       grid-column: span 2;
+    }
+     .footer-social-contacts {
+        grid-column: span 2;
+     }
+     .event-grid {
+         /* На мобильных может быть 2 колонки */
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Пример: подстройка для мобильных */
+    }
+
+    .profile-cover { height: 240px; }
+    .profile-info-card { margin: -40px 10px 15px 10px; padding: 15px; }
+    .profile-avatar-overlap { width: 120px; height: 120px; top: -60px; left: 15px; border-width: 4px; }
+    .profile-info-content { padding-left: 140px; min-height: 65px; flex-direction: column; align-items: flex-start; }
+    .profile-text-details { margin-right: 0; margin-bottom: 15px; }
+    .profile-user-name { font-size: 1.5em; }
+    .profile-card-actions { margin-left: 0; width: 100%; }
+    .profile-user-stats, .profile-user-tabs, .profile-tab-content-area { margin-left: 10px; margin-right: 10px; }
+    .profile-tab-link { padding: 10px 15px; font-size: 0.9em; }
+
+}
+
+
+@media (max-width: 576px) {
+    .footer-container {
+        grid-template-columns: 1fr; /* Одна колонка на самых маленьких экранах */
+    }
+
+    .footer-section {
+        grid-column: auto !important; /* Сбрасываем span */
+        text-align: center; /* Центрируем контент */
+    }
+
+    .footer-title {
+        text-align: center;
+    }
+
+    .app-buttons {
+        align-items: center; /* Центрируем кнопки */
+    }
+
+    .newsletter-form {
+        align-items: stretch; /* Растягиваем инпут и кнопку */
+    }
+
+    .social-icons {
+        justify-content: center; /* Центрируем иконки соцсетей */
+    }
+
+    .contact-info {
+        align-items: center; /* Центрируем контакты */
+    }
+
+    .footer-nav ul {
+        text-align: center; /* Центрируем ссылки */
+    }
+
+    .event-grid {
+        grid-template-columns: repeat(2, 1fr); /* Например, 2 колонки */
+        /* или grid-template-columns: 1fr; для одной колонки */
+        gap: 15px; /* Можно еще уменьшить gap */
+    }
+    .profile-cover { height: 180px; }
+     .profile-avatar-overlap { width: 100px; height: 100px; top: -50px; left: 50%; transform: translateX(-50%); border-width: 4px; }
+     .profile-info-card { margin-top: -50px; }
+     .profile-info-content { padding-left: 0; padding-top: 60px; /* Отступ под аватаркой */ align-items: center; text-align: center; }
+     .profile-text-details { margin-bottom: 15px; width: 100%;}
+     .profile-user-name { justify-content: center; font-size: 1.4em; }
+     .profile-card-actions { flex-direction: column; align-items: stretch; width: 100%; max-width: 250px; margin: 0 auto; }
+     .profile-user-stats { padding: 10px 15px; }
+     .stat-item { flex-wrap: wrap; }
+     .stat-label { flex-basis: 100%; order: 1; margin-left: 30px; margin-bottom: 2px; }
+     .stat-icon { order: 0; min-width: 25px; margin-right: 5px;}
+     .stat-value { order: 2; margin-left: 30px; }
+     .profile-user-tabs { flex-wrap: wrap; justify-content: center; } /* Перенос табов */
+     .profile-tab-link { flex-basis: 50%; text-align: center; padding: 10px 5px; font-size: 0.85em;} /* Табы по 2 в ряд */
+     .profile-tab-content-area { padding: 20px; }
+    }

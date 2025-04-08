@@ -1,91 +1,127 @@
 {% load static %}
+{% load event_tags %}
 
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>КОТ — Профиль</title>
-  <link type="text/css" href="{% static 'events_app/css/profile.css' %}" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль Пользователя - КОТ</title>
+    <link type="text/css" href="{% static 'events_app/css/styles.css' %}" rel="stylesheet">
+    <!-- Подключение Font Awesome для иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 </head>
-<body>
-  <div class="container">
-        <div class="profile-header">
-          <label for="bg-upload">
-            <img class="bg-image" id="bgPreview" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1400&q=80" alt="Фон">
-            <input type="file" id="bg-upload" accept="image/*" hidden>
-          </label>
+<body class="profile-page-body">
+
+    <div class="container">
+        {% show_header cat_selected %}
+{#        {% include 'events_app/includes/header.html' with base_data=base_data%}#}
+        <!-- Блок 1: Обложка -->
+        <header class="profile-cover">
+            <!-- Фоновая картинка будет в CSS -->
+            <button class="btn btn-cover-edit">
+                <i class="fas fa-pencil-alt"></i> Изменить обложку
+            </button>
+        </header>
+
+        <!-- Блок 2: Основная информация (под обложкой, с выступающей аватаркой) -->
+        <section class="profile-info-card">
+            <!-- Аватарка -->
+            <img src="https://sun9-61.userapi.com/s/v1/ig2/d5ELAT8JOdnGTjFsm8oRctp1b4HgMlwvlOqcI6XU-YdFfzRNqAgMUsX0YZt-hGVarz_c3DwqdJ81i3nstMLRkNat.jpg?quality=95&crop=620,171,556,556&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540&ava=1&u=95XnosnZE2NiTEsRTnUIsk70C-iZJdPXZ7YNq-L7Dug&cs=400x400" alt="Аватар" class="profile-avatar-overlap">
+
+            <!-- Контентная часть карточки -->
+            <div class="profile-info-content">
+                <div class="profile-text-details">
+                    <h1 class="profile-user-name">
+                        Дмитрий Трофимов
+                        <!-- <span class="profile-name-emoji">🫰</span> можно добавить эмоджи -->
+                    </h1>
+                    <p class="profile-user-status">
+                        Статус чтобы не было пусто <!-- Статус из первого примера -->
+                    </p>
+                    <!-- Здесь НЕ БУДЕТ доп. инфо типа СФУ -->
+                </div>
+                <div class="profile-card-actions">
+                    <button class="btn btn-profile-edit">Редактировать профиль</button>
+                    <button class="btn btn-profile-more">
+                        Ещё <i class="fas fa-caret-down"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Блок 3: Статистика (как на первом фото) -->
+        <section class="profile-user-stats">
+            <div class="stat-item">
+                <span class="stat-icon"><i class="fas fa-star"></i></span>
+                <span class="stat-label">Рейтинг</span>
+                <span class="stat-value">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-icon"><i class="fas fa-map-marker-alt"></i></span>
+                <span class="stat-label">Местоположение</span>
+                <span class="stat-value">адрес</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-icon"><i class="fas fa-thumbs-up"></i></span>
+                <span class="stat-label">Оценок</span>
+                <span class="stat-value">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-icon"><i class="fas fa-flag"></i></span>
+                <span class="stat-label">Посещено мероприятий</span>
+                <span class="stat-value">0</span>
+            </div>
+        </section>
+
+        <!-- Блок 4: Табы (как на первом фото) -->
+        <nav class="profile-user-tabs">
+            <button class="profile-tab-link active" data-tab-target="#content-liked">Понравившиеся</button>
+            <button class="profile-tab-link" data-tab-target="#content-my-events">Ваши мероприятия</button>
+            <button class="profile-tab-link" data-tab-target="#content-reviews">Оценки</button>
+        </nav>
+
+        <!-- Блок 5: Контент табов -->
+        <div class="profile-tab-content-area">
+            <div id="content-liked" class="profile-tab-pane active">
+                <div class="liked-placeholder">
+                    <i class="fas fa-heart big-heart-icon"></i>
+                    <!-- Можно добавить текст "Здесь будут понравившиеся мероприятия" -->
+                </div>
+            </div>
+            <div id="content-my-events" class="profile-tab-pane">
+                 <p class="tab-placeholder-text">Здесь будут ваши мероприятия.</p>
+            </div>
+            <div id="content-reviews" class="profile-tab-pane">
+                <p class="tab-placeholder-text">Здесь будут ваши оценки.</p>
+            </div>
         </div>
 
-        <!-- Плашка с именем и аватаром -->
-        <div class="profile-card">
-          <label for="avatar-upload">
-            <img class="avatar" id="avatarPreview" src="https://via.placeholder.com/80x80.png?text=User" alt="Аватар">
-            <input type="file" id="avatar-upload" accept="image/*" hidden>
-          </label>
-          <div class="name-status">
-            <h2 id="name" contenteditable="true">Дмитрий Трофимов</h2>
-            <p id="status" contenteditable="true">Статус чтобы не было пусто</p>
-          </div>
-        </div>
+    </div> <!-- /profile-container-new -->
 
-    <!-- Статистика -->
-    <div class="stats">
-      <div class="stat-block"><span>⭐</span><p>Рейтинг<br><strong>0</strong></p></div>
-      <div class="stat-block"><span>📍</span><p>Местоположение<br><strong>адрес</strong></p></div>
-      <div class="stat-block"><span>👍</span><p>Оценок<br><strong>0</strong></p></div>
-      <div class="stat-block"><span>🎫</span><p>Посещено<br><strong>0</strong></p></div>
-    </div>
+    <!-- Футер (вставляем тот же самый) -->
+    {% include 'events_app/includes/footer.html' %}
 
-    <!-- Вкладки -->
-    <div class="tabs">
-      <button class="tab active" data-tab="liked">Понравившиеся</button>
-      <button class="tab" data-tab="events">Ваши мероприятия</button>
-      <button class="tab" data-tab="rates">Оценки</button>
-    </div>
+    <!-- Скрипт для табов -->
+    <script>
+        const profileTabLinks = document.querySelectorAll('.profile-user-tabs .profile-tab-link');
+        const profileTabPanes = document.querySelectorAll('.profile-tab-content-area .profile-tab-pane');
 
-    <!-- Содержимое -->
-    <div id="tab-content">
-      <div class="tab-pane active" id="liked">
-        <div class="heart">❤️</div>
-        <p>Пока ничего нет</p>
-      </div>
-      <div class="tab-pane" id="events">
-        <div class="heart">❤️</div>
-        <p>Пока ничего нет</p>
-      </div>
-      <div class="tab-pane" id="rates">
-        <div class="heart">❤️</div>
-        <p>Пока ничего нет</p>
-      </div>
-    </div>
-  </div>
+        profileTabLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                const targetPaneSelector = link.getAttribute('data-tab-target');
+                const targetPane = document.querySelector(targetPaneSelector);
 
-  <script>
-    // Переключение вкладок
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-        tab.classList.add('active');
-        document.getElementById(tab.dataset.tab).classList.add('active');
-      });
-    });
+                profileTabLinks.forEach(l => l.classList.remove('active'));
+                profileTabPanes.forEach(p => p.classList.remove('active'));
 
-    // Аватар / фон превью
-    const avatarInput = document.getElementById('avatar-upload');
-    const avatarPreview = document.getElementById('avatarPreview');
-    avatarInput.addEventListener('change', e => {
-      const file = e.target.files[0];
-      if (file) avatarPreview.src = URL.createObjectURL(file);
-    });
+                link.classList.add('active');
+                if (targetPane) {
+                    targetPane.classList.add('active');
+                }
+            });
+        });
+    </script>
 
-    const bgInput = document.getElementById('bg-upload');
-    const bgPreview = document.getElementById('bgPreview');
-    bgInput.addEventListener('change', e => {
-      const file = e.target.files[0];
-      if (file) bgPreview.src = URL.createObjectURL(file);
-    });
-  </script>
 </body>
 </html>
