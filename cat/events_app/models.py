@@ -1,6 +1,8 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 from random import randint
+
+from django.urls import reverse
 from unidecode import unidecode
 
 class Events(models.Model):
@@ -49,6 +51,11 @@ class Profiles(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse(
+            'profile',
+            kwargs={'profile_url': self.url})
 
 
 

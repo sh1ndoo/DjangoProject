@@ -8,7 +8,7 @@
     <nav class="main-nav">
         <ul>
             {% for cat in data %}
-            <li><a href="{% if cat.url == 'profile' %} {% url cat.url 'ifknow' %} {% else %} {% url cat.url %} {% endif %}" class='{% if cat_selected == cat.url%} active {% else %} {% endif %}'>{{ cat.name }}</a></li>
+            <li><a href="{% url cat.url %}" class='{% if cat_selected == cat.url %} active {% else %} {% endif %}'>{{ cat.name }}</a></li>
             {% endfor %}
         </ul>
     </nav>
@@ -18,5 +18,6 @@
             <input type="text" class="search-input" placeholder="Поиск...">
         </div>
         <button onclick="window.location.href = '{% url "login" %}';" class="btn btn-secondary">Войти</button>
+        <button onclick="window.location.href = '{{ profile.get_absolute_url }}';" class="btn btn-secondary">Профиль</button>
     </div>
 </header>

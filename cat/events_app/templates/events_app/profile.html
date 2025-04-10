@@ -1,21 +1,6 @@
-{% load static %}
-{% load event_tags %}
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Профиль Пользователя - КОТ</title>
-    <link type="text/css" href="{% static 'events_app/css/styles.css' %}" rel="stylesheet">
-    <!-- Подключение Font Awesome для иконок -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-</head>
-<body>
-    <div class="container">
-        {% show_header cat_selected profile.url %}
-{#        {% include 'events_app/includes/header.html' with base_data=base_data%}#}
-        <!-- Блок 1: Обложка -->
+{% block content %}
         <header class="profile-cover">
             <!-- Фоновая картинка будет в CSS -->
             <button class="btn btn-cover-edit">
@@ -96,12 +81,9 @@
             </div>
         </div>
 
-    </div> <!-- /profile-container-new -->
+{% endblock %}<!-- /profile-container-new -->
 
-    <!-- Футер (вставляем тот же самый) -->
-    {% include 'events_app/includes/footer.html' %}
-
-    <!-- Скрипт для табов -->
+{% block scripts %}
     <script>
         const profileTabLinks = document.querySelectorAll('.profile-user-tabs .profile-tab-link');
         const profileTabPanes = document.querySelectorAll('.profile-tab-content-area .profile-tab-pane');
@@ -121,6 +103,4 @@
             });
         });
     </script>
-
-</body>
-</html>
+{% endblock %}
