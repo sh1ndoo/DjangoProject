@@ -29,12 +29,13 @@
                                 <span class="event-date">до 13 апреля 2025</span>
                                 <span class="event-location">проспект Мира, 88</span>
                             </div>
-                            <div class="event-price">Бесплатно</div>
+                            <div class="event-price">{% if event.is_free %}Бесплатно{% else %}{{ event.min_price }}₽{% endif %}</div>
                         </div>
                     </article>
                     {% endfor %}
                 </section>
             </main>
+
             <div class="sidebar">
                 <aside class="sidebar-filters">
                     <div class="filter-group">
