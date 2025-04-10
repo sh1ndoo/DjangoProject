@@ -1,0 +1,94 @@
+{% load static %}
+{% load event_tags %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ event.name }}</title>
+    <link type="text/css" href="{% static 'events_app/css/styles.css' %}" rel="stylesheet">
+    <!-- Подключение Font Awesome для иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        {% show_header cat_selected %}
+        <!-- Блок 1: Hero секция с основной информацией -->
+        <section class="event-hero">
+            <img src='{{ event.logo }}' class="hero-background-overlay">
+            <img src='{{ event.logo }}' class="hero-background-overlay2">
+            <img src='{{ event.logo }}' class="hero-background-overlay3">
+
+            <div class="hero-content">
+                <div class="hero-image-container">
+                    <img src="{{ event.logo }}" alt="Волшебный мир закулисья" class="hero-event-image">
+                </div>
+
+                <div class="hero-details">
+                    <h1 class="hero-title">{{ event.name }}</h1>
+                    <div class="hero-meta">
+                        <p><i class="fas fa-map-marker-alt"></i> проспект Мира, 73</p>
+                        <p><i class="fas fa-calendar-alt"></i> <strong>Начало:</strong> 9 апреля 2025 в 16:00</p>
+                        <p><i class="fas fa-calendar-check"></i> <strong>Завершение:</strong> 12 апреля 2025 в 17:15</p>
+                        <p><i class="fas fa-tag"></i> 700₽</p>
+                    </div>
+                    <button class="btn btn-buy-ticket">Купить билет</button>
+                </div>
+            </div>
+
+            <div class="hero-actions">
+                <button class="btn btn-icon-action btn-like"><i class="fas fa-heart"></i></button>
+                <button class="btn btn-icon-action btn-share"><i class="fas fa-share-alt"></i></button>
+            </div>
+        </section>
+
+        <!-- Блок 2: Основной контент (описание, контакты, карта) -->
+        <section class="event-content-area">
+            <div class="event-columns">
+
+                <!-- Левая колонка: Описание и Карта -->
+                <div class="event-main-column">
+                    <div class="event-tags">
+                        <span class="tag tag-age">Возраст 6+</span>
+                        <span class="tag tag-type">Экскурсии</span>
+                        <span class="tag tag-type">Спектакли</span>
+                    </div>
+
+                    <article class="event-description">
+                        <h2>Про событие</h2>
+                        <p>{{ event.anons }}</p>
+                    </article>
+
+                    <section class="event-map-section">
+                        <h2>На карте</h2>
+                        <div class="map-placeholder">
+                            <!-- Сюда можно вставить iframe карты или изображение -->
+                            <p>(Здесь будет карта)</p>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Правая колонка: Контакты -->
+                <aside class="event-sidebar-column">
+                    <div class="contacts-section">
+                        <h2>Контакты</h2>
+                        <div class="contact-item">
+                             <a href="tel:+70000000000" class="btn btn-contact">
+                                <i class="fas fa-phone-alt"></i> Телефон
+                            </a>
+                            <!-- Можно добавить другие контакты -->
+                        </div>
+                    </div>
+                </aside>
+
+            </div>
+        </section>
+
+    </div> <!-- /event-detail-container -->
+
+    <!-- Футер (вставляем тот же самый) -->
+    {% include 'events_app/includes/footer.html' %}
+
+</body>
+</html>

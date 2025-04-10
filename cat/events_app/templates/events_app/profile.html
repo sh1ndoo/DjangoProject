@@ -11,10 +11,9 @@
     <!-- Подключение Font Awesome для иконок -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 </head>
-<body class="profile-page-body">
-
+<body>
     <div class="container">
-        {% show_header cat_selected %}
+        {% show_header cat_selected profile.url %}
 {#        {% include 'events_app/includes/header.html' with base_data=base_data%}#}
         <!-- Блок 1: Обложка -->
         <header class="profile-cover">
@@ -33,7 +32,7 @@
             <div class="profile-info-content">
                 <div class="profile-text-details">
                     <h1 class="profile-user-name">
-                        Дмитрий Трофимов
+                        {{ profile.name }}
                         <!-- <span class="profile-name-emoji">🫰</span> можно добавить эмоджи -->
                     </h1>
                     <p class="profile-user-status">
@@ -55,22 +54,22 @@
             <div class="stat-item">
                 <span class="stat-icon"><i class="fas fa-star"></i></span>
                 <span class="stat-label">Рейтинг</span>
-                <span class="stat-value">0</span>
+                <span class="stat-value">{{ profile.rating }}</span>
             </div>
             <div class="stat-item">
                 <span class="stat-icon"><i class="fas fa-map-marker-alt"></i></span>
                 <span class="stat-label">Местоположение</span>
-                <span class="stat-value">адрес</span>
+                <span class="stat-value">{{ profile.adress }}</span>
             </div>
             <div class="stat-item">
                 <span class="stat-icon"><i class="fas fa-thumbs-up"></i></span>
                 <span class="stat-label">Оценок</span>
-                <span class="stat-value">0</span>
+                <span class="stat-value">{{ profile.reviews_count }}</span>
             </div>
             <div class="stat-item">
                 <span class="stat-icon"><i class="fas fa-flag"></i></span>
                 <span class="stat-label">Посещено мероприятий</span>
-                <span class="stat-value">0</span>
+                <span class="stat-value">{{ profile.events_count }}</span>
             </div>
         </section>
 

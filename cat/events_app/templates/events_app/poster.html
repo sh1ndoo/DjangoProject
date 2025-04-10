@@ -27,13 +27,15 @@
             <main class="main-content">
                 <section class="event-grid">
 
-                    {% for m in data %}
+                    {% for event in events %}
                     <!-- Пример карточки события 1 -->
                     <article class="event-card">
-                        <img src="https://avatars.mds.yandex.net:443/get-afishanew/21422/292e9d90-c016-4c74-b3a2-f45c487c1a91/orig" alt="Фестиваль Космонавт">
+                        <a href={{ event.slug_name }}>
+                            <img src={{ event.logo }} alt="Фестиваль Космонавт">
+                        </a>
                         <div class="event-card-content">
-                            <h2>Фестиваль космического кино «Космонавт — не человек»</h2>
-                            <p class="event-description">Фестиваль для тех, кому не безразличны бескрайние просторы космоса. Как лучше ...</p>
+                            <h2>{{ event.name }}</h2>
+                            <p class="event-description">{{ event.anons }}</p>
                             <div class="event-details">
                                 <span class="event-date">до 13 апреля 2025</span>
                                 <span class="event-location">проспект Мира, 88</span>
@@ -44,44 +46,49 @@
                     {% endfor %}
                 </section>
             </main>
-
-            <aside class="sidebar-filters">
-                <div class="filter-group">
-                    <h3>Когда</h3>
-                    <div class="filter-options button-group">
-                        <button class="btn btn-filter active">сегодня</button>
-                        <button class="btn btn-filter">завтра</button>
-                        <button class="btn btn-filter full-width">на выходных</button>
-                        <button class="btn btn-filter-secondary full-width">Выбрать даты</button>
-                    </div>
-                </div>
-
-                <div class="filter-group">
-                    <h3>Во сколько</h3>
-                     <div class="filter-options button-group">
-                        <button class="btn btn-filter">утром</button>
-                        <button class="btn btn-filter">днём</button>
-                         <button class="btn btn-filter active full-width">вечером</button>
-                        <button class="btn btn-filter-secondary full-width">Выбрать время</button>
-                    </div>
-                </div>
-
-                <div class="filter-group">
-                    <h3>Сколько</h3>
-                    <div class="filter-options price-range">
-                        <div class="price-inputs">
-                            <span>от 0 ₽</span>
-                            <span>до 30000 ₽</span>
+            <div class="sidebar">
+                <aside class="sidebar-filters">
+                    <div class="filter-group">
+                        <h3>Когда</h3>
+                        <div class="filter-options button-group">
+                            <button class="btn btn-filter active">сегодня</button>
+                            <button class="btn btn-filter">завтра</button>
+                            <button class="btn btn-filter full-width">на выходных</button>
+                            <button class="btn btn-filter-secondary full-width">Выбрать даты</button>
                         </div>
-                        <input type="range" min="0" max="30000" value="15000" class="price-slider">
                     </div>
-                </div>
 
-                <button class="btn btn-primary full-width reset-filters">Сбросить фильтры</button>
-            </aside>
-        </div>
+                    <div class="filter-group">
+                        <h3>Во сколько</h3>
+                         <div class="filter-options button-group">
+                            <button class="btn btn-filter">утром</button>
+                            <button class="btn btn-filter">днём</button>
+                             <button class="btn btn-filter active full-width">вечером</button>
+                            <button class="btn btn-filter-secondary full-width">Выбрать время</button>
+                        </div>
+                    </div>
 
+                    <div class="filter-group">
+                        <h3>Сколько</h3>
+                        <div class="filter-options price-range">
+                            <div class="price-inputs">
+                                <span>от 0 ₽</span>
+                                <span>до 30000 ₽</span>
+                            </div>
+                            <input type="range" min="0" max="30000" value="15000" class="price-slider">
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary full-width reset-filters">Сбросить фильтры</button>
+                </aside>
+
+                <aside class="sidebar-filters">
+                    <img src='{{ cat_url }}' class='hero-event-image'>
+                    <div class="text-center">Случайный котик :3</div>
+                </aside>
             </div>
+        </div>
+    </div>
 
     {% include 'events_app/includes/footer.html' %}
 

@@ -93,8 +93,8 @@ h3 { font-size: 1.1em; } /* Для фильтров */
     background-color: transparent;
     border: 1px solid var(--border-color);
     color: var(--text-muted-color);
-    padding: 8px 10px;
-    margin-left: 10px;
+    padding: 10px 12px;
+    margin-right: 10px;
 }
 .btn-icon svg {
     height: 1em;
@@ -853,7 +853,6 @@ h1 {
     background-position: center;
     position: relative;
     border-radius: 10px 10px 10px 10px; /* Скругление низа */
-    margin: -10px 20px 20px 20px;
 }
 
 .btn-cover-edit { /* Кнопка смены обложки */
@@ -882,8 +881,8 @@ h1 {
 /* 2. Карточка с инфо */
 .profile-info-card {
     background-color: var(--card-bg-color); /* Фон карточки */
-    padding: 20px;
-    margin: -50px 20px 20px 20px; /* Отрицательный margin-top для наложения, отступы по бокам, отступ снизу */
+    padding: 15px;
+    margin: -50px 0 20px 0; /* Отрицательный margin-top для наложения, отступы по бокам, отступ снизу */
     position: relative; /* Для позиционирования аватара */
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -898,7 +897,7 @@ h1 {
     object-fit: cover;
     position: absolute;
     left: 20px;
-    top: -70px; /* Половина высоты */
+    top: -65px; /* Половина высоты */
     z-index: 10; /* Выше карточки */
 }
 
@@ -957,7 +956,7 @@ h1 {
     background-color: var(--card-bg-color);
     padding: 15px 20px;
     border-radius: 10px;
-    margin: 0 20px 20px 20px; /* Отступы */
+    margin: 0 0 20px 0; /* Отступы */
 }
 
 .stat-item { /* Элемент статистики */
@@ -992,7 +991,6 @@ h1 {
 .profile-user-tabs {
     display: flex;
     border-bottom: 1px solid var(--border-color);
-    margin: 0 20px; /* Отступы по бокам */
     /* position: sticky; top: 0; z-index: 20; Если нужно прилипание */
 }
 
@@ -1017,7 +1015,7 @@ h1 {
 /* 5. Контент табов */
 .profile-tab-content-area {
     padding: 25px; /* Паддинг для контента */
-    margin: 0 20px 20px 20px; /* Отступы */
+    margin: 0 0 20px 0; /* Отступы */
     background-color: var(--card-bg-color); /* Фон */
     border-radius: 0 0 10px 10px; /* Скругление низа */
     min-height: 250px; /* Мин. высота */
@@ -1041,6 +1039,371 @@ h1 {
 }
 
 
+/* --- Стили страницы Деталей События --- */
+
+.event-page-body {
+    background-color: var(--bg-color); /* Светлый фон для страницы, если отличается от темного */
+    /* Или оставьте background-color: var(--bg-color); для темной темы */
+    color: var(--text-color); /* Цвет текста основной */
+}
+
+.event-detail-container {
+    max-width: 1100px; /* Ширина контейнера */
+    margin: 30px auto;
+    padding: 0 15px; /* Небольшие отступы по бокам */
+}
+
+
+
+.event-hero {
+    position: relative;
+    background-color: #333;
+    border-radius: 12px;
+    padding: 40px;
+    color: #fff;
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.hero-background-overlay {
+    position: absolute;
+    /* Делаем элемент НАМНОГО БОЛЬШЕ контейнера, чтобы при вращении углы не вылезали.
+       sqrt(2) ~ 1.414. Делаем с запасом, например, 150% или больше.
+       Размеры и позиция расчитаны так, чтобы центр оверлея совпадал с центром родителя. */
+    width: 170%; /* Примерно sqrt(2) * 1.2 = 1.7 = 170% */
+    height: 170%;
+    top: -35%; /* (100% - 170%) / 2 = -35% */
+    left: -35%; /* (100% - 170%) / 2 = -35% */
+    z-index: 0; /* Позади контента */
+    filter: blur(100px);
+    background-size: cover; /* Растянуть/обрезать картинку на весь оверлей */
+    background-position: center;
+
+    /* Анимация вращения */
+    animation: rotateBackground 15s linear infinite; /* Настройте время (120s) */
+}
+
+.hero-background-overlay2 {
+    position: absolute;
+    /* Делаем элемент НАМНОГО БОЛЬШЕ контейнера, чтобы при вращении углы не вылезали.
+       sqrt(2) ~ 1.414. Делаем с запасом, например, 150% или больше.
+       Размеры и позиция расчитаны так, чтобы центр оверлея совпадал с центром родителя. */
+    width: 170%; /* Примерно sqrt(2) * 1.2 = 1.7 = 170% */
+    height: 170%;
+    top: 0; /* (100% - 170%) / 2 = -35% */
+    left: 0; /* (100% - 170%) / 2 = -35% */
+    z-index: 0; /* Позади контента */
+    filter: blur(100px);
+    background-size: cover; /* Растянуть/обрезать картинку на весь оверлей */
+    background-position: center;
+
+    /* Анимация вращения */
+    animation: rotateBackground2 15s linear infinite; /* Настройте время (120s) */
+}
+
+.hero-background-overlay3 {
+    position: absolute;
+    /* Делаем элемент НАМНОГО БОЛЬШЕ контейнера, чтобы при вращении углы не вылезали.
+       sqrt(2) ~ 1.414. Делаем с запасом, например, 150% или больше.
+       Размеры и позиция расчитаны так, чтобы центр оверлея совпадал с центром родителя. */
+    width: 170%; /* Примерно sqrt(2) * 1.2 = 1.7 = 170% */
+    height: 170%;
+    top: -70%; /* (100% - 170%) / 2 = -35% */
+    left: 30%; /* (100% - 170%) / 2 = -35% */
+    z-index: 0; /* Позади контента */
+    filter: blur(100px);
+    background-size: cover; /* Растянуть/обрезать картинку на весь оверлей */
+    background-position: center;
+
+    /* Анимация вращения */
+    animation: rotateBackground 15s linear infinite; /* Настройте время (120s) */
+}
+
+@keyframes rotateBackground {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg); /* Полный оборот */
+    }
+}
+
+
+@keyframes rotateBackground2 {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(-360deg); /* Полный оборот */
+    }
+}
+
+
+
+
+.hero-content {
+    display: flex;
+    gap: 30px;
+    position: relative; /* Чтобы быть над псевдоэлементами */
+    z-index: 2;
+}
+
+.hero-image-container {
+    flex-shrink: 0; /* Не сжимать картинку */
+}
+
+.hero-event-image {
+    width: 250px; /* Ширина постера */
+    height: auto;
+    border-radius: 8px;
+    aspect-ratio: 8 / 11;
+    object-fit: cover;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.hero-details {
+    flex-grow: 1;
+}
+
+.breadcrumbs {
+    font-size: 0.85em;
+    margin-bottom: 15px;
+    opacity: 0.8;
+}
+.breadcrumbs a {
+    color: var(--primary-accent-color); /* Желтый */
+    text-decoration: none;
+}
+.breadcrumbs a:hover {
+    text-decoration: underline;
+}
+
+.hero-title {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin: 0 0 20px 0;
+    line-height: 1.2;
+}
+
+.hero-meta p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 0.95em;
+}
+.hero-meta i {
+    color: var(--primary-accent-color); /* Желтые иконки */
+    font-size: 1.1em;
+    width: 20px; /* Фикс. ширина для выравнивания */
+    text-align: center;
+}
+
+.btn-buy-ticket {
+    background-color: var(--secondary-accent-color); /* Оранжевый */
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+.btn-buy-ticket:hover {
+    background-color: #e69500; /* Темнее оранжевый */
+}
+
+.hero-actions { /* Кнопки лайк/поделиться */
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 3;
+}
+
+.sidebar {
+    flex-basis: 280px; /* Фиксированная ширина сайдбара */
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--border-radius);
+    align-self: flex-start;
+    gap: 15px;
+
+}
+
+.text-center {
+    text-align: center;  /* Выравнивает текст по центру */
+    margin-top: 20px;    /* Отступ сверху (подберите нужное значение) */
+    font-size: 1.2em;
+}
+
+
+.btn-icon-action {
+    background-color: rgba(255, 255, 255, 0.15); /* Полупрозрачный светлый */
+    color: #fff;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.btn-icon-action:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* 2. Основной контент */
+.event-content-area {
+    /* Используем основной фон страницы */
+    background-color: transparent;
+}
+
+.event-columns {
+    display: flex;
+    gap: 30px; /* Расстояние между колонками */
+}
+
+.event-main-column {
+    flex: 1; /* Занимает больше места */
+    min-width: 0; /* Предотвращение переполнения flex-элементов */
+}
+
+.event-sidebar-column {
+    flex-basis: 280px; /* Ширина боковой колонки */
+    flex-shrink: 0;
+}
+
+.event-tags {
+    margin-bottom: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.tag {
+    background-color: var(--card-bg-color); /* Фон тега */
+    color: var(--text-muted-color);
+    padding: 5px 12px;
+    border-radius: 15px; /* Овальные теги */
+    font-size: 0.8em;
+    display: inline-block;
+}
+.tag-age { /* Особый стиль для возраста, если нужно */
+    background-color: #222;
+    color: #eee;
+    font-weight: 500;
+}
+
+.event-description h2,
+.event-map-section h2,
+.contacts-section h2 {
+    font-size: 1.5em;
+    font-weight: 600;
+    color: var(--text-color); /* Убедимся что заголовки видимы */
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.event-description p {
+    margin-bottom: 15px;
+    line-height: 1.7;
+    color: var(--text-color); /* Цвет основного текста */
+}
+
+.event-map-section {
+    margin-top: 30px;
+}
+.map-placeholder {
+    height: 300px;
+    background-color: var(--card-bg-color);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-muted-color);
+    border: 1px solid var(--border-color);
+}
+
+.contacts-section {
+    background-color: var(--card-bg-color); /* Фон блока контактов */
+    padding: 20px;
+    border-radius: 10px;
+}
+.contact-item {
+    margin-top: 10px;
+}
+.btn-contact {
+    background-color: #3a3a3a;
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 0.9em;
+    display: flex; /* Используем flex для иконки и текста */
+    align-items: center;
+    justify-content: center; /* Центрируем контент кнопки */
+    gap: 8px;
+    width: 100%; /* Кнопка на всю ширину */
+    text-decoration: none; /* Убираем подчеркивание у ссылки */
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+.btn-contact:hover {
+    background-color: #4f4f4f;
+    border-color: #666;
+}
+.btn-contact i {
+    font-size: 0.95em;
+}
+
+.search-container {
+    position: relative;
+    display: inline-block; /* чтобы кнопка и инпут располагались "рядом" */
+}
+
+.search-input {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+
+    /* Начальные стили, чтобы было "невидимо" */
+    width: 0;
+    opacity: 0;
+
+    /* Цвет и размер шрифта под ваш дизайн */
+    background-color: var(--card-bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 0.95em;
+
+    padding: 10px 12px;
+    margin-right: 10px;
+    /* Плавные переходы */
+    transition: width 0.3s ease, opacity 0.3s ease;
+    outline: none;
+}
+
+
+.search-container:hover .search-input,
+.search-container:focus-within .search-input {
+    width: 260px; /* любое нужное значение */
+    opacity: 1;
+    padding: 11px 15px; /* можно чуть увеличить, чтобы поле выглядело аккуратнее */
+}
+
+
+/* --- Адаптивность --- */
+
+/* --- Конец стилей страницы Деталей События --- */
 
 /* --- Конец стилей Профиля (Новый) --- */
 
@@ -1057,6 +1420,15 @@ h1 {
         /* Может быть, на планшетах оставить 3 или 2 колонки? */
          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Пример: подстройка для планшета */
     }
+
+    .hero-content {
+        flex-direction: column; /* Постер над текстом */
+        align-items: center; /* Центрируем постер */
+        text-align: center; /* Центрируем текст */
+    }
+    .hero-image-container { margin-bottom: 20px; }
+    .hero-meta p { justify-content: center; /* Центрируем иконки/текст */ }
+    .hero-actions { top: 15px; bottom: auto; } /* Кнопки наверх */
 }
 
 
@@ -1089,6 +1461,15 @@ h1 {
     .profile-user-stats, .profile-user-tabs, .profile-tab-content-area { margin-left: 10px; margin-right: 10px; }
     .profile-tab-link { padding: 10px 15px; font-size: 0.9em; }
 
+    .event-columns {
+        flex-direction: column; /* Ставим колонки друг под друга */
+    }
+    .event-sidebar-column {
+        flex-basis: auto; /* Сбрасываем ширину */
+        margin-top: 20px;
+    }
+    .hero-title { font-size: 2em; }
+    .event-hero { padding: 30px; }
 }
 
 
@@ -1146,4 +1527,12 @@ h1 {
      .profile-user-tabs { flex-wrap: wrap; justify-content: center; } /* Перенос табов */
      .profile-tab-link { flex-basis: 50%; text-align: center; padding: 10px 5px; font-size: 0.85em;} /* Табы по 2 в ряд */
      .profile-tab-content-area { padding: 20px; }
+
+     .hero-title { font-size: 1.8em; }
+     .hero-event-image { width: 200px; }
+     .event-hero { padding: 20px; }
+     .btn-buy-ticket { width: 100%; padding: 12px 5px; font-size: 0.95em;}
+     .hero-actions { right: 10px; }
+     .btn-icon-action { width: 35px; height: 35px; font-size: 0.9em;}
+     .event-detail-container { margin-top: 15px; margin-bottom: 15px; }
     }

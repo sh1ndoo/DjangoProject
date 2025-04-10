@@ -1,16 +1,8 @@
 from django.http import HttpResponse, Http404, HttpResponseNotFound
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
-
-data = {'data': [
-    {'name': 'Борат', 'genre': 'Прикол'},
-    {'name': 'Борат', 'genre': 'Прикол'},
-    {'name': 'Борат', 'genre': 'Прикол'},
-    {'name': 'Борат', 'genre': 'Прикол'},
-    {'name': 'Борат', 'genre': 'Прикол'},
-    {'name': 'Борат', 'genre': 'Прикол'},
-    {'name': 'Борат', 'genre': 'Прикол'}],
-}
+from .models import Events, Profiles
+import requests
 
 cats = [
     {'url': 'profile', 'name': 'Профиль'},
@@ -22,14 +14,29 @@ cats = [
 def page_not_found(request, exception):
     return HttpResponseNotFound('<h1>NOT THERE</h1>')
 
-def profile(request):
-    data['cat_selected'] = 'profile'
-    return render(request, 'events_app/profile.html', data)
+def profile(request, profile_url):
+    profile = get_object_or_404(Profiles, url=profile_url)
+    base_data = {'profile': profile,
+                 'cat_selected': 'profile'}
+    print(profile.email)
+    return render(request, 'events_app/profile.html', base_data)
 
 def login(request):
-    return render(request, 'events_app/login.html', data)
+    return render(request, 'events_app/login.html')
 
 def home_page(request):
-    data['cat_selected'] = 'events'
+    qs = Events.objects.filter(cat_id=1011)[:20].values()
+    list_of_dicts = list(qs)
+    data = {'events': list_of_dicts,
+            'cat_selected': 'events',
+            'cat_url': requests.get('https://aleatori.cat/random.json').json()['url']
+            }
     return render(request, 'events_app/poster.html', data)
+
+def event(request, event_name):
+    event = get_object_or_404(Events, slug_name=event_name)
+    base_data = {'event': event,
+                 'cat_selected': 'events'
+                 }
+    return render(request, 'events_app/event.html', base_data)
 
