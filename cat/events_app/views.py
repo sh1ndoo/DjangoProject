@@ -14,8 +14,7 @@ def page_not_found(request, exception):
     return HttpResponseNotFound('<h1>NOT THERE</h1>')
 
 def profile(request, profile_url):
-    profile = get_object_or_404(Profiles, url=profile_url)
-    base_data = {'profile': profile,
+    base_data = {'profile': profile_obj,
                  'cat_selected': 'profile'}
     return render(request, 'events_app/profile.html', base_data)
 
@@ -35,7 +34,7 @@ def home_page(request):
 def event(request, event_name):
     event = get_object_or_404(Events, slug_name=event_name)
     base_data = {'event': event,
-                 'profile': profile,
+                 'profile': profile_obj,
                  'cat_selected': 'events'
                  }
     return render(request, 'events_app/event.html', base_data)

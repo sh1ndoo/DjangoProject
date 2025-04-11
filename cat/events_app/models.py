@@ -78,6 +78,8 @@ class Profiles(models.Model):
     phone = models.CharField(max_length=12, default="")
     password = models.CharField(max_length=50)
     url = models.CharField(max_length=50)
+    avatar_img = models.TextField(default="")
+    background_img = models.TextField(default="")
     rating = models.IntegerField(default=0)
     address = models.TextField(default="")
     events_count = models.IntegerField(default=0)

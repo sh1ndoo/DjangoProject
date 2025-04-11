@@ -1,78 +1,87 @@
 {% extends 'base.html' %}
 
 {% block content %}
-        <section class="event-hero">
-            <img src='{{ event.logo }}' class="hero-background-overlay">
-            <img src='{{ event.logo }}' class="hero-background-overlay2">
-            <img src='{{ event.logo }}' class="hero-background-overlay3">
+        <div class="event-detail-container"> <!-- Added container -->
+            <section class="event-hero">
+                <!-- Background images loaded via style attribute or CSS -->
+                <div class="hero-background-overlay" style="background-image: url('{{ event.logo }}');"></div>
+                <div class="hero-background-overlay2" style="background-image: url('{{ event.logo }}');"></div>
+                <div class="hero-background-overlay3" style="background-image: url('{{ event.logo }}');"></div>
 
-            <div class="hero-content">
-                <div class="hero-image-container">
-                    <img src="{{ event.logo }}" alt="" class="hero-event-image">
-                </div>
-
-                <div class="hero-details">
-                    <h1 class="hero-title">{{ event.name }}</h1>
-                    <div class="hero-meta">
-                        <p><i class="fas fa-map-marker-alt"></i> проспект Мира, 73</p>
-                        <p><i class="fas fa-calendar-alt"></i> <strong>Начало:</strong>{{ event.time_start }}</p>
-                        <p><i class="fas fa-calendar-check"></i> <strong>Завершение:</strong> {{ event.time_end }}</p>
-                        {% if event.is_free %}
-                            <p><i class="fas fa-tag"></i> Бесплатно</p>
-                        {% else %}
-                            <p><i class="fas fa-tag"></i>{{ event.min_price }} - {{ event.max_price }}₽</p>
-                        {% endif %}
-                    </div>
-                    <button class="btn btn-buy-ticket">Купить билет</button>
-                </div>
-            </div>
-
-            <div class="hero-actions">
-                <button class="btn btn-icon-action btn-like"><i class="fas fa-heart"></i></button>
-                <button class="btn btn-icon-action btn-share"><i class="fas fa-share-alt"></i></button>
-            </div>
-        </section>
-
-        <!-- Блок 2: Основной контент (описание, контакты, карта) -->
-        <section class="event-content-area">
-            <div class="event-columns">
-
-                <!-- Левая колонка: Описание и Карта -->
-                <div class="event-main-column">
-                    <div class="event-tags">
-                        <span class="tag tag-age">Возраст {{ event.age }}</span>
-                        <span class="tag tag-type">{{ event.cat_url }}</span>
-                        <span class="tag tag-type">Спектакли</span>
+                <div class="hero-content">
+                    <div class="hero-image-container">
+                        <img src="{{ event.logo }}" alt="{{ event.name }} Постер" class="hero-event-image"> <!-- Added Alt -->
                     </div>
 
-                    <article class="event-description">
-                        <h2>Про событие</h2>
-                        <p>{{ event.anons }}</p>
-                    </article>
-
-                    <section class="event-map-section">
-                        <h2>На карте</h2>
-                        <div class="map-placeholder">
-                            <!-- Сюда можно вставить iframe карты или изображение -->
-                            <p>(Здесь будет карта)</p>
+                    <div class="hero-details">
+                        <!-- Optional Breadcrumbs
+                        <nav class="breadcrumbs">
+                            <a href="#">Главная</a> / <a href="#">События</a> / <span>{{ event.name }}</span>
+                        </nav> -->
+                        <h1 class="hero-title">{{ event.name }}</h1>
+                        <div class="hero-meta">
+                            <!-- Added icons -->
+                            <p><i class="fas fa-map-marker-alt"></i> проспект Мира, 73</p> <!-- Location should be dynamic -->
+                            <p><i class="fas fa-calendar-alt"></i> <strong>Начало:</strong> {{ event.time_start }}</p> <!-- Added date format -->
+                            <p><i class="fas fa-calendar-check"></i> <strong>Завершение:</strong> {{ event.time_end }}</p> <!-- Added date format -->
+                            {% if event.is_free %}
+                                <p><i class="fas fa-tag"></i> Бесплатно</p>
+                            {% else %}
+                                <p><i class="fas fa-tag"></i> {{ event.min_price }} - {{ event.max_price }}₽</p>
+                            {% endif %}
                         </div>
-                    </section>
+                        <!-- Changed class to btn-buy-ticket -->
+                        <button class="btn btn-buy-ticket">Купить билет</button>
+                    </div>
                 </div>
 
-                <!-- Правая колонка: Контакты -->
-                <aside class="event-sidebar-column">
-                    <div class="contacts-section">
-                        <h2>Контакты</h2>
-                        <div class="contact-item">
-                             <a href="tel:+70000000000" class="btn btn-contact">
-                                <i class="fas fa-phone-alt"></i> Телефон
-                            </a>
-                            <!-- Можно добавить другие контакты -->
+                <div class="hero-actions">
+                    <!-- Changed classes to btn-icon-action -->
+                    <button class="btn btn-icon-action btn-like"><i class="fas fa-heart"></i></button>
+                    <button class="btn btn-icon-action btn-share"><i class="fas fa-share-alt"></i></button>
+                </div>
+            </section>
+
+            <!-- Блок 2: Основной контент -->
+            <section class="event-content-area">
+                <div class="event-columns">
+
+                    <!-- Левая колонка -->
+                    <div class="event-main-column">
+                        <div class="event-tags">
+                            <!-- Added specific classes -->
+                            <span class="tag tag-age">{{ event.age }}</span> <!-- Added + -->
+                            <span class="tag tag-category">{{ event.cat_url }}</span> <!-- Assuming cat_url is category name -->
                         </div>
+
+                        <article class="event-description">
+                            <h2>Про событие</h2>
+                            <p>{{ event.anons }}</p> <!-- Should be full description here -->
+                        </article>
+
+                        <section class="event-map-section">
+                            <h2>На карте</h2>
+                            <div class="map-placeholder">
+                                <p>(Здесь будет карта)</p>
+                            </div>
+                        </section>
                     </div>
-                </aside>
 
-            </div>
-        </section>
+                    <!-- Правая колонка -->
+                    <aside class="event-sidebar-column">
+                        <div class="contacts-section">
+                            <h2>Контакты</h2>
+                            <div class="contact-item">
+                                <!-- Changed class to btn-contact -->
+                                 <a href="tel:+70000000000" class="btn btn-contact">
+                                    <i class="fas fa-phone-alt"></i> Телефон
+                                </a>
+                            </div>
+                            <!-- Add more contact items if needed -->
+                        </div>
+                    </aside>
 
+                </div>
+            </section>
+        </div> <!-- /event-detail-container -->
 {% endblock %}

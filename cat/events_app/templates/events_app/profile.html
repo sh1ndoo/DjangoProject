@@ -1,90 +1,89 @@
 {% extends 'base.html' %}
 
 {% block content %}
-        <header class="profile-cover">
-            <!-- Фоновая картинка будет в CSS -->
-            <button class="btn btn-cover-edit">
-                <i class="fas fa-pencil-alt"></i> Изменить обложку
-            </button>
-        </header>
+        <div class="profile-container-new"> <!-- Added container -->
+            <header class="profile-cover">
+                <!-- Фоновая картинка будет в CSS или inline style -->
+                <button class="btn btn-cover-edit">
+                    <i class="fas fa-pencil-alt"></i> Изменить обложку
+                </button>
+            </header>
 
-        <!-- Блок 2: Основная информация (под обложкой, с выступающей аватаркой) -->
-        <section class="profile-info-card">
-            <!-- Аватарка -->
-            <img src="https://sun9-61.userapi.com/s/v1/ig2/d5ELAT8JOdnGTjFsm8oRctp1b4HgMlwvlOqcI6XU-YdFfzRNqAgMUsX0YZt-hGVarz_c3DwqdJ81i3nstMLRkNat.jpg?quality=95&crop=620,171,556,556&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540&ava=1&u=95XnosnZE2NiTEsRTnUIsk70C-iZJdPXZ7YNq-L7Dug&cs=400x400" alt="Аватар" class="profile-avatar-overlap">
+            <!-- Блок 2: Основная информация -->
+            <section class="profile-info-card">
+                <img src="https://sun9-61.userapi.com/s/v1/ig2/d5ELAT8JOdnGTjFsm8oRctp1b4HgMlwvlOqcI6XU-YdFfzRNqAgMUsX0YZt-hGVarz_c3DwqdJ81i3nstMLRkNat.jpg?quality=95&crop=620,171,556,556&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540&ava=1&u=95XnosnZE2NiTEsRTnUIsk70C-iZJdPXZ7YNq-L7Dug&cs=400x400" alt="Аватар" class="profile-avatar-overlap">
 
-            <!-- Контентная часть карточки -->
-            <div class="profile-info-content">
-                <div class="profile-text-details">
-                    <h1 class="profile-user-name">
-                        {{ profile.name }}
-                        <!-- <span class="profile-name-emoji">🫰</span> можно добавить эмоджи -->
-                    </h1>
-                    <p class="profile-user-status">
-                        Статус чтобы не было пусто <!-- Статус из первого примера -->
-                    </p>
-                    <!-- Здесь НЕ БУДЕТ доп. инфо типа СФУ -->
+                <div class="profile-info-content">
+                    <div class="profile-text-details">
+                        <h1 class="profile-user-name">
+                            {{ profile.name }}
+                        </h1>
+                        <p class="profile-user-status">
+                            Статус чтобы не было пусто
+                        </p>
+                    </div>
+                    <div class="profile-card-actions">
+                        <!-- Changed buttons to use btn-action -->
+                        <button class="btn btn-action">Редактировать</button>
+                        <button class="btn btn-action">
+                            Ещё <i class="fas fa-caret-down"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="profile-card-actions">
-                    <button class="btn btn-profile-edit">Редактировать профиль</button>
-                    <button class="btn btn-profile-more">
-                        Ещё <i class="fas fa-caret-down"></i>
-                    </button>
+            </section>
+
+            <!-- Блок 3: Статистика -->
+            <section class="profile-user-stats">
+                <div class="stat-item">
+                    <span class="stat-icon"><i class="fas fa-star"></i></span>
+                    <span class="stat-label">Рейтинг</span>
+                    <span class="stat-value">{{ profile.rating }}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon"><i class="fas fa-map-marker-alt"></i></span>
+                    <span class="stat-label">Местоположение</span>
+                    <span class="stat-value">{{ profile.adress }}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon"><i class="fas fa-thumbs-up"></i></span>
+                    <span class="stat-label">Оценок</span>
+                    <span class="stat-value">{{ profile.reviews_count }}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon"><i class="fas fa-flag"></i></span>
+                    <span class="stat-label">Посещено мероприятий</span>
+                    <span class="stat-value">{{ profile.events_count }}</span>
+                </div>
+            </section>
+
+            <!-- Блок 4: Табы -->
+            <nav class="profile-user-tabs">
+                <button class="profile-tab-link active" data-tab-target="#content-liked">Понравившиеся</button>
+                <button class="profile-tab-link" data-tab-target="#content-my-events">Ваши мероприятия</button>
+                <button class="profile-tab-link" data-tab-target="#content-reviews">Оценки</button>
+            </nav>
+
+            <!-- Блок 5: Контент табов -->
+            <div class="profile-tab-content-area">
+                <div id="content-liked" class="profile-tab-pane active">
+                    <div class="liked-placeholder">
+                        <i class="fas fa-heart big-heart-icon"></i>
+                        <p>Здесь будут понравившиеся мероприятия</p> <!-- Added text -->
+                    </div>
+                </div>
+                <div id="content-my-events" class="profile-tab-pane">
+                     <p class="tab-placeholder-text">Здесь будут ваши мероприятия.</p>
+                </div>
+                <div id="content-reviews" class="profile-tab-pane">
+                    <p class="tab-placeholder-text">Здесь будут ваши оценки.</p>
                 </div>
             </div>
-        </section>
-
-        <!-- Блок 3: Статистика (как на первом фото) -->
-        <section class="profile-user-stats">
-            <div class="stat-item">
-                <span class="stat-icon"><i class="fas fa-star"></i></span>
-                <span class="stat-label">Рейтинг</span>
-                <span class="stat-value">{{ profile.rating }}</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-icon"><i class="fas fa-map-marker-alt"></i></span>
-                <span class="stat-label">Местоположение</span>
-                <span class="stat-value">{{ profile.adress }}</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-icon"><i class="fas fa-thumbs-up"></i></span>
-                <span class="stat-label">Оценок</span>
-                <span class="stat-value">{{ profile.reviews_count }}</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-icon"><i class="fas fa-flag"></i></span>
-                <span class="stat-label">Посещено мероприятий</span>
-                <span class="stat-value">{{ profile.events_count }}</span>
-            </div>
-        </section>
-
-        <!-- Блок 4: Табы (как на первом фото) -->
-        <nav class="profile-user-tabs">
-            <button class="profile-tab-link active" data-tab-target="#content-liked">Понравившиеся</button>
-            <button class="profile-tab-link" data-tab-target="#content-my-events">Ваши мероприятия</button>
-            <button class="profile-tab-link" data-tab-target="#content-reviews">Оценки</button>
-        </nav>
-
-        <!-- Блок 5: Контент табов -->
-        <div class="profile-tab-content-area">
-            <div id="content-liked" class="profile-tab-pane active">
-                <div class="liked-placeholder">
-                    <i class="fas fa-heart big-heart-icon"></i>
-                    <!-- Можно добавить текст "Здесь будут понравившиеся мероприятия" -->
-                </div>
-            </div>
-            <div id="content-my-events" class="profile-tab-pane">
-                 <p class="tab-placeholder-text">Здесь будут ваши мероприятия.</p>
-            </div>
-            <div id="content-reviews" class="profile-tab-pane">
-                <p class="tab-placeholder-text">Здесь будут ваши оценки.</p>
-            </div>
-        </div>
-
-{% endblock %}<!-- /profile-container-new -->
+        </div> <!-- /profile-container-new -->
+{% endblock %}
 
 {% block scripts %}
     <script>
+        // JS for tabs remains the same
         const profileTabLinks = document.querySelectorAll('.profile-user-tabs .profile-tab-link');
         const profileTabPanes = document.querySelectorAll('.profile-tab-content-area .profile-tab-pane');
 

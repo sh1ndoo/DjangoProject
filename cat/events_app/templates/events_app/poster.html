@@ -5,11 +5,12 @@
 
         <nav class="category-filters">
             <ul>
-                <li><button class="btn btn-tag active">Вечеринки</button></li>
-                <li><button class="btn btn-tag">Выставки</button></li>
-                <li><button class="btn btn-tag">Концерты</button></li>
-                <li><button class="btn btn-tag">Мастер-классы</button></li>
-                <li><button class="btn btn-tag">Спектакли</button></li>
+                <!-- Changed btn-tag to btn-filter-tag -->
+                <li><button class="btn btn-filter-tag active">Вечеринки</button></li>
+                <li><button class="btn btn-filter-tag">Выставки</button></li>
+                <li><button class="btn btn-filter-tag">Концерты</button></li>
+                <li><button class="btn btn-filter-tag">Мастер-классы</button></li>
+                <li><button class="btn btn-filter-tag">Спектакли</button></li>
             </ul>
         </nav>
         <div class="content-wrapper">
@@ -20,14 +21,15 @@
                     <!-- Пример карточки события 1 -->
                     <article class="event-card">
                         <a href={{ event.slug_name }}>
-                            <img src={{ event.logo }} alt="Фестиваль Космонавт">
+                            <img src='{{ event.logo }}' alt="Фестиваль Космонавт"> <!-- Alt text should be dynamic -->
                         </a>
                         <div class="event-card-content">
                             <h2>{{ event.name }}</h2>
                             <p class="event-description">{{ event.anons }}</p>
                             <div class="event-details">
-                                <span class="event-date">до 13 апреля 2025</span>
-                                <span class="event-location">проспект Мира, 88</span>
+                                <!-- Dates/locations should be dynamic -->
+                                <span class="event-date"><i class="fas fa-calendar-alt"></i> до 13 апреля 2025</span>
+                                <span class="event-location"><i class="fas fa-map-marker-alt"></i> проспект Мира, 88</span>
                             </div>
                             <div class="event-price">{% if event.is_free %}Бесплатно{% else %}{{ event.min_price }}₽{% endif %}</div>
                         </div>
@@ -41,20 +43,24 @@
                     <div class="filter-group">
                         <h3>Когда</h3>
                         <div class="filter-options button-group">
-                            <button class="btn btn-filter active">сегодня</button>
-                            <button class="btn btn-filter">завтра</button>
-                            <button class="btn btn-filter full-width">на выходных</button>
-                            <button class="btn btn-filter-secondary full-width">Выбрать даты</button>
+                            <!-- Changed btn-filter to btn-filter-tag -->
+                            <button class="btn btn-filter-tag active">сегодня</button>
+                            <button class="btn btn-filter-tag">завтра</button>
+                            <button class="btn btn-filter-tag full-width">на выходных</button>
+                            <!-- Changed btn-filter-secondary to btn-filter-select -->
+                            <button class="btn btn-filter-select full-width">Выбрать даты</button>
                         </div>
                     </div>
 
                     <div class="filter-group">
                         <h3>Во сколько</h3>
                          <div class="filter-options button-group">
-                            <button class="btn btn-filter">утром</button>
-                            <button class="btn btn-filter">днём</button>
-                             <button class="btn btn-filter active full-width">вечером</button>
-                            <button class="btn btn-filter-secondary full-width">Выбрать время</button>
+                            <!-- Changed btn-filter to btn-filter-tag -->
+                            <button class="btn btn-filter-tag">утром</button>
+                            <button class="btn btn-filter-tag">днём</button>
+                             <button class="btn btn-filter-tag active full-width">вечером</button>
+                            <!-- Changed btn-filter-secondary to btn-filter-select -->
+                            <button class="btn btn-filter-select full-width">Выбрать время</button>
                         </div>
                     </div>
 
@@ -73,7 +79,8 @@
                 </aside>
 
                 <aside class="sidebar-filters">
-                    <img src='{{ cat_url }}' class='hero-event-image'>
+                    <!-- Assuming cat_url is an image URL for the cat -->
+                    <img src='{{ cat_url }}' class='hero-event-image' alt="Случайный котик">
                     <div class="text-center">Случайный котик :3</div>
                 </aside>
             </div>

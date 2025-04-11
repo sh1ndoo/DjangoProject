@@ -1,18 +1,77 @@
-/* Основные стили и переменные */
+/* --- styles.css --- */
+
+/* ==========================================================================
+   1. Core Variables & Base Styles
+   ========================================================================== */
 :root {
-    --bg-color: #121212;; /* Темный фон */
-    --card-bg-color: #1e1e1e; /* Фон карточек и элементов */
-    --text-color: #e0e0e0; /* Основной цвет текста */
-    --text-muted-color: #a0a0a0; /* Приглушенный текст (даты, локации) */
-    --primary-accent-color: #ffd700; /* Желтый акцент (главные кнопки, активные элементы) */
-    --secondary-accent-color: #ffa500; /* Оранжевый акцент (второстепенные кнопки, ховеры) */
-    --border-color: #444; /* Цвет границ */
-    --link-hover-color: var(--secondary-accent-color);
-    --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    --border-radius: 8px;
+    /* Colors */
+    --color-bg: #121212;            /* Darkest background */
+    --color-bg-card: #1e1e1e;       /* Card/element background */
+    --color-bg-input: #2c2c2c;      /* Slightly lighter for inputs */
+    --color-bg-hover: #3a3a3a;       /* General hover background */
+    --color-bg-overlay: rgba(0, 0, 0, 0.6); /* Semi-transparent dark overlay */
+
+    --color-text: #e0e0e0;          /* Main text */
+    --color-text-bright: #ffffff;    /* Brighter text (headings, active elements) */
+    --color-text-muted: #a0a0a0;     /* Dimmed text (placeholders, meta) */
+    --color-text-dark: #111111;      /* Dark text for light backgrounds */
+
+    --color-accent-primary: #ffd700; /* Main accent (yellow) */
+    --color-accent-secondary: #ffa500; /* Secondary accent (orange) */
+    --color-accent-primary-hover: #e6c300; /* Darker yellow */
+    --color-accent-secondary-hover: #e69500; /* Darker orange */
+
+    --color-border: #444444;         /* Default border */
+    --color-border-hover: #666666;   /* Hovered border */
+
+    --color-social-tg: #2AABEE;      /* Telegram */
+    --color-social-vk: #4C75A3;      /* VK */
+    --color-social-google: #DB4437;  /* Google */
+
+    /* Typography */
+    --font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-size-base: 16px;
+    --font-size-l: 1.2em;       /* Large */
+    --font-size-m: 1em;          /* Medium */
+    --font-size-s: 0.85em;          /* Small */
+    --font-size-xs: 0.75em;          /* Extra small */
+    --line-height-base: 1.6;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    /* Borders & Radii */
+    --border-width: 1px;
+    --border-radius-sm: 4px;
+    --border-radius: 8px;           /* Standard */
+    --border-radius-lg: 12px;          /* Large */
+    --border-radius-pill: 50px;      /* Pill shape */
+    --border-radius-circle: 50%;      /* Circle */
+
+    /* Shadows */
+    --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 5px 15px rgba(0, 0, 0, 0.3);
+    --shadow-focus: 0 0 0 2px rgba(255, 215, 0, 0.2); /* Focus ring */
+
+    /* Transitions */
+    --transition-fast: 0.2s ease;
+    --transition-base: 0.3s ease;
+
+    /* Effects */
+    --blur-heavy: blur(100px);
+
+    /* Spacing (Optional - use if consistent spacing is desired) */
+    --space-xs: 5px;
+    --space-sm: 10px;
+    --space-md: 15px;
+    --space-lg: 20px;
+    --space-xl: 30px;
+    --space-xxl: 40px;
 }
 
-/* Сброс и базовые настройки */
+/* Reset & Base */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -20,27 +79,26 @@
 }
 
 body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-family: var(--font-family);
-    line-height: 1.6;
-    font-size: 16px;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-family-base);
+    line-height: var(--line-height-base);
+    font-size: var(--font-size-base);
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 20px;
+    padding: var(--space-lg);
 }
 
 a {
-    color: var(--primary-accent-color);
+    color: var(--color-accent-primary);
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: color var(--transition-base);
 }
-
 a:hover {
-    color: var(--link-hover-color);
+    color: var(--color-accent-secondary); /* Use secondary accent for general link hover */
 }
 
 img {
@@ -51,300 +109,336 @@ img {
 
 h1, h2, h3 {
     margin-bottom: 0.8em;
-    color: #fff; /* Заголовки чуть ярче */
+    color: var(--color-text-bright); /* Brighter headings */
 }
-
 h1 { font-size: 2.2em; }
-h2 { font-size: 1.3em; } /* Для карточек */
-h3 { font-size: 1.1em; } /* Для фильтров */
+h2 { font-size: 1.3em; } /* Default for sections/cards */
+h3 { font-size: 1.1em; } /* Default for filters/sub-sections */
 
-/* Стили кнопок */
-.btn {
-    display: inline-block;
-    padding: 10px 20px;
-    border: none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+/* Utilities */
+.full-width {
+    width: 100%;
+    display: block;
+    margin-top: var(--space-xs);
+}
+.text-center {
     text-align: center;
 }
 
-.btn-primary { /* Для основных действий, например "Сбросить фильтры" */
-    background-color: var(--primary-accent-color);
-    color: #222; /* Темный текст на желтом */
+/* ==========================================================================
+   2. Buttons
+   ========================================================================== */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border: var(--border-width) solid transparent;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: var(--font-weight-medium);
+    text-align: center;
+    text-decoration: none; /* Ensure buttons used as links look right */
+    transition: background-color var(--transition-base), color var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
+    vertical-align: middle; /* Align nicely with text/icons */
+}
+.btn svg, .btn i { /* For icon buttons */
+    vertical-align: middle;
+    height: 1em;
+    width: 1em;
+    display: inline-block; /* Prevents extra space */
+}
+
+/* Primary Action Button */
+.btn-primary {
+    background-color: var(--color-accent-primary);
+    color: var(--color-text-dark);
+    border-color: var(--color-accent-primary);
 }
 .btn-primary:hover {
-    background-color: var(--secondary-accent-color);
+    background-color: var(--color-accent-primary-hover);
+    border-color: var(--color-accent-primary-hover);
     box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
 }
 
-.btn-secondary { /* Например, кнопка "Войти" */
-    background-color: var(--card-bg-color);
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
-    margin-left: 10px;
+/* Secondary Action Button */
+.btn-secondary {
+    background-color: var(--color-bg-card);
+    color: var(--color-text);
+    border-color: var(--color-border);
 }
 .btn-secondary:hover {
-    background-color: #3a3a3a;
-    border-color: #666;
+    background-color: var(--color-bg-hover);
+    border-color: var(--color-border-hover);
 }
 
+/* Icon-only Button */
 .btn-icon {
     background-color: transparent;
-    border: 1px solid var(--border-color);
-    color: var(--text-muted-color);
-    padding: 10px 12px;
-}
-.btn-icon svg {
-    height: 1em;
-    vertical-align: middle;
+    border-color: var(--color-border);
+    color: var(--color-text-muted);
+    padding: 10px 12px; /* Adjust padding for square-ish look */
 }
 .btn-icon:hover {
-    background-color: var(--card-bg-color);
-    color: var(--text-color);
+    background-color: var(--color-bg-card);
+    color: var(--color-text);
+    border-color: var(--color-border-hover);
 }
 
-.btn-tag, .btn-filter { /* Кнопки категорий и фильтров даты/времени */
-    background-color: var(--card-bg-color);
-    color: var(--text-muted-color);
-    padding: 8px 15px;
-    font-size: 0.9em;
-    border: 1px solid transparent; /* Для сохранения размера при active */
+/* Filter/Tag Button (Consolidated btn-tag and btn-filter) */
+.btn-filter-tag {
+    background-color: var(--color-bg-card);
+    color: var(--color-text-muted);
+    padding: 7px 14px;
+    font-size: var(--font-size-s);
+    border-color: var(--color-border); /* Add default border */
 }
-.btn-tag:hover, .btn-filter:hover {
-    background-color: #3a3a3a;
-    color: var(--text-color);
+.btn-filter-tag:hover {
+    background-color: var(--color-bg-hover);
+    color: var(--color-text);
+    border-color: var(--color-border-hover);
 }
-.btn-tag.active, .btn-filter.active {
+.btn-filter-tag.active {
     background-color: transparent;
-    color: var(--primary-accent-color);
-    border: 1px solid var(--primary-accent-color);
-    font-weight: bold;
+    color: var(--color-accent-primary);
+    border-color: var(--color-accent-primary);
+    font-weight: var(--font-weight-bold);
 }
 
-.btn-filter-secondary { /* Кнопка "Выбрать даты/время" */
+/* Button for "Choose Date/Time" */
+.btn-filter-select {
     background-color: transparent;
-    color: var(--primary-accent-color);
-    border: 1px solid var(--border-color);
+    color: var(--color-accent-primary);
+    border-color: var(--color-border);
     padding: 8px 15px;
     font-size: 0.9em;
     margin-top: 5px;
 }
-.btn-filter-secondary:hover {
+.btn-filter-select:hover {
     background-color: rgba(255, 215, 0, 0.1);
-    border-color: var(--primary-accent-color);
+    border-color: var(--color-accent-primary);
 }
 
-.full-width {
-    width: 100%;
-    display: block; /* Чтобы занимала всю ширину */
-    margin-top: 8px; /* Небольшой отступ сверху */
+/* Subscribe Button */
+.btn-subscribe {
+    background-color: var(--color-accent-secondary);
+    color: var(--color-text-bright);
+    border-color: var(--color-accent-secondary);
+    padding: 11px 20px;
+    font-weight: var(--font-weight-bold);
+}
+.btn-subscribe:hover {
+    background-color: var(--color-accent-secondary-hover);
+    border-color: var(--color-accent-secondary-hover);
+    box-shadow: 0 2px 8px rgba(255, 165, 0, 0.3);
 }
 
-/* Шапка сайта */
+/* Social Login Buttons */
+.btn-social {
+    color: var(--color-text-bright);
+    padding: 12px 15px;
+    font-weight: var(--font-weight-bold);
+}
+.btn-social.btn-vk { background-color: var(--color-social-vk); }
+.btn-social.btn-vk:hover { background-color: #40658a; } /* Manual hover for specific colors */
+.btn-social.btn-google { background-color: var(--color-social-google); }
+.btn-social.btn-google:hover { background-color: #c43d30; }
+
+/* Register Button (Outline style) */
+.btn-register {
+    background-color: transparent;
+    border: 2px solid var(--color-accent-primary);
+    color: var(--color-accent-primary);
+}
+.btn-register:hover {
+    background-color: rgba(255, 215, 0, 0.1);
+    color: var(--color-text-bright);
+    border-color: var(--color-text-bright); /* Example: change border on hover */
+}
+
+/* Special Action Buttons (Profile Edit, Event Like/Share) */
+.btn-action { /* Generic action button base if needed */
+    background-color: var(--color-bg-hover); /* Slightly different base */
+    color: var(--color-text);
+    padding: 9px 16px;
+    border-radius: var(--border-radius-sm); /* Smaller radius */
+    font-size: 0.9em;
+}
+.btn-action:hover {
+    background-color: #4f4f4f; /* Slightly darker hover */
+}
+.btn-action i { font-size: 0.9em; }
+
+.btn-icon-action { /* For Like/Share */
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--color-text-bright);
+    width: 40px;
+    height: 40px;
+    padding: 0; /* Reset padding */
+    border-radius: var(--border-radius-circle);
+    display: inline-flex; /* Use flex for centering */
+    justify-content: center;
+    align-items: center;
+    font-size: 1em;
+}
+.btn-icon-action:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.btn-cover-edit { /* Profile cover edit */
+    position: absolute;
+    bottom: 15px; /* Adjusted from 18.5em */
+    right: 15px;
+    background-color: var(--color-bg-overlay);
+    color: var(--color-text-bright);
+    padding: 8px 14px;
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-s);
+    display: inline-flex; /* Use flex */
+    align-items: center;
+    gap: 6px;
+    z-index: 2;
+}
+.btn-cover-edit:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* ==========================================================================
+   3. Header
+   ========================================================================== */
 .site-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--border-color);
-    margin-bottom: 30px;
+    margin-bottom: var(--space-xl);
 }
 
-.logo {
-    display: flex;
-    align-items: center;
-}
+.logo { display: flex; align-items: center; }
 .logo img {
-    height: 40px; /* Настройте высоту лого */
-    margin-right: 10px;
-    background-color: transparent;
-    border-radius: 4px;
+    height: 40px;
+    margin-right: var(--space-sm);
+    border-radius: var(--border-radius-sm);
 }
 .logo span {
-    font-weight: bold;
+    font-weight: var(--font-weight-bold);
     font-size: 1.1em;
     line-height: 1.2;
-    color: #fff;
+    color: var(--color-text-bright);
 }
 
 .main-nav ul {
     list-style: none;
     display: flex;
-    gap: 25px; /* Расстояние между пунктами меню */
+    gap: 25px;
 }
 .main-nav a {
-    color: var(--text-muted-color);
-    font-weight: 500;
-    padding-bottom: 5px;
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+    padding-bottom: var(--space-xs);
     border-bottom: 2px solid transparent;
+    transition: color var(--transition-base), border-color var(--transition-base); /* Combined transition */
 }
 .main-nav a:hover {
-    color: var(--text-color);
+    color: var(--color-text);
 }
 .main-nav a.active {
-    color: var(--primary-accent-color);
-    border-bottom-color: var(--primary-accent-color);
+    color: var(--color-accent-primary);
+    border-bottom-color: var(--color-accent-primary);
 }
 
 .header-actions {
     display: flex;
     align-items: center;
+    gap: var(--space-sm); /* Add gap for buttons */
 }
 
-/* Основной контент и сайдбар */
+/* Search Input (within header actions) */
+.search-container {
+    position: relative;
+    display: inline-block;
+}
+.search-input {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    width: 0;
+    opacity: 0;
+    background-color: var(--color-bg-card);
+    color: var(--color-text);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--border-radius);
+    font-size: 0.95em;
+    padding: 10px 12px;
+    transition: width var(--transition-base), opacity var(--transition-base), padding var(--transition-base);
+    outline: none;
+}
+.search-container:hover .search-input,
+.search-container:focus-within .search-input {
+    width: 260px;
+    opacity: 1;
+    padding: 11px 15px;
+}
+/* Keep the search button as a btn-icon */
+.search-container .btn-icon {
+    position: relative; /* Allow z-index if needed */
+    z-index: 1;
+}
+
+/* ==========================================================================
+   4. Main Content Layout (Poster Page)
+   ========================================================================== */
 .content-wrapper {
     display: flex;
-    gap: 30px; /* Расстояние между основным контентом и сайдбаром */
+    gap: var(--space-xl);
+    align-items: flex-start; /* Align top */
 }
 
 .main-content {
-    flex: 1; /* Занимает все доступное пространство */
+    flex: 1; /* Takes available space */
+    min-width: 0; /* Prevent overflow */
+}
+
+.sidebar {
+    flex-basis: 280px;
+    flex-shrink: 0;
+    display: flex; /* Enable gap for multiple sidebars */
+    flex-direction: column;
+    gap: var(--space-md);
+    align-self: flex-start;
 }
 
 .sidebar-filters {
-    flex-basis: 280px; /* Фиксированная ширина сайдбара */
-    flex-shrink: 0;
-    background-color: var(--card-bg-color);
-    padding: 20px;
+    background-color: var(--color-bg-card);
+    padding: var(--space-lg);
     border-radius: var(--border-radius);
-    align-self: flex-start; /* Чтобы сайдбар не растягивался по высоте */
+    /* Removed align-self, handled by .sidebar */
 }
 
-/* Фильтры категорий (теги) */
+/* ==========================================================================
+   5. Filters (Sidebar & Categories)
+   ========================================================================== */
+.category-filters {
+    margin-bottom: 25px; /* Space below tags */
+}
 .category-filters ul {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 30px;
+    gap: var(--space-sm);
 }
+/* Use .btn-filter-tag for category buttons */
 
-/* Сетка событий */
-.event-grid {
-    display: grid;
-    /* УМЕНЬШАЕМ minmax ЗНАЧИТЕЛЬНО, чтобы влезло 4-5 карточек */
-    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-    /* Можно еще уменьшить значение (180px, 170px), если нужно больше карточек */
-    gap: 15px; /* Уменьшаем расстояние между карточками */
-}
-
-.event-card {
-    background-color: var(--card-bg-color);
-    /* Можно сделать фон карточек чуть светлее, если хочется контраста как на светлой теме */
-    /* background-color: #333; */
-    border-radius: 12px; /* Более скругленные углы как на фото */
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Ускорим анимацию */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Более легкая тень */
-}
-.event-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-.event-card img {
-    width: 100%;
-    /* Соотношение сторон ближе к квадрату или легкому пейзажу */
-    aspect-ratio: 201 / 278; /* Попробуйте 1/1 для квадрата или 4/3 */
-    object-fit: cover;
-    display: block;
-    /* Убираем filter: brightness(0.9); если он был */
-}
-
-.event-card-content {
-    padding: 10px; /* СИЛЬНО УМЕНЬШАЕМ внутренние отступы */
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1; /* Оставляем, чтобы контент занимал место */
-}
-
-.event-card h2 {
-    margin-top: 0;
-    margin-bottom: 5px; /* СИЛЬНО УМЕНЬШАЕМ отступ */
-    font-size: 0.95em; /* СИЛЬНО УМЕНЬШАЕМ размер заголовка */
-    font-weight: 600; /* Можно сделать чуть жирнее */
-    line-height: 1.3;
-    /* Ограничение заголовка 2 строками */
-    display: -webkit-box;
-    -webkit-line-clamp: 2; /* Максимум 2 строки */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    min-height: 2.6em; /* Резервируем место под 2 строки (line-height * 2) */
-}
-
-.event-description {
-    font-size: 0.75em;  /* СИЛЬНО УМЕНЬШАЕМ размер описания */
-    color: var(--text-muted-color);
-    margin-bottom: 8px; /* УМЕНЬШАЕМ отступ */
-    flex-grow: 1; /* Описание растягивается */
-    line-height: 1.4;
-    /* Ограничение описания 3 строками */
-    display: -webkit-box;
-    -webkit-line-clamp: 3; /* Максимум 3 строки */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-     /* Если нужно зарезервировать место */
-    /* min-height: 4.2em; /* line-height * 3 */
-}
-
-.event-details {
-    font-size: 0.7em; /* СИЛЬНО УМЕНЬШАЕМ размер деталей */
-    color: var(--text-muted-color);
-    margin-bottom: 5px; /* УМЕНЬШАЕМ отступ */
-    display: flex;
-    flex-direction: column;
-    gap: 2px; /* УМЕНЬШАЕМ расстояние */
-    margin-top: auto; /* Прижимаем блок деталей к цене */
-}
-/* Стили для иконок (если используете Font Awesome или SVG) */
-.event-details span {
-   display: flex;
-   align-items: center;
-   gap: 5px; /* Расстояние иконка-текст */
-   white-space: nowrap; /* Предотвратить перенос внутри детали */
-   overflow: hidden; /* Обрезать, если не влезает */
-   text-overflow: ellipsis; /* Многоточие для длинных локаций */
-}
-.event-details span i, /* Если используете <i> для иконок FA */
-.event-details span svg { /* Если используете SVG */
-    flex-shrink: 0; /* Не сжимать иконку */
-    color: var(--text-muted-color); /* Или немного другой цвет */
-    opacity: 0.8;
-    font-size: 0.9em; /* Размер иконки относительно текста детали */
-}
-/* Уберите ::before если используете иконки внутри span */
-/* .event-date::before { content: none; } */
-/* .event-location::before { content: none; } */
-
-
-.event-price {
-    font-weight: bold;
-    color: var(--primary-accent-color); /* Оставляем желтый акцент */
-    font-size: 0.9em; /* УМЕНЬШАЕМ размер цены */
-    margin-top: 0; /* Убираем верхний отступ, т.к. детали теперь прижаты */
-    padding-top: 3px;
-    align-self: flex-end;
-    white-space: nowrap; /* Чтобы цена не переносилась */
-}
-
-/* Сайдбар фильтров */
 .filter-group {
     margin-bottom: 25px;
 }
 .filter-group h3 {
-    margin-bottom: 15px;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 5px;
+    margin-bottom: var(--space-md);
+    border-bottom: var(--border-width) solid var(--color-border);
+    padding-bottom: var(--space-xs);
     font-size: 1em;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: var(--text-muted-color);
+    color: var(--color-text-muted);
 }
 
 .filter-options {
@@ -352,349 +446,286 @@ h3 { font-size: 1.1em; } /* Для фильтров */
     flex-wrap: wrap;
     gap: 8px;
 }
-.button-group .btn-filter {
-    flex: 1 1 45%; /* Позволяет кнопкам занимать примерно половину ширины */
+.filter-options.button-group .btn-filter-tag {
+    flex: 1 1 45%; /* Allow buttons to take half width */
 }
 
+/* Price Filter Specifics */
 .price-range .price-inputs {
     display: flex;
     justify-content: space-between;
     font-size: 0.9em;
-    color: var(--text-muted-color);
-    margin-bottom: 10px;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-sm);
 }
 .price-slider {
     width: 100%;
     cursor: pointer;
-    accent-color: var(--primary-accent-color); /* Стилизация ползунка */
+    accent-color: var(--color-accent-primary); /* Style the thumb/track */
 }
 
+/* Reset Button */
 .reset-filters {
-    margin-top: 10px; /* Отступ от последнего фильтра */
+    margin-top: var(--space-sm); /* Space above reset */
+}
+/* Use .btn-primary for reset button */
+
+/* ==========================================================================
+   6. Event Grid & Cards (Poster Page)
+   ========================================================================== */
+.event-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: var(--space-md); /* Reduced gap */
 }
 
-.app-buttons {
+.event-card {
+    background-color: var(--color-bg-card);
+    border-radius: var(--border-radius-lg); /* Slightly larger radius */
+    overflow: hidden;
     display: flex;
-    flex-direction: column; /* Кнопки друг под другом */
-    gap: 10px;
-    align-items: flex-start; /* Выравнивание по левому краю */
+    flex-direction: column;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: var(--shadow-sm);
 }
-.app-button img {
-    height: 40px; /* Фиксированная высота кнопок */
-    width: auto;
-    display: block;
-    border-radius: 6px;
-    transition: opacity 0.3s ease;
-}
-.app-button:hover img {
-    opacity: 0.85;
-}
-/* Специфичные стили для Google Play кнопки, если стандартный бейдж */
-.google-play-button img {
-     background-color: black; /* Если оригинальный бейдж прозрачный */
-     padding: 0; /* Убрать возможный паддинг */
+.event-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
 }
 
-
-/* Навигационные ссылки в футере */
-.footer-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.event-card img {
+    width: 100%;
+    aspect-ratio: 201 / 278; /* Keep aspect ratio */
+    object-fit: cover;
 }
-.footer-nav ul li {
+
+.event-card-content {
+    padding: var(--space-md); /* Reduced padding */
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.event-card h2 {
+    margin: 0 0 var(--space-xs); /* Top margin 0 */
+    font-size: var(--font-size-l);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.3;
+    /* Text truncation (2 lines) */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.event-description { /* Description inside card */
+    color: var(--color-text-muted);
     margin-bottom: 8px;
+    flex-grow: 1; /* Push details/price down */
+    line-height: 1.4;
+    /* Text truncation (3 lines) */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+
+.event-details {
+    font-size: 0.7em;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-xs);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: auto; /* Aligns to bottom if no description */
+}
+.event-details span {
+   display: flex;
+   align-items: center;
+   gap: var(--space-xs);
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+.event-details i,
+.event-details svg {
+    flex-shrink: 0;
+    opacity: 0.8;
+    font-size: 0.9em; /* Relative to detail text */
+}
+
+.event-price {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-accent-primary);
+    font-size: var(--font-size-l);
+    margin-top: 0;
+    padding-top: 3px; /* Small space above */
+    align-self: flex-end;
+    white-space: nowrap;
+}
+
+
+/* ==========================================================================
+   7. Footer
+   ========================================================================== */
+.site-footer {
+    background-color: var(--color-bg-card);
+    color: var(--color-text-muted);
+    padding: 25px 0;
+    margin-top: var(--space-xxl);
+    font-size: var(--font-size-s); /* Slightly smaller base font for footer */
+}
+
+.footer-container {
+    max-width: 1200px; /* Match main container */
+    margin: 0 auto;
+    padding: 0 var(--space-lg); /* Horizontal padding */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-lg); /* Reduced gap */
+    align-items: start;
+}
+
+.footer-section {
+    padding-bottom: var(--space-sm);
+}
+
+.footer-title {
+    font-size: 1em; /* Relative to footer base font */
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text); /* Slightly brighter title */
+    margin-bottom: var(--space-sm);
+    padding-bottom: var(--space-xs);
+    border-bottom: var(--border-width) solid var(--color-border);
+}
+
+/* Footer Nav Links */
+.footer-nav ul { list-style: none; }
+.footer-nav ul li { margin-bottom: 5px; }
 .footer-nav ul li a {
-    color: var(--text-muted-color);
-    text-decoration: none; /* Убрано подчеркивание по умолчанию */
-    border-bottom: 1px solid transparent; /* Место для подчеркивания при ховере */
+    color: var(--color-text-muted);
+    border-bottom: var(--border-width) solid transparent;
     padding-bottom: 2px;
-    transition: color 0.3s ease, border-color 0.3s ease;
+    transition: color var(--transition-base), border-color var(--transition-base);
 }
 .footer-nav ul li a:hover {
-    color: var(--text-color);
-    border-bottom-color: var(--secondary-accent-color); /* Оранжевое подчеркивание при ховере */
+    color: var(--color-text);
+    border-bottom-color: var(--color-accent-secondary);
 }
 
-/* Форма подписки */
-.footer-newsletter p {
-    margin-bottom: 15px;
-}
+/* Footer Newsletter */
+.footer-newsletter p { margin-bottom: var(--space-sm); }
 .newsletter-form {
     display: flex;
-    flex-direction: column; /* Элементы формы друг под другом */
-    gap: 10px;
-    margin-bottom: 10px;
+    flex-direction: column;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-sm);
 }
 .newsletter-form input[type="email"] {
-    background-color: var(--card-bg-color);
-    border: 1px solid var(--border-color);
-    color: var(--text-color);
-    padding: 10px 12px;
-    border-radius: var(--border-radius);
-    font-size: 1em;
+    background-color: var(--color-bg); /* Darker input */
+    border: var(--border-width) solid var(--color-border);
+    color: var(--color-text);
+    padding: 8px 12px; /* Smaller padding */
+    border-radius: var(--border-radius-sm);
+    font-size: 1em; /* Relative to footer */
 }
 .newsletter-form input[type="email"]::placeholder {
-    color: var(--text-muted-color);
+    color: var(--color-text-muted);
     opacity: 0.7;
 }
-.btn-subscribe {
-    background-color: var(--secondary-accent-color); /* Оранжевая кнопка */
-    color: #fff; /* Белый текст на оранжевом */
-    padding: 11px 20px; /* Чуть больше паддинг для кнопки */
-    font-weight: bold;
-}
-.btn-subscribe:hover {
-    background-color: #e69500; /* Чуть темнее оранжевый при наведении */
-    box-shadow: 0 2px 8px rgba(255, 165, 0, 0.3);
-}
+/* Use .btn-subscribe for the button */
 .newsletter-disclaimer {
-    font-size: 0.8em;
-    color: #888;
-    margin-top: 5px;
+    font-size: 0.8em; /* Relative */
+    color: #888; /* Keep specific color? or use var(--color-text-muted) with opacity? */
+    margin-top: var(--space-xs);
 }
 .newsletter-disclaimer a {
     color: #aaa;
     text-decoration: underline;
 }
-.newsletter-disclaimer a:hover {
-    color: var(--text-color);
-}
+.newsletter-disclaimer a:hover { color: var(--color-text); }
 
-
-/* Соцсети и контакты */
+/* Footer Social & Contacts */
 .social-icons {
     display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
 }
-.social-icon {
+.social-icon { /* Specific icons for social links */
     display: flex;
     justify-content: center;
     align-items: center;
     width: 36px;
     height: 36px;
-    border-radius: var(--border-radius);
-    color: #fff;
-    font-weight: bold;
-    font-size: 0.9em;
+    border-radius: var(--border-radius-sm); /* Use smaller radius */
+    color: var(--color-text-bright);
+    font-weight: var(--font-weight-bold);
+    font-size: 0.9em; /* Relative */
     text-decoration: none;
-    transition: opacity 0.3s ease;
+    transition: opacity var(--transition-base);
 }
-.social-icon:hover {
-    opacity: 0.85;
-}
-.tg-icon {
-    background-color: #2AABEE; /* Цвет Telegram */
-}
-.vk-icon {
-    background-color: #4C75A3; /* Цвет VK */
-}
+.social-icon:hover { opacity: 0.85; }
+.tg-icon { background-color: var(--color-social-tg); }
+.vk-icon { background-color: var(--color-social-vk); }
 
 .contact-info {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin-bottom: 15px;
+    margin-bottom: var(--space-md);
 }
 .contact-link {
-    color: var(--text-muted-color);
+    color: var(--color-text-muted);
     display: flex;
     align-items: center;
     gap: 8px;
-    text-decoration: none;
-    transition: color 0.3s ease;
+    transition: color var(--transition-base);
 }
-.contact-link svg {
-    color: var(--secondary-accent-color); /* Иконки оранжевые */
-}
-.contact-link:hover {
-    color: var(--text-color);
-}
+.contact-link svg { color: var(--color-accent-secondary); }
+.contact-link:hover { color: var(--color-text); }
 
 .copyright {
-    font-size: 0.8em;
+    font-size: 0.8em; /* Relative */
     color: #888;
-    margin-top: 10px;
+    margin-top: var(--space-sm);
 }
 
-/* ... (предыдущие стили остаются) ... */
-
-/* --- Изменения для основных стилей и расположения --- */
-
-h1 {
-    font-size: 2em; /* Можно чуть уменьшить заголовок, если нужно */
-    margin-bottom: 20px; /* Уменьшаем отступ под заголовком */
-}
-
-/* Фильтры категорий (теги) */
-.category-filters { /* Добавляем стиль для обертки тегов */
-    margin-bottom: 25px; /* Отступ под тегами перед основной сеткой */
-}
-.category-filters ul {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    /* Убираем margin-bottom отсюда, так как он теперь на .category-filters */
-}
-
-/* Кнопки фильтров с тонкой обводкой */
-.btn-tag, .btn-filter {
-    background-color: var(--card-bg-color);
-    color: var(--text-muted-color);
-    padding: 7px 14px; /* Немного уменьшим паддинг */
-    font-size: 0.85em; /* Немного уменьшим шрифт */
-    border: 1px solid var(--border-color); /* ДОБАВЛЯЕМ тонкую обводку */
-    /* Удаляем 'border: 1px solid transparent;' если он был */
-}
-.btn-tag:hover, .btn-filter:hover {
-    background-color: #3a3a3a;
-    color: var(--text-color);
-    border-color: #666; /* Можно менять цвет обводки при ховере */
-}
-.btn-tag.active, .btn-filter.active {
-    background-color: transparent; /* Оставляем прозрачный фон */
-    color: var(--primary-accent-color);
-    border: 1px solid var(--primary-accent-color); /* Активная обводка остается яркой */
-    font-weight: bold;
-}
-
-/* Основной контент и сайдбар */
-.content-wrapper {
-    display: flex;
-    gap: 30px;
-    align-items: flex-start; /* ВАЖНО: выравнивание по верху */
-}
-
-/* Карточка события - выравнивание даты */
-.event-card-content {
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1; /* Это важно, чтобы контент занимал всю высоту */
-}
-.event-description {
-    font-size: 0.9em;
-    color: var(--text-muted-color);
-    margin-bottom: 15px;
-    flex-grow: 1; /* ВАЖНО: Описание растягивается, отодвигая дату и цену вниз */
-}
-.event-details {
-    font-size: 0.85em;
-    color: var(--text-muted-color);
-    margin-bottom: 10px; /* Отступ под деталями перед ценой */
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    /* margin-top: auto; Убираем это, т.к. flex-grow на описании делает свою работу */
-}
-.event-price {
-    font-weight: bold;
-    color: var(--primary-accent-color);
-    font-size: 1.1em;
-    margin-top: auto; /* Оставляем это, чтобы цена была внизу, если нет деталей */
-    padding-top: 5px; /* Небольшой отступ сверху от деталей */
-    align-self: flex-end;
-}
-
-
-/* --- Стили Футера - Уменьшение размера --- */
-.site-footer {
-    background-color: var(--card-bg-color);
-    color: var(--text-muted-color);
-    padding: 25px 0; /* УМЕНЬШАЕМ вертикальные паддинги */
-    margin-top: 40px; /* Можно немного уменьшить отступ сверху */
-    font-size: 0.85em; /* Немного уменьшаем базовый шрифт футера */
-}
-
-.footer-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Можно чуть уменьшить minmax */
-    gap: 20px; /* УМЕНЬШАЕМ расстояние между колонками */
-    align-items: start;
-}
-
-.footer-section {
-    padding-bottom: 10px; /* УМЕНЬШАЕМ отступ */
-}
-
-.footer-title {
-    font-size: 0.85em; /* Уменьшаем заголовки */
-    margin-bottom: 10px; /* УМЕНЬШАЕМ отступ */
-    padding-bottom: 3px; /* Уменьшаем паддинг */
-}
-
-/* Уменьшаем отступы у параграфов и списков */
-.footer-app p,
-.footer-newsletter p {
-    margin-bottom: 10px;
-}
-.footer-nav ul li {
-    margin-bottom: 5px;
-}
-.newsletter-form {
-    margin-bottom: 8px;
-    gap: 8px;
-}
-.newsletter-form input[type="email"] {
-    padding: 8px 10px; /* Уменьшаем инпут */
-    font-size: 0.95em;
-}
-.btn-subscribe {
-    padding: 9px 15px; /* Уменьшаем кнопку */
-    font-size: 0.95em;
-}
-.newsletter-disclaimer {
-    font-size: 0.75em;
-}
-
-/* Уменьшаем отступы у контактов и соцсетей */
-.social-icons {
-    margin-bottom: 10px;
-    gap: 8px;
-}
-.social-icon {
-    width: 32px;
-    height: 32px;
-    font-size: 0.8em;
-}
-.contact-info {
-    margin-bottom: 10px;
-    gap: 6px;
-}
-.copyright {
-    font-size: 0.75em;
-    margin-top: 8px;
-}
+/* Footer App Buttons */
 .app-buttons {
-    gap: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    align-items: flex-start;
 }
 .app-button img {
-    height: 35px; /* Уменьшаем кнопки магазинов */
+    height: 40px;
+    width: auto;
+    border-radius: var(--border-radius-sm);
+    transition: opacity var(--transition-base);
 }
+.app-button:hover img { opacity: 0.85; }
 
-/* --- Стили для страницы входа (login.html) --- */
 
-/* Заставляем body занимать всю высоту и используем flex для центрирования и прижатия футера */
+/* ==========================================================================
+   8. Login Page
+   ========================================================================== */
 .login-page-body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: #121212; /* Чуть другой черный, как на скрине */
+    background-color: var(--color-bg); /* Ensure bg */
 }
 
-/* Контейнер для центрирования блока входа */
 .login-container {
-    flex-grow: 1; /* Занимает все доступное пространство между хэдером (если бы он был) и футером */
+    flex-grow: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 40px 20px; /* Отступы сверху/снизу и по бокам */
+    padding: var(--space-xxl) var(--space-lg);
 }
 
-/* Сам блок с формой */
 .login-box {
     width: 100%;
     max-width: 380px;
@@ -702,836 +733,561 @@ h1 {
 }
 
 .login-logo {
-    display: block; /* Чтобы margin: auto сработал */
-    max-width: 200px; /* Ограничьте ширину логотипа, подберите значение */
-    height: auto; /* Сохранять пропорции */
-    margin: 0 auto 5px; /* Центрировать и добавить отступ снизу */
+    display: block;
+    max-width: 200px;
+    height: auto;
+    margin: 0 auto 5px;
 }
 
-/* ИЗМЕНЕНО: Стили для заголовка КОТ */
 .login-title {
-    color: var(--primary-accent-color);
-    font-size: 2.8em; /* УМЕНЬШАЕМ размер шрифта */
-    font-weight: bold;
-    margin-bottom: 5px; /* Оставляем небольшой отступ */
-    letter-spacing: 1px; /* Можно немного уменьшить */
+    color: var(--color-accent-primary);
+    font-size: 2.8em;
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 5px;
+    letter-spacing: 1px;
 }
 
 .login-subtitle {
-    color: var(--text-muted-color);
+    color: var(--color-text-muted);
     font-size: 0.9em;
-    margin-bottom: 40px; /* Отступ до формы */
+    margin-bottom: var(--space-xxl);
 }
 
-/* Стилизация формы и полей ввода */
 .login-form .form-group {
-    margin-bottom: 15px;
+    margin-bottom: var(--space-md);
 }
 
 .login-form input[type="email"],
 .login-form input[type="password"] {
     display: block;
     width: 100%;
-    background-color: #2c2c2c; /* Темно-серый фон поля */
-    border: 1px solid #444; /* Тонкая граница */
-    color: var(--text-color);
-    padding: 14px 18px; /* Увеличенные паддинги */
-    border-radius: 10px; /* Скругление углов полей */
+    background-color: var(--color-bg-input);
+    border: var(--border-width) solid var(--color-border);
+    color: var(--color-text);
+    padding: 14px 18px;
+    border-radius: var(--border-radius); /* Standard radius */
     font-size: 1em;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: border-color var(--transition-base), box-shadow var(--transition-base);
 }
-
-.login-form input[type="email"]:focus,
-.login-form input[type="password"]:focus {
+.login-form input:focus { /* Combine focus styles */
     outline: none;
-    border-color: var(--primary-accent-color); /* Желтая обводка при фокусе */
-    box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.2); /* Легкое свечение при фокусе */
+    border-color: var(--color-accent-primary);
+    box-shadow: var(--shadow-focus);
 }
-
 .login-form input::placeholder {
-    color: #888; /* Цвет плейсхолдера */
+    color: var(--color-text-muted);
+    opacity: 0.8; /* Slight fade for placeholder */
 }
 
 .forgot-password {
     display: block;
     text-align: right;
-    font-size: 0.8em;
-    color: var(--text-muted-color);
-    margin-top: -5px; /* Чуть поднять к полю пароля */
-    margin-bottom: 25px; /* Отступ до кнопки "Войти" */
-    text-decoration: none;
-    transition: color 0.3s ease;
+    font-size: var(--font-size-s);
+    color: var(--color-text-muted);
+    margin-top: -5px;
+    margin-bottom: 25px;
+    transition: color var(--transition-base);
 }
 .forgot-password:hover {
-    color: var(--text-color);
+    color: var(--color-text);
 }
 
-/* Стилизация кнопок (используем базовый .btn и добавляем специфику) */
-.login-box .btn {
-    display: block;
+/* Login Buttons Styling */
+.login-box .btn { /* Apply general button styles within login box */
+    display: block; /* Make buttons full width */
     width: 100%;
-    padding: 13px 20px; /* Паддинги для кнопок */
-    border: none;
-    border-radius: 10px; /* Скругление углов кнопок */
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: bold;
-    margin-bottom: 15px;
-    text-align: center;
-    text-decoration: none;
-    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    padding: 13px 20px;
+    border-radius: var(--border-radius); /* Consistent radius */
+    margin-bottom: var(--space-md);
 }
+/* Use .btn-primary for main login button */
+/* Use .btn-register for register button */
 
-.btn-login {
-    background-color: var(--primary-accent-color); /* Желтый фон */
-    color: #111; /* Темный текст */
-}
-.btn-login:hover {
-    background-color: #e6c300; /* Темнее желтый */
-    box-shadow: 0 4px 10px rgba(255, 215, 0, 0.2);
-}
-
-/* Контейнер для кнопок соцсетей */
 .social-login {
     display: flex;
-    gap: 10px;
-    margin-bottom: 15px; /* Отступ до кнопки регистрации */
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+}
+.social-login .btn-social {
+    flex: 1; /* Equal width */
 }
 
-.btn-social {
-    flex: 1; /* Занимают равное место */
-    color: #fff;
-    padding: 12px 15px; /* Паддинги можно чуть меньше для соц кнопок */
-}
-.btn-vk {
-    background-color: #4C75A3; /* Синий VK */
-}
-.btn-vk:hover {
-    background-color: #40658a;
-}
-.btn-google {
-    background-color: #DB4437; /* Красный Google */
-}
-.btn-google:hover {
-    background-color: #c43d30;
-}
-
-.btn-register {
-    background-color: transparent;
-    border: 2px solid var(--primary-accent-color); /* Желтая обводка */
-    color: var(--primary-accent-color); /* Желтый текст */
-}
-.btn-register:hover {
-    background-color: rgba(255, 215, 0, 0.1); /* Легкий желтый фон при наведении */
-    color: #fff; /* Можно менять текст на белый */
-    border-color: #fff; /* И обводку на белую */
-}
-
-/* Убеждаемся, что футер прижат к низу */
+/* Ensure footer is at bottom */
 .login-page-body .site-footer {
-    margin-top: auto; /* Это прижмет футер к низу, так как .login-container имеет flex-grow: 1 */
+    margin-top: auto;
 }
 
-/* --- Стили Профиля (Новый дизайн с нуля) --- */
-
+/* ==========================================================================
+   9. Profile Page
+   ========================================================================== */
 .profile-page-body {
-    background-color: var(--bg-color); /* Темный фон всей страницы */
-    color: var(--text-color);
+    background-color: var(--color-bg);
+    color: var(--color-text);
 }
 
 .profile-container-new {
-    max-width: 900px; /* Макс. ширина контента профиля */
-    margin: 0 auto 30px auto; /* Центрирование, отступ снизу до футера */
+    max-width: 900px;
+    margin: 0 auto var(--space-xl) auto; /* Bottom margin before footer */
 }
 
-/* 1. Обложка */
 .profile-cover {
-    height: 300px; /* Высота обложки */
-    background-color: #444; /* Цвет фона, если картинка не загрузится */
-    background-image: url('https://sun9-47.userapi.com/pYvsE4i2v-hOv_Ei3n8Ps7RhLQhhsx6ngeWk9w/rfIhZPOGhzk.jpg'); /* ЗАМЕНИТЕ URL */
+    height: 300px;
+    background-color: var(--color-border); /* Fallback color */
+    /* background-image: url(...); Defined inline potentially */
     background-size: cover;
     background-position: center;
     position: relative;
-    border-radius: 10px 10px 10px 10px; /* Скругление низа */
+    border-radius: var(--border-radius-lg); /* Use large radius */
 }
+/* Use .btn-cover-edit for the button */
 
-.btn-cover-edit { /* Кнопка смены обложки */
-    position: absolute;
-    bottom: 18.5em;
-    right: 15px;
-    background-color: rgba(0, 0, 0, 0.6);
-    color: #fff;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 6px;
-    font-size: 0.85em;
-    font-weight: 500;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    transition: background-color 0.3s ease;
-    z-index: 2; /* Над обложкой */
-}
-.btn-cover-edit:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-}
-.btn-cover-edit i { font-size: 0.9em; }
-
-/* 2. Карточка с инфо */
 .profile-info-card {
-    background-color: var(--card-bg-color); /* Фон карточки */
-    padding: 15px;
-    margin: -50px 0 20px 0; /* Отрицательный margin-top для наложения, отступы по бокам, отступ снизу */
-    position: relative; /* Для позиционирования аватара */
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    z-index: 5; /* Выше обложки */
+    background-color: var(--color-bg-card);
+    padding: var(--space-md);
+    margin: -50px 0 var(--space-lg) 0;
+    position: relative;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+    z-index: 5;
 }
 
-.profile-avatar-overlap { /* Аватар */
-    width: 140px; /* Размер аватара */
+.profile-avatar-overlap {
+    width: 140px;
     height: 140px;
-    border-radius: 50%;
-    border: 5px solid var(--card-bg-color); /* Обводка */
+    border-radius: var(--border-radius-circle);
+    border: 5px solid var(--color-bg-card);
     object-fit: cover;
     position: absolute;
-    left: 20px;
-    top: -65px; /* Половина высоты */
-    z-index: 10; /* Выше карточки */
+    left: var(--space-lg);
+    top: -70px; /* Adjusted for new avatar size */
+    z-index: 10;
 }
 
-.profile-info-content { /* Контент справа от аватара */
+.profile-info-content {
     display: flex;
-    align-items: start; /* Выровнять низ текста и кнопок */
-    padding-left: 160px; /* Отступ = ширина аватара + запас */
-    min-height: 75px; /* Половина высоты аватара + запас */
+    align-items: flex-start; /* Align items to the top */
+    padding-left: 170px; /* width (140) + border (5*2) + gap (20) */
+    min-height: 70px; /* Approx avatar height / 2 */
 }
 
 .profile-text-details {
-    flex-grow: 1; /* Занять место */
-    margin-right: 15px; /* Отступ до кнопок */
+    flex-grow: 1;
+    margin-right: var(--space-md);
 }
 
 .profile-user-name {
     font-size: 1.7em;
-    font-weight: 600;
-    color: var(--text-color);
-    margin: 0 0 5px 0;
+    font-weight: var(--font-weight-semibold);
+    margin: 0 0 var(--space-xs) 0;
+    color: var(--color-text-bright); /* Brighter name */
 }
 
 .profile-user-status {
     font-size: 0.9em;
-    color: var(--text-muted-color);
+    color: var(--color-text-muted);
     line-height: 1.4;
     margin: 0;
 }
 
-.profile-card-actions { /* Кнопки Редактировать/Еще */
+.profile-card-actions {
     display: flex;
-    gap: 10px;
-    flex-shrink: 0; /* Не сжиматься */
+    gap: var(--space-sm);
+    flex-shrink: 0;
 }
-.profile-card-actions .btn { /* Общие стили кнопок в карточке */
-    background-color: #3a3a3a;
-    color: var(--text-color);
-    border: none;
-    padding: 9px 16px;
-    border-radius: 6px;
-    font-size: 0.9em;
-    font-weight: 500;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    transition: background-color 0.3s ease;
-}
-.profile-card-actions .btn:hover {
-    background-color: #4f4f4f;
-}
-.profile-card-actions .btn i { font-size: 0.8em; }
+/* Use .btn-action for profile edit/more buttons */
 
-/* 3. Блок статистики */
 .profile-user-stats {
-    background-color: var(--card-bg-color);
-    padding: 15px 20px;
-    border-radius: 10px;
-    margin: 0 0 20px 0; /* Отступы */
+    background-color: var(--color-bg-card);
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--border-radius-lg);
+    margin-bottom: var(--space-lg);
 }
 
-.stat-item { /* Элемент статистики */
+.stat-item {
     display: flex;
     align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border-color);
+    padding: var(--space-sm) 0;
+    border-bottom: var(--border-width) solid var(--color-border);
     font-size: 0.9em;
 }
 .stat-item:last-child { border-bottom: none; }
 
 .stat-icon {
-    color: var(--primary-accent-color); /* Желтый */
+    color: var(--color-accent-primary);
     font-size: 1.2em;
-    min-width: 30px; /* Ширина для иконки */
+    min-width: 30px;
     text-align: center;
     margin-right: 12px;
 }
 .stat-icon i { vertical-align: middle; }
 
 .stat-label {
-    color: var(--text-muted-color);
+    color: var(--color-text-muted);
     flex-grow: 1;
 }
-
 .stat-value {
-    color: var(--text-color);
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
 }
 
-/* 4. Табы */
 .profile-user-tabs {
     display: flex;
-    border-bottom: 1px solid var(--border-color);
-    /* position: sticky; top: 0; z-index: 20; Если нужно прилипание */
+    border-bottom: var(--border-width) solid var(--color-border);
 }
 
 .profile-tab-link {
     background: none;
-    border: none;
-    color: var(--text-muted-color);
-    padding: 12px 25px; /* Паддинги таба */
+    border: none; /* Remove default border */
+    color: var(--color-text-muted);
+    padding: 12px 25px;
     cursor: pointer;
     font-size: 0.95em;
-    font-weight: 500;
-    border-bottom: 3px solid transparent;
-    transition: color 0.3s ease, border-color 0.3s ease;
-    margin-bottom: -1px; /* Компенсация границы */
+    font-weight: var(--font-weight-medium);
+    border-bottom: 3px solid transparent; /* Use bottom border for active state */
+    transition: color var(--transition-base), border-color var(--transition-base);
+    margin-bottom: -1px; /* Overlap container border */
 }
-.profile-tab-link:hover { color: var(--text-color); }
+.profile-tab-link:hover { color: var(--color-text); }
 .profile-tab-link.active {
-    color: var(--primary-accent-color);
-    border-bottom-color: var(--primary-accent-color);
+    color: var(--color-accent-primary);
+    border-bottom-color: var(--color-accent-primary);
 }
 
-/* 5. Контент табов */
 .profile-tab-content-area {
-    padding: 25px; /* Паддинг для контента */
-    margin: 0 0 20px 0; /* Отступы */
-    background-color: var(--card-bg-color); /* Фон */
-    border-radius: 0 0 10px 10px; /* Скругление низа */
-    min-height: 250px; /* Мин. высота */
+    padding: 25px;
+    margin-bottom: var(--space-lg);
+    background-color: var(--color-bg-card);
+    border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg); /* Round bottom corners */
+    min-height: 250px;
 }
 
 .profile-tab-pane { display: none; }
 .profile-tab-pane.active { display: block; }
 
+/* Placeholder Styles */
 .liked-placeholder { text-align: center; padding: 50px 0; }
 .big-heart-icon {
     font-size: 6em;
-    color: var(--secondary-accent-color); /* Оранжевый */
+    color: var(--color-accent-secondary);
     opacity: 0.6;
 }
-
 .tab-placeholder-text {
-    color: var(--text-muted-color);
+    color: var(--color-text-muted);
     text-align: center;
     padding: 50px 0;
     font-style: italic;
 }
 
-
-/* --- Стили страницы Деталей События --- */
-
+/* ==========================================================================
+   10. Event Detail Page
+   ========================================================================== */
 .event-page-body {
-    background-color: var(--bg-color); /* Светлый фон для страницы, если отличается от темного */
-    /* Или оставьте background-color: var(--bg-color); для темной темы */
-    color: var(--text-color); /* Цвет текста основной */
+    background-color: var(--color-bg);
+    color: var(--color-text);
 }
 
 .event-detail-container {
-    max-width: 1100px; /* Ширина контейнера */
-    margin: 30px auto;
-    padding: 0 15px; /* Небольшие отступы по бокам */
+    margin: var(--space-xl) auto;
 }
-
-
 
 .event-hero {
     position: relative;
-    background-color: #333;
-    border-radius: 12px;
-    padding: 40px;
-    color: #fff;
-    margin-bottom: 30px;
-    overflow: hidden;
+    background-color: #333; /* Keep a fallback */
+    border-radius: var(--border-radius-lg);
+    padding: var(--space-xxl);
+    color: var(--color-text-bright); /* Bright text on dark hero */
+    margin-bottom: var(--space-xl);
+    overflow: hidden; /* Contain the overlays */
 }
 
-.hero-background-overlay {
-    position: absolute;
-    /* Делаем элемент НАМНОГО БОЛЬШЕ контейнера, чтобы при вращении углы не вылезали.
-       sqrt(2) ~ 1.414. Делаем с запасом, например, 150% или больше.
-       Размеры и позиция расчитаны так, чтобы центр оверлея совпадал с центром родителя. */
-    width: 170%; /* Примерно sqrt(2) * 1.2 = 1.7 = 170% */
-    height: 170%;
-    top: -35%; /* (100% - 170%) / 2 = -35% */
-    left: -35%; /* (100% - 170%) / 2 = -35% */
-    z-index: 0; /* Позади контента */
-    filter: blur(100px);
-    background-size: cover; /* Растянуть/обрезать картинку на весь оверлей */
-    background-position: center;
-
-    /* Анимация вращения */
-    animation: rotateBackground 15s linear infinite; /* Настройте время (120s) */
-}
-
-.hero-background-overlay2 {
-    position: absolute;
-    /* Делаем элемент НАМНОГО БОЛЬШЕ контейнера, чтобы при вращении углы не вылезали.
-       sqrt(2) ~ 1.414. Делаем с запасом, например, 150% или больше.
-       Размеры и позиция расчитаны так, чтобы центр оверлея совпадал с центром родителя. */
-    width: 170%; /* Примерно sqrt(2) * 1.2 = 1.7 = 170% */
-    height: 170%;
-    top: 0; /* (100% - 170%) / 2 = -35% */
-    left: 0; /* (100% - 170%) / 2 = -35% */
-    z-index: 0; /* Позади контента */
-    filter: blur(100px);
-    background-size: cover; /* Растянуть/обрезать картинку на весь оверлей */
-    background-position: center;
-
-    /* Анимация вращения */
-    animation: rotateBackground2 15s linear infinite; /* Настройте время (120s) */
-}
-
+/* Animated Background Overlays */
+.hero-background-overlay,
+.hero-background-overlay2,
 .hero-background-overlay3 {
     position: absolute;
-    /* Делаем элемент НАМНОГО БОЛЬШЕ контейнера, чтобы при вращении углы не вылезали.
-       sqrt(2) ~ 1.414. Делаем с запасом, например, 150% или больше.
-       Размеры и позиция расчитаны так, чтобы центр оверлея совпадал с центром родителя. */
-    width: 170%; /* Примерно sqrt(2) * 1.2 = 1.7 = 170% */
+    width: 170%;
     height: 170%;
-    top: -70%; /* (100% - 170%) / 2 = -35% */
-    left: 30%; /* (100% - 170%) / 2 = -35% */
-    z-index: 0; /* Позади контента */
-    filter: blur(100px);
-    background-size: cover; /* Растянуть/обрезать картинку на весь оверлей */
+    top: -35%;
+    left: -35%;
+    z-index: 0;
+    filter: var(--blur-heavy);
+    background-size: cover;
     background-position: center;
-
-    /* Анимация вращения */
-    animation: rotateBackground 15s linear infinite; /* Настройте время (120s) */
+    /* background-image: url(...); Added inline */
 }
+.hero-background-overlay { animation: rotateBackground 15s linear infinite; }
+.hero-background-overlay2 { top: 0; left: 0; animation: rotateBackground2 15s linear infinite; }
+.hero-background-overlay3 { top: -70%; left: 30%; animation: rotateBackground 15s linear infinite; }
 
 @keyframes rotateBackground {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg); /* Полный оборот */
-    }
+    from { transform: rotate(0deg); } to { transform: rotate(360deg); }
 }
-
-
 @keyframes rotateBackground2 {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(-360deg); /* Полный оборот */
-    }
+    from { transform: rotate(0deg); } to { transform: rotate(-360deg); }
 }
-
-
-
 
 .hero-content {
     display: flex;
-    gap: 30px;
-    position: relative; /* Чтобы быть над псевдоэлементами */
+    gap: var(--space-xl);
+    position: relative;
     z-index: 2;
 }
 
-.hero-image-container {
-    flex-shrink: 0; /* Не сжимать картинку */
-}
-
+.hero-image-container { flex-shrink: 0; }
 .hero-event-image {
-    width: 250px; /* Ширина постера */
+    width: 250px;
     height: auto;
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     aspect-ratio: 8 / 11;
     object-fit: cover;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    margin-bottom: 0.9em;
+    box-shadow: var(--shadow-lg);
 }
 
-.hero-details {
-    flex-grow: 1;
-}
+.hero-details { flex-grow: 1; }
 
-.breadcrumbs {
-    font-size: 0.85em;
-    margin-bottom: 15px;
+.breadcrumbs { /* Simple breadcrumbs */
+    font-size: var(--font-size-s);
+    margin-bottom: var(--space-md);
     opacity: 0.8;
 }
-.breadcrumbs a {
-    color: var(--primary-accent-color); /* Желтый */
-    text-decoration: none;
-}
-.breadcrumbs a:hover {
-    text-decoration: underline;
-}
+.breadcrumbs a { color: var(--color-accent-primary); }
+.breadcrumbs a:hover { text-decoration: underline; }
 
 .hero-title {
     font-size: 2.5em;
-    font-weight: bold;
-    margin: 0 0 20px 0;
+    font-weight: var(--font-weight-bold);
+    margin: 0 0 var(--space-lg) 0;
     line-height: 1.2;
 }
 
 .hero-meta p {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-sm);
     font-size: 0.95em;
 }
 .hero-meta i {
-    color: var(--primary-accent-color); /* Желтые иконки */
+    color: var(--color-accent-primary);
     font-size: 1.1em;
-    width: 20px; /* Фикс. ширина для выравнивания */
+    width: 20px;
     text-align: center;
 }
 
+/* Use .btn-primary or a specific class if needed for buy ticket */
 .btn-buy-ticket {
-    background-color: var(--secondary-accent-color); /* Оранжевый */
-    color: #fff;
+    background-color: var(--color-accent-secondary); /* Example: use orange */
+    color: var(--color-text-bright);
     padding: 12px 25px;
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     font-size: 1em;
-    font-weight: bold;
-    cursor: pointer;
-    border: none;
-    margin-top: 20px;
-    transition: background-color 0.3s ease;
+    font-weight: var(--font-weight-bold);
+    margin-top: var(--space-lg);
+    border: none; /* Reset border */
 }
 .btn-buy-ticket:hover {
-    background-color: #e69500; /* Темнее оранжевый */
+    background-color: var(--color-accent-secondary-hover);
 }
 
-.hero-actions { /* Кнопки лайк/поделиться */
+.hero-actions {
     position: absolute;
-    bottom: 20px;
-    right: 20px;
+    bottom: var(--space-lg);
+    right: var(--space-lg);
     display: flex;
-    gap: 10px;
+    gap: var(--space-sm);
     z-index: 3;
 }
+/* Use .btn-icon-action for like/share */
 
-.sidebar {
-    flex-basis: 280px; /* Фиксированная ширина сайдбара */
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    border-radius: var(--border-radius);
-    align-self: flex-start;
-    gap: 15px;
-
-}
-
-.text-center {
-    text-align: center;  /* Выравнивает текст по центру */
-    margin-top: 20px;    /* Отступ сверху (подберите нужное значение) */
-    font-size: 1.2em;
-}
-
-
-.btn-icon-action {
-    background-color: rgba(255, 255, 255, 0.15); /* Полупрозрачный светлый */
-    color: #fff;
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1em;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-.btn-icon-action:hover {
-    background-color: rgba(255, 255, 255, 0.3);
-}
-
-/* 2. Основной контент */
+/* Main Content Area Below Hero */
 .event-content-area {
-    /* Используем основной фон страницы */
-    background-color: transparent;
+    background-color: transparent; /* Use page background */
 }
 
 .event-columns {
     display: flex;
-    gap: 30px; /* Расстояние между колонками */
+    gap: var(--space-xl);
 }
 
 .event-main-column {
-    flex: 1; /* Занимает больше места */
-    min-width: 0; /* Предотвращение переполнения flex-элементов */
+    flex: 1;
+    min-width: 0;
 }
 
 .event-sidebar-column {
-    flex-basis: 280px; /* Ширина боковой колонки */
+    flex-basis: 280px;
     flex-shrink: 0;
 }
 
+/* Event Tags in Main Content */
 .event-tags {
     margin-bottom: 25px;
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
 }
-.tag {
-    background-color: var(--card-bg-color); /* Фон тега */
-    color: var(--text-muted-color);
+.tag { /* Specific styling for content tags */
+    background-color: var(--color-bg-card);
+    color: var(--color-text-muted);
     padding: 5px 12px;
-    border-radius: 15px; /* Овальные теги */
-    font-size: 0.8em;
+    border-radius: var(--border-radius-pill); /* Pill shape */
+    font-size: var(--font-size-s);
     display: inline-block;
 }
-.tag-age { /* Особый стиль для возраста, если нужно */
-    background-color: #222;
+.tag-age { /* Example modifier */
+    background-color: #222; /* Keep distinct? */
     color: #eee;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
 }
 
+/* Section Titles in Main Content */
 .event-description h2,
 .event-map-section h2,
 .contacts-section h2 {
     font-size: 1.5em;
-    font-weight: 600;
-    color: var(--text-color); /* Убедимся что заголовки видимы */
-    margin-bottom: 15px;
-    padding-bottom: 5px;
-    border-bottom: 1px solid var(--border-color);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-xs);
+    border-bottom: var(--border-width) solid var(--color-border);
+    color: var(--color-text-bright); /* Brighter title */
 }
 
 .event-description p {
-    margin-bottom: 15px;
+    margin-bottom: var(--space-md);
     line-height: 1.7;
-    color: var(--text-color); /* Цвет основного текста */
+    /* Uses default --color-text */
 }
 
-.event-map-section {
-    margin-top: 30px;
-}
+.event-map-section { margin-top: var(--space-xl); }
 .map-placeholder {
     height: 300px;
-    background-color: var(--card-bg-color);
-    border-radius: 8px;
+    background-color: var(--color-bg-card);
+    border-radius: var(--border-radius);
     display: flex;
     justify-content: center;
     align-items: center;
-    color: var(--text-muted-color);
-    border: 1px solid var(--border-color);
+    color: var(--color-text-muted);
+    border: var(--border-width) solid var(--color-border);
 }
 
+/* Contacts Section in Sidebar */
 .contacts-section {
-    background-color: var(--card-bg-color); /* Фон блока контактов */
-    padding: 20px;
-    border-radius: 10px;
+    background-color: var(--color-bg-card);
+    padding: var(--space-lg);
+    border-radius: var(--border-radius-lg);
 }
-.contact-item {
-    margin-top: 10px;
-}
-.btn-contact {
-    background-color: #3a3a3a;
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
+.contact-item { margin-top: var(--space-sm); }
+.btn-contact { /* Button style for contact links */
+    background-color: var(--color-bg-hover);
+    color: var(--color-text);
+    border: var(--border-width) solid var(--color-border);
     padding: 10px 15px;
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     font-size: 0.9em;
-    display: flex; /* Используем flex для иконки и текста */
+    display: flex;
     align-items: center;
-    justify-content: center; /* Центрируем контент кнопки */
+    justify-content: center;
     gap: 8px;
-    width: 100%; /* Кнопка на всю ширину */
-    text-decoration: none; /* Убираем подчеркивание у ссылки */
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    width: 100%;
+    text-decoration: none;
+    transition: background-color var(--transition-base), border-color var(--transition-base);
 }
 .btn-contact:hover {
     background-color: #4f4f4f;
-    border-color: #666;
+    border-color: var(--color-border-hover);
 }
-.btn-contact i {
-    font-size: 0.95em;
-}
+.btn-contact i { font-size: 0.95em; }
 
-.search-container {
-    position: relative;
-    display: inline-block; /* чтобы кнопка и инпут располагались "рядом" */
-}
-
-.search-input {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
-
-    /* Начальные стили, чтобы было "невидимо" */
-    width: 0;
-    opacity: 0;
-
-    /* Цвет и размер шрифта под ваш дизайн */
-    background-color: var(--card-bg-color);
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-    font-size: 0.95em;
-
-    padding: 10px 12px;
-    /* Плавные переходы */
-    transition: width 0.3s ease, opacity 0.3s ease;
-    outline: none;
-}
-
-
-.search-container:hover .search-input,
-.search-container:focus-within .search-input {
-    width: 260px; /* любое нужное значение */
-    opacity: 1;
-    padding: 11px 15px; /* можно чуть увеличить, чтобы поле выглядело аккуратнее */
-}
-
-
-/* --- Адаптивность --- */
-
-/* --- Конец стилей страницы Деталей События --- */
-
-/* --- Конец стилей Профиля (Новый) --- */
-
-/* Адаптивность */
+/* ==========================================================================
+   11. Responsive Design
+   ========================================================================== */
 @media (max-width: 992px) {
-    .content-wrapper {
-        flex-direction: column; /* Ставим сайдбар под основной контент */
-    }
-    .sidebar-filters {
-        flex-basis: auto; /* Сбрасываем фиксированную ширину */
-        width: 100%;
-    }
-    .event-grid {
-        /* Может быть, на планшетах оставить 3 или 2 колонки? */
-         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Пример: подстройка для планшета */
-    }
+    .content-wrapper { flex-direction: column; }
+    .sidebar { flex-basis: auto; width: 100%; }
+    .event-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
 
-    .hero-content {
-        flex-direction: column; /* Постер над текстом */
-        align-items: center; /* Центрируем постер */
-        text-align: center; /* Центрируем текст */
-    }
-    .hero-image-container { margin-bottom: 20px; }
-    .hero-meta p { justify-content: center; /* Центрируем иконки/текст */ }
-    .hero-actions { top: 15px; bottom: auto; } /* Кнопки наверх */
+    .hero-content { flex-direction: column; align-items: center; text-align: center; }
+    .hero-image-container { margin-bottom: var(--space-lg); }
+    .hero-meta p { justify-content: center; }
+    .hero-actions { top: 15px; bottom: auto; }
 }
-
 
 @media (max-width: 768px) {
-    .footer-container {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Уменьшаем мин. ширину колонки */
-        gap: 20px;
-    }
-    .footer-app { /* Блок с приложением и подпиской могут занять больше места */
-       grid-column: span 2; /* Занимает 2 колонки */
-    }
-     .footer-newsletter {
-       grid-column: span 2;
-    }
-     .footer-social-contacts {
-        grid-column: span 2;
-     }
-     .event-grid {
-         /* На мобильных может быть 2 колонки */
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Пример: подстройка для мобильных */
-    }
+    h1 { font-size: 2em; }
+    h2 { font-size: 1.2em; }
+    h3 { font-size: 1em; }
+
+    .container { padding: var(--space-md); }
+    .site-header { flex-wrap: wrap; gap: var(--space-md); margin-bottom: var(--space-lg); }
+    .main-nav { order: 3; width: 100%; margin-top: var(--space-md); }
+    .main-nav ul { justify-content: center; gap: var(--space-md); }
+    .header-actions { margin-left: auto; /* Push actions right */}
+
+    .footer-container { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-lg); }
+    /* Adjust footer column spans if needed, e.g. : */
+    /* .footer-section { grid-column: span 2; } */
+
+    .event-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
 
     .profile-cover { height: 240px; }
-    .profile-info-card { margin: -40px 10px 15px 10px; padding: 15px; }
+    .profile-info-card { margin: -40px var(--space-sm) var(--space-md) var(--space-sm); padding: var(--space-md); }
     .profile-avatar-overlap { width: 120px; height: 120px; top: -60px; left: 15px; border-width: 4px; }
     .profile-info-content { padding-left: 140px; min-height: 65px; flex-direction: column; align-items: flex-start; }
-    .profile-text-details { margin-right: 0; margin-bottom: 15px; }
+    .profile-text-details { margin-right: 0; margin-bottom: var(--space-md); }
     .profile-user-name { font-size: 1.5em; }
     .profile-card-actions { margin-left: 0; width: 100%; }
-    .profile-user-stats, .profile-user-tabs, .profile-tab-content-area { margin-left: 10px; margin-right: 10px; }
+    .profile-user-stats, .profile-user-tabs, .profile-tab-content-area { margin-left: var(--space-sm); margin-right: var(--space-sm); }
     .profile-tab-link { padding: 10px 15px; font-size: 0.9em; }
 
-    .event-columns {
-        flex-direction: column; /* Ставим колонки друг под друга */
-    }
-    .event-sidebar-column {
-        flex-basis: auto; /* Сбрасываем ширину */
-        margin-top: 20px;
-    }
+    .event-columns { flex-direction: column; }
+    .event-sidebar-column { flex-basis: auto; margin-top: var(--space-lg); }
     .hero-title { font-size: 2em; }
-    .event-hero { padding: 30px; }
+    .event-hero { padding: var(--space-xl); }
 }
 
-
 @media (max-width: 576px) {
-    .footer-container {
-        grid-template-columns: 1fr; /* Одна колонка на самых маленьких экранах */
-    }
+    .container { padding: var(--space-sm); }
+    .logo span { display: none; } /* Hide text logo on mobile */
+    .header-actions .btn-secondary { display: none; } /* Hide login/profile text buttons */
+    .header-actions .search-container { display: none; } /* Hide search */
+    .main-nav ul { gap: var(--space-sm); flex-wrap: wrap; justify-content: center; }
+    .main-nav a { padding-bottom: var(--space-xs); font-size: 0.9em;}
 
-    .footer-section {
-        grid-column: auto !important; /* Сбрасываем span */
-        text-align: center; /* Центрируем контент */
-    }
+    .footer-container { grid-template-columns: 1fr; text-align: center; }
+    .footer-section { grid-column: auto !important; } /* Reset spans */
+    .footer-title { text-align: center; }
+    .app-buttons, .contact-info { align-items: center; }
+    .newsletter-form { align-items: stretch; }
+    .social-icons { justify-content: center; }
+    .footer-nav ul { text-align: center; }
 
-    .footer-title {
-        text-align: center;
-    }
+    .event-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-sm); }
+    .event-card h2 { font-size: 0.9em; }
+    .event-description { font-size: 0.7em; }
+    .event-details { font-size: 0.65em; }
+    .event-price { font-size: 0.8em; }
 
-    .app-buttons {
-        align-items: center; /* Центрируем кнопки */
-    }
-
-    .newsletter-form {
-        align-items: stretch; /* Растягиваем инпут и кнопку */
-    }
-
-    .social-icons {
-        justify-content: center; /* Центрируем иконки соцсетей */
-    }
-
-    .contact-info {
-        align-items: center; /* Центрируем контакты */
-    }
-
-    .footer-nav ul {
-        text-align: center; /* Центрируем ссылки */
-    }
-
-    .event-grid {
-        grid-template-columns: repeat(2, 1fr); /* Например, 2 колонки */
-        /* или grid-template-columns: 1fr; для одной колонки */
-        gap: 15px; /* Можно еще уменьшить gap */
-    }
     .profile-cover { height: 180px; }
-     .profile-avatar-overlap { width: 100px; height: 100px; top: -50px; left: 50%; transform: translateX(-50%); border-width: 4px; }
-     .profile-info-card { margin-top: -50px; }
-     .profile-info-content { padding-left: 0; padding-top: 60px; /* Отступ под аватаркой */ align-items: center; text-align: center; }
-     .profile-text-details { margin-bottom: 15px; width: 100%;}
-     .profile-user-name { justify-content: center; font-size: 1.4em; }
-     .profile-card-actions { flex-direction: column; align-items: stretch; width: 100%; max-width: 250px; margin: 0 auto; }
-     .profile-user-stats { padding: 10px 15px; }
-     .stat-item { flex-wrap: wrap; }
-     .stat-label { flex-basis: 100%; order: 1; margin-left: 30px; margin-bottom: 2px; }
-     .stat-icon { order: 0; min-width: 25px; margin-right: 5px;}
-     .stat-value { order: 2; margin-left: 30px; }
-     .profile-user-tabs { flex-wrap: wrap; justify-content: center; } /* Перенос табов */
-     .profile-tab-link { flex-basis: 50%; text-align: center; padding: 10px 5px; font-size: 0.85em;} /* Табы по 2 в ряд */
-     .profile-tab-content-area { padding: 20px; }
+    .profile-avatar-overlap { width: 100px; height: 100px; top: -50px; left: 50%; transform: translateX(-50%); border-width: 4px; }
+    .profile-info-card { margin-top: -50px; }
+    .profile-info-content { padding-left: 0; padding-top: 60px; align-items: center; text-align: center; }
+    .profile-text-details { margin-bottom: var(--space-md); width: 100%;}
+    .profile-user-name { justify-content: center; font-size: 1.4em; }
+    .profile-card-actions { flex-direction: column; align-items: stretch; width: 100%; max-width: 250px; margin: 0 auto; }
+    .profile-user-stats { padding: var(--space-sm) var(--space-md); }
+    .stat-item { flex-wrap: wrap; }
+    .stat-label { flex-basis: 100%; order: 1; margin-left: 30px; margin-bottom: 2px; }
+    .stat-icon { order: 0; min-width: 25px; margin-right: 5px;}
+    .stat-value { order: 2; margin-left: 30px; }
+    .profile-user-tabs { flex-wrap: wrap; justify-content: center; }
+    .profile-tab-link { flex-basis: 50%; text-align: center; padding: 10px 5px; font-size: var(--font-size-s);}
+    .profile-tab-content-area { padding: var(--space-lg); }
 
-     .hero-title { font-size: 1.8em; }
-     .hero-event-image { width: 200px; }
-     .event-hero { padding: 20px; }
-     .btn-buy-ticket { width: 100%; padding: 12px 5px; font-size: 0.95em;}
-     .hero-actions { right: 10px; }
-     .btn-icon-action { width: 35px; height: 35px; font-size: 0.9em;}
-     .event-detail-container { margin-top: 15px; margin-bottom: 15px; }
-    }
+    .hero-title { font-size: 1.8em; }
+    .hero-event-image { width: 200px; }
+    .event-hero { padding: var(--space-lg); }
+    .btn-buy-ticket { width: 100%; padding: 12px 5px; font-size: 0.95em;}
+    .hero-actions { right: 10px; }
+    .btn-icon-action { width: 35px; height: 35px; font-size: 0.9em;}
+    .event-detail-container { margin-top: var(--space-md); margin-bottom: var(--space-md); }
+}
