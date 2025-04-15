@@ -14,20 +14,18 @@
                     </div>
 
                     <div class="hero-details">
-                        <!-- Optional Breadcrumbs
-                        <nav class="breadcrumbs">
-                            <a href="#">Главная</a> / <a href="#">События</a> / <span>{{ event.name }}</span>
-                        </nav> -->
+{#                        <nav class="breadcrumbs">#}
+{#                            <a href="#">Главная</a> / <a href="#">События</a> / <span>{{ event.name }}</span>#}
+{#                        </nav>#}
                         <h1 class="hero-title">{{ event.name }}</h1>
                         <div class="hero-meta">
-                            <!-- Added icons -->
-                            <p><i class="fas fa-map-marker-alt"></i> проспект Мира, 73</p> <!-- Location should be dynamic -->
-                            <p><i class="fas fa-calendar-alt"></i> <strong>Начало:</strong> {{ event.time_start }}</p> <!-- Added date format -->
-                            <p><i class="fas fa-calendar-check"></i> <strong>Завершение:</strong> {{ event.time_end }}</p> <!-- Added date format -->
+                            <p><i class="fas fa-map-marker-alt"></i> {{ event.places.0.name }}</p>
+                            <p><i class="fas fa-calendar-alt"></i> <strong>Начало:</strong> {{ event.time_start }}</p>
+                            <p><i class="fas fa-calendar-check"></i> <strong>Завершение:</strong> {{ event.time_end }}</p>
                             {% if event.is_free %}
                                 <p><i class="fas fa-tag"></i> Бесплатно</p>
                             {% else %}
-                                <p><i class="fas fa-tag"></i> {{ event.min_price }} - {{ event.max_price }}₽</p>
+                                <p><i class="fas fa-tag"></i> {{ event.min_price }}₽ - {{ event.max_price }}₽</p>
                             {% endif %}
                         </div>
                         <!-- Changed class to btn-buy-ticket -->
@@ -50,13 +48,13 @@
                     <div class="event-main-column">
                         <div class="event-tags">
                             <!-- Added specific classes -->
-                            <span class="tag tag-age">{{ event.age }}</span> <!-- Added + -->
-                            <span class="tag tag-category">{{ event.cat_url }}</span> <!-- Assuming cat_url is category name -->
+                            <span class="tag tag-age">{{ event.age }}</span>
+                            <a class="tag tag-category" href={{ event.cat.get_absolute_url }}>{{ event.cat }}</a> <!-- Assuming cat_url is category name -->
                         </div>
 
                         <article class="event-description">
                             <h2>Про событие</h2>
-                            <p>{{ event.anons }}</p> <!-- Should be full description here -->
+                            <p>{{ event.anons|linebreaks }}</p>
                         </article>
 
                         <section class="event-map-section">

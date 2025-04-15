@@ -5,12 +5,14 @@
 
         <nav class="category-filters">
             <ul>
-                <!-- Changed btn-tag to btn-filter-tag -->
-                <li><button class="btn btn-filter-tag active">Вечеринки</button></li>
-                <li><button class="btn btn-filter-tag">Выставки</button></li>
-                <li><button class="btn btn-filter-tag">Концерты</button></li>
-                <li><button class="btn btn-filter-tag">Мастер-классы</button></li>
-                <li><button class="btn btn-filter-tag">Спектакли</button></li>
+                {% for category in event_cats %}
+                    <li><button onclick="window.location.href = '{{ category.get_absolute_url }}';" class="{% if category.slug_name == event_cat_selected %}btn btn-filter-cat active{% else %}btn btn-filter-cat{% endif %}">{{ category.name }}</button></li>
+                {% endfor %}
+            </ul>
+            <ul>
+                {% for tag in event_tags %}
+                    <li><button onclick="window.location.href = '{{ category.get_absolute_url }}';" class="{% if category.slug_name == event_cat_selected %}btn btn-filter-tag active{% else %}btn btn-filter-tag{% endif %}">{{ tag.name }}</button></li>
+                {% endfor %}
             </ul>
         </nav>
         <div class="content-wrapper">
@@ -18,18 +20,16 @@
                 <section class="event-grid">
 
                     {% for event in events %}
-                    <!-- Пример карточки события 1 -->
                     <article class="event-card">
-                        <a href={{ event.slug_name }}>
+                        <a href={{event.get_absolute_url}}>
                             <img src='{{ event.logo }}' alt="Фестиваль Космонавт"> <!-- Alt text should be dynamic -->
                         </a>
                         <div class="event-card-content">
                             <h2>{{ event.name }}</h2>
-                            <p class="event-description">{{ event.anons }}</p>
+                            <p class="event-description line-clamp">{{ event.anons }}</p>
                             <div class="event-details">
-                                <!-- Dates/locations should be dynamic -->
-                                <span class="event-date"><i class="fas fa-calendar-alt"></i> до 13 апреля 2025</span>
-                                <span class="event-location"><i class="fas fa-map-marker-alt"></i> проспект Мира, 88</span>
+                                <span class="event-date"><i class="fas fa-calendar-alt"></i> до {{ event.time_end_no_hour }}</span>
+                                <span class="event-location"><i class="fas fa-map-marker-alt"></i>{{ event.places.0.name }}</span>
                             </div>
                             <div class="event-price">{% if event.is_free %}Бесплатно{% else %}{{ event.min_price }}₽{% endif %}</div>
                         </div>
@@ -79,7 +79,6 @@
                 </aside>
 
                 <aside class="sidebar-filters">
-                    <!-- Assuming cat_url is an image URL for the cat -->
                     <img src='{{ cat_url }}' class='hero-event-image' alt="Случайный котик">
                     <div class="text-center">Случайный котик :3</div>
                 </aside>
