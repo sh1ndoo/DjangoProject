@@ -55,7 +55,13 @@
                     <span class="stat-value">{{ profile.events_count }}</span>
                 </div>
             </section>
-
+            <!-- Блок с кнопкой "Создать событие" -->
+            <div class="profile-create-event-wrapper">
+                <button onclick="window.location.href = '{% url "create_event" %}';" class="btn btn-primary btn-create-event"> <!-- Added distinct class -->
+                    <i class="fas fa-plus"></i> Создать событие
+                </button>
+            </div>
+                <!-- / Блок с кнопкой "Создать событие" -->
             <!-- Блок 4: Табы -->
             <nav class="profile-user-tabs">
                 <button class="profile-tab-link active" data-tab-target="#content-liked">Понравившиеся</button>

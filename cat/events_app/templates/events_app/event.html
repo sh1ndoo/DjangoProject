@@ -1,25 +1,27 @@
 {% extends 'base.html' %}
-
+{% block extra_head %}
+    <script src="https://api-maps.yandex.ru/v3/?apikey=9711a76c-5dc2-48ad-8938-00fdee12f074&lang=ru_RU" type="text/javascript"></script>
+{% endblock %}
 {% block content %}
         <div class="event-detail-container"> <!-- Added container -->
             <section class="event-hero">
                 <!-- Background images loaded via style attribute or CSS -->
-                <div class="hero-background-overlay" style="background-image: url('{{ event.logo }}');"></div>
-                <div class="hero-background-overlay2" style="background-image: url('{{ event.logo }}');"></div>
-                <div class="hero-background-overlay3" style="background-image: url('{{ event.logo }}');"></div>
+                <div class="hero-background-overlay" style="background-image: url('{{ event.logo.url }}');"></div>
+                <div class="hero-background-overlay2" style="background-image: url('{{ event.logo.url }}');"></div>
+                <div class="hero-background-overlay3" style="background-image: url('{{ event.logo.url }}');"></div>
 
                 <div class="hero-content">
                     <div class="hero-image-container">
-                        <img src="{{ event.logo }}" alt="{{ event.name }} Постер" class="hero-event-image"> <!-- Added Alt -->
+                        <img src="{{ event.logo.url }}" alt="{{ event.name }} Постер" class="hero-event-image"> <!-- Added Alt -->
                     </div>
 
                     <div class="hero-details">
-{#                        <nav class="breadcrumbs">#}
-{#                            <a href="#">Главная</a> / <a href="#">События</a> / <span>{{ event.name }}</span>#}
-{#                        </nav>#}
+                        <nav class="breadcrumbs">
+                            <a href="#">Главная</a> / <a href="#">События</a> / <span>{{ event.name }}</span>
+                        </nav>
                         <h1 class="hero-title">{{ event.name }}</h1>
                         <div class="hero-meta">
-                            <p><i class="fas fa-map-marker-alt"></i> {{ event.places.0.name }}</p>
+                            <p><i class="fas fa-map-marker-alt"></i>{% if event.addresses %} {{ event.addresses.first.name }} {% else %} Место не определено {% endif %}</p>
                             <p><i class="fas fa-calendar-alt"></i> <strong>Начало:</strong> {{ event.time_start }}</p>
                             <p><i class="fas fa-calendar-check"></i> <strong>Завершение:</strong> {{ event.time_end }}</p>
                             {% if event.is_free %}
@@ -59,10 +61,51 @@
 
                         <section class="event-map-section">
                             <h2>На карте</h2>
-                            <div class="map-placeholder">
-                                <p>(Здесь будет карта)</p>
+                            <div id="map">
                             </div>
                         </section>
+
+                        <!-- START: Reviews Section -->
+                        <section class="event-reviews-section">
+                            <h2>Отзывы</h2>
+
+                            <!-- Existing Reviews List -->
+                            <div class="reviews-list">
+                                <!-- Example Review Item (Repeat for each review) -->
+                                <div class="review-item">
+                                    <div class="review-header">
+                                        <span class="review-author">Мария Иванова</span>
+                                        <span class="review-date">15.07.2024</span>
+                                    </div>
+                                    <p class="review-text">Было очень интересно! Отличная организация, спасибо.</p>
+                                </div>
+                                <div class="review-item">
+                                    <div class="review-header">
+                                        <span class="review-author">Алексей Петров</span>
+                                        <span class="review-date">14.07.2024</span>
+                                    </div>
+                                    <p class="review-text">Немного затянуто, но в целом неплохо.</p>
+                                </div>
+                                <!-- Placeholder if no reviews -->
+                                <!--
+                                <p class="no-reviews-placeholder">
+                                    Отзывов пока нет. Станьте первым!
+                                </p>
+                                -->
+                            </div>
+
+                            <!-- Add Review Form -->
+                            <form action="/submit-review/" method="post" class="review-form"> <!-- Replace ACTION with your endpoint -->
+                                {% csrf_token %} <!-- Add CSRF token if using Django forms -->
+                                <!-- <input type="hidden" name="event_id" value="{{ event.id }}"> Optional hidden input -->
+                                <div class="form-group">
+                                    <textarea name="review_text" id="review_text" rows="4" class="review-textarea" placeholder="Напишите ваш отзыв здесь..." required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Оставить отзыв</button>
+                            </form>
+                        </section>
+                        <!-- END: Reviews Section -->
+
                     </div>
 
                     <!-- Правая колонка -->
@@ -82,4 +125,256 @@
                 </div>
             </section>
         </div> <!-- /event-detail-container -->
+{% endblock %}
+{% block scripts %}
+
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+
+        // --- Конфигурация и получение данных из Django ---
+        const YANDEX_API_KEY = "{{ yandex_api_key|escapejs }}";
+        const mapContainerId = "map";
+        const defaultCenterCoords = [37.6173, 55.7558];
+        const defaultZoom = 10;
+        const placemarkZoom = 15;
+
+        const pointsData = [];
+        let cityToCenter = '';
+
+        {% if event.addresses %}
+            {% for place in event.addresses.all %}
+                {% if place.city and place.address %}
+                    pointsData.push({
+                        address: "{{ place.address|escapejs }}",
+                        hint: "{{ place.name|escapejs }}" || "{{ place.address|escapejs }}",
+                        // Передаем полное описание/адрес без города
+                        description: "{{ place.description|escapejs }}" // Используем поле description из модели
+                                     || "{{ place.address|escapejs }}", // Или полный адрес, если description пусто
+                    });
+                    {% if forloop.first and place.city %}
+                        cityToCenter = "{{ place.city|escapejs }}";
+                    {% endif %}
+                {% else %}
+                    console.warn("Место проведения '{{ place.name|escapejs }}' пропущено из-за отсутствия города или адреса.");
+                {% endif %}
+            {% endfor %}
+        {% else %}
+             console.warn("В событии не указаны места проведения (event.places).");
+        {% endif %}
+
+        if (!cityToCenter && pointsData.length === 0) {
+             cityToCenter = "Москва";
+        }
+
+        const mapContainer = document.getElementById(mapContainerId);
+        if (!mapContainer) {
+            console.error(`HTML-контейнер #${mapContainerId} для карты не найден.`);
+            return;
+        }
+         if (mapContainer.offsetHeight === 0 || mapContainer.offsetWidth === 0) {
+              console.warn(`Контейнер карты #${mapContainerId} имеет нулевую высоту или ширину.`);
+              // mapContainer.style.height = '400px';
+         }
+
+        if (typeof ymaps3 === 'undefined') {
+            console.error('API Яндекс Карт 3.0 (ymaps3) не загрузился.');
+            displayMapError(mapContainer, 'Не удалось загрузить API карты.');
+            return;
+        }
+        if (!YANDEX_API_KEY) {
+             console.error('API-ключ Яндекс Карт не предоставлен.');
+             displayMapError(mapContainer, 'Отсутствует API-ключ карты.');
+            return;
+        }
+
+        initMap().catch(error => {
+             console.error("Ошибка при инициализации карты:", error);
+             displayMapError(mapContainer, `Ошибка инициализации карты: ${error.message || error}`);
+        });
+
+        async function initMap() {
+            console.log('Инициализация Yandex Maps API 3.0...');
+            await ymaps3.ready;
+             // --- ИЗМЕНЕНИЕ: Регистрация CDN не нужна для YMapMarker ---
+            ymaps3.import.registerCdn('https://cdn.jsdelivr.net/npm/{package}', ['@yandex/ymaps3-default-ui-theme@0.0.18']);
+
+            // --- ИЗМЕНЕНИЕ: Импортируем YMapMarker ---
+            const {
+                YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapMarker // Убрали YMapControls, если не нужен
+            } = ymaps3;
+
+            let initialCoords = defaultCenterCoords;
+            let initialZoom = defaultZoom;
+
+            if (cityToCenter) {
+                console.log(`Геокодирование города для центрирования: ${cityToCenter}`);
+                const cityCoords = await fetchGeocode(cityToCenter, YANDEX_API_KEY);
+                if (cityCoords) {
+                    initialCoords = cityCoords;
+                    initialZoom = 12;
+                    console.log('Координаты города найдены:', initialCoords);
+                } else {
+                    console.warn(`Не удалось найти координаты для города "${cityToCenter}". Используются координаты по умолчанию.`);
+                }
+            } else if (pointsData.length > 0) {
+                 console.log(`Город не задан, геокодируем первый адрес для центрирования: ${pointsData[0].address}`);
+                 const firstPointCoords = await fetchGeocode(pointsData[0].address, YANDEX_API_KEY);
+                 if (firstPointCoords) {
+                    initialCoords = firstPointCoords;
+                    initialZoom = placemarkZoom;
+                    console.log('Координаты первой точки найдены:', initialCoords);
+                 } else {
+                     console.warn(`Не удалось найти координаты для адреса "${pointsData[0].address}". Используются координаты по умолчанию.`);
+                 }
+            } else {
+                 console.log('Нет ни города, ни точек. Используются координаты по умолчанию.');
+            }
+
+            console.log(`Создание карты в #${mapContainerId} с центром ${initialCoords} и темой 'dark'`);
+            const map = new YMap(mapContainer, { location: { center: initialCoords, zoom: initialZoom }, theme: 'dark' });
+            map.addChild(new YMapDefaultSchemeLayer({ theme: 'dark' }));
+            map.addChild(new YMapDefaultFeaturesLayer({}));
+            console.log('Карта создана.');
+
+            if (pointsData.length > 0) {
+                console.log(`Добавление ${pointsData.length} меток...`);
+                // --- ИЗМЕНЕНИЕ: Передаем YMapMarker ---
+                await addPlacemarks(map, pointsData, YANDEX_API_KEY, YMapMarker);
+            } else {
+                console.log('Нет данных для добавления меток.');
+            }
+        }
+
+        // --- ИЗМЕНЕНИЕ: Функция добавления кастомных меток ---
+        async function addPlacemarks(mapInstance, points, apiKey, YMapMarker) { // Принимаем YMapMarker как аргумент
+            const markers = [];
+            const coordinatesList = [];
+
+            const geocodePromises = points.map(point =>
+                fetchGeocode(point.address, apiKey)
+                    .then(coords => ({ point, coords }))
+                    .catch(error => {
+                        console.error(`Ошибка геокодирования адреса "${point.address}":`, error);
+                        return { point, coords: null };
+                    })
+            );
+            const results = await Promise.all(geocodePromises);
+
+            // --- Создаем кастомные HTML маркеры ---
+            results.forEach(({ point, coords }) => {
+                if (coords) {
+                    console.log(`Создание кастомного маркера для "${point.hint}" по координатам:`, coords);
+
+                    // 1. Создаем корневой HTML элемент для маркера
+                    const markerElement = document.createElement('div');
+                    // Этот класс теперь больше для JS-обработчиков и группировки
+                    markerElement.className = 'custom-marker-container';
+
+                    // 2. Задаем HTML структуру внутри маркера
+                    // Иконка и блок контента будут позиционироваться через CSS
+                    markerElement.innerHTML = `
+                        <div class="custom-marker-icon"></div> {# Добавляем title к иконке для нативной подсказки #}
+                        <div class="custom-marker-content">
+                            <div class="custom-marker-title">${point.hint}</div>
+                            <div class="custom-marker-description">${point.description}</div>
+                        </div>
+                    `;
+
+                    // 3. Создаем YMapMarker и передаем HTML элемент как children
+                    const marker = new YMapMarker(
+                        {
+                            coordinates: coords
+                        },
+                        markerElement // Передаем наш HTML сюда
+                    );
+
+                    // Обработчик клика для центрирования (остается полезным)
+                    // Вешаем его на корневой элемент маркера
+                    markerElement.addEventListener('click', () => {
+                         mapInstance.setLocation({ center: coords, zoom: placemarkZoom, duration: 300 });
+                    });
+
+                    markers.push(marker);
+                    coordinatesList.push(coords);
+                } else {
+                    console.warn(`Не удалось добавить метку для "${point.address}" (координаты не найдены).`);
+                }
+            });
+
+            if (markers.length > 0) {
+                markers.forEach(marker => mapInstance.addChild(marker));
+                console.log(`Добавлено ${markers.length} кастомных меток.`);
+
+                if (coordinatesList.length === 1) {
+                    mapInstance.setLocation({ center: coordinatesList[0], zoom: placemarkZoom, duration: 500 });
+                    console.log('Карта центрирована на единственной метке.');
+                } else if (coordinatesList.length > 1) {
+                    const bounds = calculateBounds(coordinatesList);
+                    if (bounds) {
+                         console.log('Установка границ карты для показа всех меток:', bounds);
+                         mapInstance.setLocation({ bounds: bounds, duration: 500, margin: [30, 30, 30, 30] });
+                    } else {
+                         console.warn("Не удалось рассчитать границы для меток.");
+                    }
+                }
+            } else {
+                console.log('Ни одна метка не была добавлена.');
+            }
+        }
+
+        // --- Вспомогательные функции (fetchGeocode, calculateBounds, displayMapError) остаются без изменений ---
+        async function fetchGeocode(address, apiKey) {
+            // ... (код без изменений) ...
+            if (!address || !apiKey) {
+                 throw new Error("Адрес или API-ключ не предоставлены для геокодирования.");
+            }
+            const encodedAddress = encodeURIComponent(address);
+            const url = `https://geocode-maps.yandex.ru/1.x/?apikey=${apiKey}&format=json&geocode=${encodedAddress}&results=1`;
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`Ошибка сети: ${response.status} ${response.statusText}`);
+                }
+                const data = await response.json();
+                const featureMember = data?.response?.GeoObjectCollection?.featureMember;
+                if (featureMember && featureMember.length > 0) {
+                    const posString = featureMember[0]?.GeoObject?.Point?.pos;
+                    if (posString) {
+                        const coords = posString.split(' ').map(Number);
+                        if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
+                            return coords;
+                        }
+                    }
+                }
+                console.warn(`Геокодер не нашел координат для адреса: ${address}`);
+                return null;
+            } catch (error) {
+                console.error(`Ошибка при выполнении запроса к геокодеру для "${address}":`, error);
+                throw error;
+            }
+        }
+
+        function calculateBounds(coordinates) {
+             // ... (код без изменений) ...
+             if (!coordinates || coordinates.length === 0) return null;
+             let minLon = coordinates[0][0], maxLon = coordinates[0][0];
+             let minLat = coordinates[0][1], maxLat = coordinates[0][1];
+             for (let i = 1; i < coordinates.length; i++) {
+                 const [lon, lat] = coordinates[i];
+                 if (lon < minLon) minLon = lon; if (lon > maxLon) maxLon = lon;
+                 if (lat < minLat) minLat = lat; if (lat > maxLat) maxLat = lat;
+             }
+             return [[minLon, minLat], [maxLon, maxLat]];
+        }
+
+         function displayMapError(container, message) {
+             // ... (код без изменений) ...
+              if (container) {
+                   container.innerHTML = `<p style="color: #ff8a8a; text-align: center; padding: 20px; background: #333; border-radius: inherit;">${message}<br>Подробности в консоли разработчика (F12).</p>`;
+              }
+         }
+
+    }); // Конец DOMContentLoaded
+</script>
 {% endblock %}

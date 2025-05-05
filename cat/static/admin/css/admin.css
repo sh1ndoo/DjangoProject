@@ -1,0 +1,196 @@
+/* custom_admin.css */
+
+:root {
+    /* Цвета, как на сайте (подберите точные значения пипеткой) */
+    --admin-bg: #1a1a1a; /* Темный фон */
+    --admin-content-bg: #2a2a2a; /* Фон блоков контента */
+    --admin-text-color: #f0f0f0; /* Светлый текст */
+    --admin-accent-color: #fdd835; /* Желтый акцент (примерно) */
+    --admin-link-color: #fdd835;
+    --admin-link-hover-color: #fff;
+    --admin-border-color: #444;
+    --admin-button-text-color: #1a1a1a; /* Темный текст на желтых кнопках */
+}
+
+body {
+    background-color: var(--admin-bg);
+    color: var(--admin-text-color);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; /* Подберите шрифт как на сайте */
+}
+
+/* --- Шапка --- */
+#header {
+    background-color: var(--admin-content-bg);
+    color: var(--admin-text-color);
+    border-bottom: 1px solid var(--admin-border-color);
+}
+
+#branding h1,
+#branding h1 a:link,
+#branding h1 a:visited {
+    color: var(--admin-text-color);
+}
+
+#user-tools a:focus,
+#user-tools a:hover {
+    color: var(--admin-link-hover-color);
+    background-color: transparent;
+    border-bottom-color: var(--admin-link-hover-color);
+}
+
+
+/* --- Ссылки --- */
+a:link, a:visited {
+    color: var(--admin-link-color);
+}
+
+a:hover {
+    color: var(--admin-link-hover-color);
+}
+
+/* --- Модули и контент --- */
+.module {
+    background-color: var(--admin-content-bg);
+    border: 1px solid var(--admin-border-color);
+    border-radius: 8px; /* Скругление углов */
+    margin-bottom: 1.5em;
+    overflow: hidden; /* Чтобы фон не вылезал за скругленные углы */
+}
+
+.module h2, .module caption, .inline-group h2 {
+    background: #333; /* Чуть светлее фон для заголовков модулей */
+    color: var(--admin-text-color);
+    border-bottom: 1px solid var(--admin-border-color);
+    margin: 0;
+    padding: 10px 15px;
+}
+
+/* --- Таблицы (Change List) --- */
+.results table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.results th, .results td {
+    border-bottom: 1px solid var(--admin-border-color);
+    padding: 10px 15px;
+    color: var(--admin-text-color);
+}
+
+.results th {
+    background-color: #333;
+    text-align: left;
+}
+
+.results tbody tr:hover {
+    background-color: #3a3a3a; /* Подсветка строки при наведении */
+}
+
+.paginator {
+    background: var(--admin-content-bg);
+    border-top: 1px solid var(--admin-border-color);
+    color: var(--admin-text-color);
+    padding: 10px 15px;
+    border-radius: 0 0 8px 8px; /* Скругление только нижних углов пагинатора */
+}
+.paginator a:link, .paginator a:visited {
+    background: #444;
+    color: var(--admin-text-color);
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+.paginator a:hover {
+     background: var(--admin-accent-color);
+     color: var(--admin-button-text-color);
+}
+.paginator .this-page {
+    background: var(--admin-accent-color);
+    color: var(--admin-button-text-color);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+
+/* --- Кнопки --- */
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+    background-color: var(--admin-accent-color);
+    color: var(--admin-button-text-color);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+    font-size: 1em;
+}
+
+.button:hover, input[type=submit]:hover, input[type=button]:hover, .submit-row input:hover, a.button:hover {
+    background-color: #eab308; /* Чуть темнее желтый при наведении */
+    color: var(--admin-button-text-color);
+}
+
+/* Кнопка по умолчанию (часто "Сохранить") */
+.button.default, input[type=submit].default, .submit-row input.default {
+    background-color: var(--admin-accent-color);
+    color: var(--admin-button-text-color);
+    font-weight: bold;
+}
+.button.default:hover, input[type=submit].default:hover, .submit-row input.default:hover {
+     background-color: #eab308;
+}
+
+/* Кнопки "Отмена" или второстепенные */
+a.button:not(.default), .button:not(.default) {
+    background-color: #555; /* Серая кнопка */
+    color: var(--admin-text-color);
+}
+a.button:not(.default):hover, .button:not(.default):hover {
+    background-color: #666;
+}
+
+
+/* --- Формы --- */
+input[type=text], input[type=password], input[type=email], input[type=url], input[type=number], input[type=tel], textarea, select {
+    background-color: var(--admin-bg);
+    color: var(--admin-text-color);
+    border: 1px solid var(--admin-border-color);
+    border-radius: 4px;
+    padding: 8px 10px;
+    width: auto; /* Или 100% если нужно */
+}
+select {
+     padding-right: 30px; /* Место для стрелки */
+}
+
+/* --- Сообщения --- */
+ul.messagelist li {
+    background-color: var(--admin-accent-color);
+    color: var(--admin-button-text-color);
+    border-radius: 4px;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+}
+ul.messagelist li.warning {
+    background-color: #ffa726; /* Оранжевый для предупреждений */
+}
+ul.messagelist li.error {
+    background-color: #ef5350; /* Красный для ошибок */
+    color: #fff;
+}
+
+/* --- Хлебные крошки --- */
+.breadcrumbs {
+    background: #333;
+    padding: 10px 15px;
+    border: 1px solid var(--admin-border-color);
+    border-radius: 8px;
+    color: #ccc;
+    margin-bottom: 1.5em;
+}
+.breadcrumbs a {
+    color: var(--admin-link-color);
+}
+.breadcrumbs a:hover {
+    color: var(--admin-link-hover-color);
+}

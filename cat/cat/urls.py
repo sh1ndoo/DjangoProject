@@ -17,13 +17,13 @@ Including another URLconf
 from django.conf.urls import handler404
 from django.contrib import admin
 from django.urls import path, include
-
+from debug_toolbar.toolbar import debug_toolbar_urls
 from events_app.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('events_app.urls')),
-]
+] + debug_toolbar_urls()
 
 handler404 = page_not_found
 

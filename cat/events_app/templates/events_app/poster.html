@@ -2,34 +2,83 @@
 
 {% block content %}
         <h1>События в городе Красноярск</h1>
+        <div class="date-picker-container">
+            <div class="dates-wrapper">
+                <i class="fa-solid fa-chevron-left nav-arrow prev" id="prevArrow"></i>
+                <div class="dates-scrollable" id="datesScrollable">
+                    {% for item in combined_data %}
+                        {% if item.type == 'date' %}
+                            {% if not item.is_inactive %}
+                            <div class="date-item
+                                 {% if item.is_weekend %} weekend{% endif %}"
+                                 data-date="{{ item.date_str }}"
+                                 data-month="{{ item.month }}"
+                                 data-year="{{ item.year }}">
+                                <div class="date-number">{{ item.number }}</div>
+                                <div class="day-name">{{ item.day_name }}</div>
+                            </div>
+                            {% endif %}
+                        {% elif item.type == 'separator' %}
+                            <div class="month-separator" data-month-name="{{ item.month_name }}" data-year="{{ item.year }}">
+                                {{ item.month_name }}
+                            </div>
+                        {% endif %}
+                    {% empty %}
+                        <p>Нет данных о датах.</p>
+                    {% endfor %}
 
-        <nav class="category-filters">
-            <ul>
-                {% for category in event_cats %}
-                    <li><button onclick="window.location.href = '{{ category.get_absolute_url }}';" class="{% if category.slug_name == event_cat_selected %}btn btn-filter-cat active{% else %}btn btn-filter-cat{% endif %}">{{ category.name }}</button></li>
-                {% endfor %}
-            </ul>
-            <ul>
-                {% for tag in event_tags %}
-                    <li><button onclick="window.location.href = '{{ category.get_absolute_url }}';" class="{% if category.slug_name == event_cat_selected %}btn btn-filter-tag active{% else %}btn btn-filter-tag{% endif %}">{{ tag.name }}</button></li>
-                {% endfor %}
-            </ul>
-        </nav>
+                </div>
+{#                <div class="nav-arrow next" id="nextArrow">></div>#}
+                <i class="fa-solid fa-chevron-right nav-arrow next" id="nextArrow"></i>
+            </div>
+        </div>
+        <div class="category-slider-container">
+            <div class="slider-wrapper">
+                <button class="nav-arrow prev" id="catPrevArrow" aria-label="Previous categories">
+                     <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+
+                <div class="category-scrollable" id="categoryScrollable">
+                    <a href="{% url 'events' %}" class="category-item {% if not event_cat_selected %} active{% endif %}">
+                        <i class="fa-solid fa-layer-group fa-lg"></i>
+                        <div class="category-name">Все</div>
+                    </a>
+
+                    {% for category in event_cats %}
+                        <a href="{{ category.get_absolute_url }}"
+                           class="category-item {% if category.slug_name == event_cat_selected %} active{% endif %}"
+                           data-category-slug="{{ category.slug_name }}">
+                                <i class="{{ category.icon }} fa-lg"></i>
+
+                            <div class="category-name">{{ category.name }}</div>
+                        </a>
+                    {% endfor %}
+                </div>
+
+                <button class="nav-arrow next" id="catNextArrow" aria-label="Next categories">
+                    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+            </div>
+        </div>
         <div class="content-wrapper">
             <main class="main-content">
                 <section class="event-grid">
 
                     {% for event in events %}
                     <article class="event-card">
+                        {% if event.age %}
+                        <span class="event-card-age-badge">{{ event.age }}</span>
+                        {% endif %}
+
                         <a href={{event.get_absolute_url}}>
-                            <img src='{{ event.logo }}' alt="Фестиваль Космонавт"> <!-- Alt text should be dynamic -->
+                            <img src='{{ event.logo.url }}' alt="Фестиваль Космонавт"> <!-- Alt text should be dynamic -->
                         </a>
                         <div class="event-card-content">
                             <h2>{{ event.name }}</h2>
                             <p class="event-description line-clamp">{{ event.anons }}</p>
                             <div class="event-details">
                                 <span class="event-date"><i class="fas fa-calendar-alt"></i> до {{ event.time_end_no_hour }}</span>
-                                <span class="event-location"><i class="fas fa-map-marker-alt"></i>{{ event.places.0.name }}</span>
+                                <span class="event-location"><i class="fas fa-map-marker-alt"></i>{{ event.addresses.name }}</span>
                             </div>
                             <div class="event-price">{% if event.is_free %}Бесплатно{% else %}{{ event.min_price }}₽{% endif %}</div>
                         </div>
@@ -37,51 +86,179 @@
                     {% endfor %}
                 </section>
             </main>
-
-            <div class="sidebar">
-                <aside class="sidebar-filters">
-                    <div class="filter-group">
-                        <h3>Когда</h3>
-                        <div class="filter-options button-group">
-                            <!-- Changed btn-filter to btn-filter-tag -->
-                            <button class="btn btn-filter-tag active">сегодня</button>
-                            <button class="btn btn-filter-tag">завтра</button>
-                            <button class="btn btn-filter-tag full-width">на выходных</button>
-                            <!-- Changed btn-filter-secondary to btn-filter-select -->
-                            <button class="btn btn-filter-select full-width">Выбрать даты</button>
-                        </div>
-                    </div>
-
-                    <div class="filter-group">
-                        <h3>Во сколько</h3>
-                         <div class="filter-options button-group">
-                            <!-- Changed btn-filter to btn-filter-tag -->
-                            <button class="btn btn-filter-tag">утром</button>
-                            <button class="btn btn-filter-tag">днём</button>
-                             <button class="btn btn-filter-tag active full-width">вечером</button>
-                            <!-- Changed btn-filter-secondary to btn-filter-select -->
-                            <button class="btn btn-filter-select full-width">Выбрать время</button>
-                        </div>
-                    </div>
-
-                    <div class="filter-group">
-                        <h3>Сколько</h3>
-                        <div class="filter-options price-range">
-                            <div class="price-inputs">
-                                <span>от 0 ₽</span>
-                                <span>до 30000 ₽</span>
-                            </div>
-                            <input type="range" min="0" max="30000" value="15000" class="price-slider">
-                        </div>
-                    </div>
-
-                    <button class="btn btn-primary full-width reset-filters">Сбросить фильтры</button>
-                </aside>
-
-                <aside class="sidebar-filters">
-                    <img src='{{ cat_url }}' class='hero-event-image' alt="Случайный котик">
-                    <div class="text-center">Случайный котик :3</div>
-                </aside>
-            </div>
         </div>
 {% endblock %}
+
+{% block scripts %}
+    <script>
+    // JavaScript код остается АБСОЛЮТНО ТЕМ ЖЕ, что и в предыдущих примерах!
+    const scrollableContainer = document.getElementById('datesScrollable');
+    const prevArrow = document.getElementById('prevArrow');
+    const nextArrow = document.getElementById('nextArrow');
+    const monthHeader = document.getElementById('monthHeader');
+    const scrollAmount = 200; // Величина прокрутки кнопками
+
+    const monthNamesNominative = [
+        "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+        "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
+    ];
+
+    let currentDisplayedMonth = -1;
+    let currentDisplayedYear = -1;
+
+    function updateMonthHeader() {
+        const scrollLeft = scrollableContainer.scrollLeft;
+        const dateItems = scrollableContainer.querySelectorAll('.date-item'); // Ищем только элементы дат
+        let dominantMonth = -1;
+        let dominantYear = -1;
+        let foundElement = null;
+
+        for (const item of dateItems) {
+             const itemRightEdge = item.offsetLeft + item.clientWidth;
+             // Ищем первый элемент ДАТЫ, который видим
+             if ((item.offsetLeft >= scrollLeft || itemRightEdge > scrollLeft) && item.classList.contains('date-item')) {
+                 foundElement = item;
+                 break;
+             }
+        }
+
+        if (foundElement) {
+            dominantMonth = parseInt(foundElement.dataset.month, 10);
+            dominantYear = parseInt(foundElement.dataset.year, 10);
+        }
+
+        if (dominantMonth !== -1 && (dominantMonth !== currentDisplayedMonth || dominantYear !== currentDisplayedYear)) {
+            if (monthNamesNominative[dominantMonth - 1]) {
+                monthHeader.textContent = `${monthNamesNominative[dominantMonth - 1]} ${dominantYear}`;
+                currentDisplayedMonth = dominantMonth;
+                currentDisplayedYear = dominantYear;
+            }
+        } else if (dominantMonth === -1 && monthHeader.textContent.trim() === '') {
+            // Если не нашли видимых дат и заголовок пуст (начальная загрузка) - пробуем поставить по первому элементу вообще
+             const firstItem = scrollableContainer.querySelector('.date-item');
+             if (firstItem) {
+                  dominantMonth = parseInt(firstItem.dataset.month, 10);
+                  dominantYear = parseInt(firstItem.dataset.year, 10);
+                  if (monthNamesNominative[dominantMonth - 1]) {
+                       monthHeader.textContent = `${monthNamesNominative[dominantMonth - 1]} ${dominantYear}`;
+                       currentDisplayedMonth = dominantMonth;
+                       currentDisplayedYear = dominantYear;
+                   }
+             }
+        }
+    }
+
+    let scrollTimeout;
+    scrollableContainer.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(updateMonthHeader, 50);
+    });
+
+    nextArrow.addEventListener('click', () => {
+        scrollableContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        setTimeout(updateMonthHeader, 350);
+    });
+
+    prevArrow.addEventListener('click', () => {
+        scrollableContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        setTimeout(updateMonthHeader, 350);
+    });
+
+     scrollableContainer.addEventListener('click', (event) => {
+         const targetItem = event.target.closest('.date-item');
+         if (targetItem && !targetItem.classList.contains('inactive')) {
+             scrollableContainer.querySelectorAll('.date-item.selected')
+                .forEach(el => el.classList.remove('selected'));
+            targetItem.classList.add('selected');
+            const dayNumber = targetItem.querySelector('.date-number').textContent;
+            const dayName = targetItem.querySelector('.day-name').textContent;
+            const fullDate = targetItem.dataset.date;
+            console.log(`Выбрана дата: ${dayNumber} (${dayName}) - ${fullDate}`);
+         }
+    });
+
+    document.addEventListener('DOMContentLoaded', updateMonthHeader);
+
+    </script>
+
+
+
+    <script>
+        // JavaScript для прокрутки и проверки видимости стрелок (без изменений)
+        const catScrollable = document.getElementById('categoryScrollable');
+        const catPrevArrow = document.getElementById('catPrevArrow');
+        const catNextArrow = document.getElementById('catNextArrow');
+
+        function checkArrows() {
+            if (!catScrollable) return;
+            const maxScrollLeft = catScrollable.scrollWidth - catScrollable.clientWidth;
+            const currentScrollLeft = Math.round(catScrollable.scrollLeft); // Округляем
+
+            // Показываем/скрываем левую стрелку
+            if (currentScrollLeft > 1) { // Чуть больше 0
+                catPrevArrow.classList.add('visible');
+            } else {
+                catPrevArrow.classList.remove('visible');
+            }
+            // Показываем/скрываем правую стрелку
+            if (currentScrollLeft < maxScrollLeft - 1) { // Чуть меньше максимума
+                catNextArrow.classList.add('visible');
+            } else {
+                catNextArrow.classList.remove('visible');
+            }
+        }
+
+        const catScrollAmount = catScrollable ? catScrollable.clientWidth * 0.7 : 300;
+
+        if (catNextArrow) {
+            catNextArrow.addEventListener('click', () => {
+                catScrollable.scrollBy({ left: catScrollAmount, behavior: 'smooth' });
+            });
+        }
+        if (catPrevArrow) {
+            catPrevArrow.addEventListener('click', () => {
+                catScrollable.scrollBy({ left: -catScrollAmount, behavior: 'smooth' });
+            });
+        }
+        if (catScrollable) {
+             // Используем 'scrollend' если доступно, иначе 'scroll' с debounce/throttle
+            let scrollTimer;
+            catScrollable.addEventListener('scroll', () => {
+                clearTimeout(scrollTimer);
+                scrollTimer = setTimeout(checkArrows, 150); // Вызываем checkArrows после остановки скролла
+            });
+            // Также проверяем на scrollend для более точного срабатывания после scrollBy
+            if ('onscrollend' in window) {
+                 catScrollable.addEventListener('scrollend', checkArrows);
+            }
+        }
+
+        window.addEventListener('load', checkArrows);
+        window.addEventListener('resize', checkArrows);
+
+        // Обработка клика (делегирование) - можно оставить или убрать, если переход по href достаточен
+        if (catScrollable) {
+            catScrollable.addEventListener('click', function(event) {
+                const categoryLink = event.target.closest('.category-item');
+                if (categoryLink) {
+                    // event.preventDefault(); // Раскомментировать, если нужна сложная логика перед переходом
+                    // console.log("Переход на:", categoryLink.getAttribute('href'));
+                    // window.location.href = categoryLink.getAttribute('href');
+                }
+            });
+        }
+
+    </script>
+
+{% endblock %}
+
+
+
+
+
+
+
+{#<aside class="sidebar-filters">#}
+{#    <img src='{{ cat_url }}' class='hero-event-image' alt="Случайный котик">#}
+{#    <div class="text-center">Случайный котик :3</div>#}
+{#</aside>#}

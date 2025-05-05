@@ -1,0 +1,393 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block extra_head %}
+    <script src="https://api-maps.yandex.ru/v3/?apikey=9711a76c-5dc2-48ad-8938-00fdee12f074&lang=ru_RU" type="text/javascript"></script>
+{% endblock %}
+{% block content %}
+        <div class="event-detail-container"> <!-- Added container -->
+            <form action="" method="post" class="event-form" enctype="multipart/form-data">
+                {% csrf_token %}
+                <section class="event-hero">
+                    <!-- Background images loaded via style attribute or CSS -->
+                    <div class="hero-background-overlay"  style="background-image: url('{% static 'events_app/images/image_fx.jpg' %}');"></div>
+                    <div class="hero-background-overlay2" style="background-image: url('{% static 'events_app/images/image_fx.jpg' %}');"></div>
+                    <div class="hero-background-overlay3" style="background-image: url('{% static 'events_app/images/image_fx.jpg' %}');"></div>
+
+                    <div class="hero-content">
+                        <div class="hero-image-container">
+                            <img src="{% static 'events_app/images/image_fx.jpg' %}" alt="Постер" class="hero-event-image" id="clickable-img" style="cursor: pointer">
+                            {{ form.logo }}<!-- Added Alt -->
+                        </div>
+
+                        <div class="hero-details">
+                            <h1 class="hero-title">{{ form.name }}</h1>
+                            <div class="hero-meta">
+                                <p><i class="fas fa-map-marker-alt"></i>{% if event.places %} {{ event.places.0.name }} {% else %} Место не определено {% endif %}</p>
+                                <p><i class="fas fa-calendar-alt"></i> <strong>Начало:</strong> {{ form.date_start }}</p>
+                                <p><i class="fas fa-calendar-check"></i> <strong>Завершение:</strong> {{ form.date_end }} {{ form.date_end.errors }}</p>
+                                <p>
+                                    <i class="fas fa-tag"></i> {{ form.max_price }}₽
+                                    <span style="padding-left: 3em">Бесплатно: {{ form.is_free }}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Блок 2: Основной контент -->
+                <section class="event-content-area">
+                    <div class="event-columns">
+
+                        <!-- Левая колонка -->
+                        <div class="event-main-column">
+                            <div class="event-tags">
+                                <!-- Added specific classes -->
+                                <span class="tag tag-age">{{ form.age }}</span>
+                                <span class="tag tag-category">{{ form.cat }}</span>
+                                {{ form.cat.errors }}<!-- Assuming cat_url is category name -->
+                            </div>
+                            {% if form.age.errors or form.cat.errors %}
+                                <span class="tag tag-errors">{{ form.age.errors.0 }}</span>
+                                <span class="tag tag-errors">{{ form.cat.errors.0 }}</span>
+                            {% endif %}
+
+
+                            <article class="event-description">
+                                <h2>Про событие</h2>
+                                <p>{{ form.anons }}</p>
+                                {{ form.anons.errors }}
+                            </article>
+
+                            <section class="event-map-section">
+                                <h2>Выберете место проведения на карте</h2>
+                                <div id="map"></div>
+                                <div class="controls">
+                                    <label for="{{ form.address.id_for_label }}">{{ form.address.label }}</label>
+                                    {{ form.address }}
+
+                                    <label for="{{ form.address_name.id_for_label }}">{{ form.address_name.label }}</label>
+                                    {{ form.address_name }}
+
+                                    <label for="{{ form.address_description.id_for_label }}">{{ form.address_description.label }}</label>
+                                    {{ form.address_description }}
+
+                                    <label for="{{ form.address_city.id_for_label }}">{{ form.address_city.label }}</label>
+                                    {{ form.address_city }}
+                                </div>
+                            </section>
+                        </div>
+
+                        <!-- Правая колонка -->
+                        <aside class="event-sidebar-column">
+                            <div class="contacts-section">
+                                <h2>Контакты</h2>
+                                <div class="contact-item">
+                                    <!-- Changed class to btn-contact -->
+                                     <a href="tel:+70000000000" class="btn btn-contact">
+                                        <i class="fas fa-phone-alt"></i> Телефон
+                                    </a>
+                                </div>
+                                <!-- Add more contact items if needed -->
+                            </div>
+                        </aside>
+
+                    </div>
+                </section>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary btn-submit-event">
+                        <i class="fas fa-check"></i> Создать событие
+                    </button>
+                    <a href="{% url 'profile' profile.url %}" class="btn btn-secondary">Отмена</a>
+                </div>
+            </form>
+        </div> <!-- /event-detail-container -->
+{% endblock %}
+{% block scripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // --- Управление полями цены при выборе "Бесплатно" ---
+            const maxPriceInput = document.getElementById('{{ form.max_price.id_for_label }}');
+            const freeCheckbox = document.getElementById('{{ form.is_free.id_for_label }}');
+
+            function togglePriceInputs() {
+                // Убедимся что все элементы найдены
+                if (!maxPriceInput || !freeCheckbox) {
+                    console.warn("Price or free checkbox elements not found for JS interaction.");
+                    return;
+                }
+
+                const priceInputs = [maxPriceInput];
+
+                if (freeCheckbox.checked) {
+                    priceInputs.forEach(input => {
+                        input.value = '0'; // Устанавливаем 0 для IntegerField
+                        input.disabled = true;
+                        input.placeholder = 'Бесплатно';
+                         if (input.hasAttribute('required')) {
+                            input.removeAttribute('required');
+                         }
+                    });
+                } else {
+                    priceInputs.forEach(input => {
+                        input.disabled = false;
+                        input.placeholder = '0';
+                        // Не добавляем 'required' обратно, т.к. они не обязательны если > 0
+                    });
+                    // Можно установить min_price в 0 по умолчанию, если не бесплатно
+                    if (!maxPriceInput.value) maxPriceInput.value = '0';
+                }
+            }
+
+            if (freeCheckbox) { // Проверяем только чекбокс, т.к. без него логика бессмысленна
+                freeCheckbox.addEventListener('change', togglePriceInputs);
+                // Устанавливаем начальное состояние при загрузке
+                togglePriceInputs();
+            }
+
+            // --- Конец управления ценой ---
+
+            // --- Нет JS для предпросмотра изображения, т.к. используются URLField ---
+
+        }); // Конец DOMContentLoaded
+    </script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // --- Конфигурация ---
+            const YANDEX_API_KEY = "{{ yandex_api_key|default:'ВАШ_API_КЛЮЧ'|escapejs }}"; // Получаем ключ из Django или используем заглушку
+            const mapContainerId = "map";
+            const defaultCenterCoords = [37.6173, 55.7558]; // Москва [долгота, широта]
+            const defaultZoom = 10;
+
+            // --- DOM Элементы ---
+            const mapContainer = document.getElementById(mapContainerId);
+            const addressInput = document.getElementById('selected-address');
+            const nameInput = document.getElementById('selected-name');
+            const cityInput = document.getElementById('selected-city');
+            const descriptionInput = document.getElementById('selected-description');
+            const coordsInput = document.getElementById('selected-coords');
+
+            // --- Переменные состояния ---
+            let mapInstance = null;
+            let currentPlacemark = null;
+
+            // --- Инициализация ---
+            initMap().catch(error => {
+                console.error("Критическая ошибка при инициализации карты:", error);
+                displayMapError(mapContainer, `Ошибка инициализации карты: ${error.message || error}`);
+            });
+
+            // --- Основная функция инициализации ---
+            async function initMap() {
+                console.log('Инициализация Yandex Maps API 3.0...');
+                await ymaps3.ready; // Ждем базовую готовность API
+
+                ymaps3.import.registerCdn('https://cdn.jsdelivr.net/npm/{package}', ['@yandex/ymaps3-default-ui-theme@0.0.18']);
+
+
+                const { YMapDefaultMarker } = await ymaps3.import('@yandex/ymaps3-default-ui-theme');
+
+                // --- Получаем компоненты ---
+                const { YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapListener } = ymaps3;
+
+                // --- Создаем карту ---
+                mapInstance = new YMap(mapContainer, { location: { center: defaultCenterCoords, zoom: defaultZoom }, theme: 'dark' });
+
+                // --- Добавляем слои и контролы ---
+                mapInstance.addChild(new YMapDefaultSchemeLayer({}));
+                mapInstance.addChild(new YMapDefaultFeaturesLayer({}));
+
+                // --- Обработчик клика по карте ---
+                // Создаем слушатель событий карты
+                const mapListener = new YMapListener({
+                    // Будем слушать клики по слою схемы карты
+                    layerId: 'any', // ID слоя по умолчанию
+                    // Альтернативно: можно слушать клики вообще по любому месту карты (менее точно)
+                    // layerId: 'any',
+                    onClick: (obj, event) => {
+                        console.log('Клик по карте, координаты:', event.coordinates);
+                        handleCoordsSelection(event.coordinates, YMapDefaultMarker); // Передаем компонент маркера
+                    }
+                });
+                mapInstance.addChild(mapListener);
+
+                console.log("Карта готова. Кликните для выбора адреса.");
+            }
+
+            // --- Обработка выбора координат ---
+            async function handleCoordsSelection(coords, YMapDefaultMarkerComponent) {
+                 if (!coords) return;
+                 console.log(`Обработка координат: [${coords.join(', ')}]`);
+                 showOrMovePlacemark(coords, YMapDefaultMarkerComponent); // Показываем метку
+
+                 // Очищаем поля перед геокодированием
+                 addressInput.value = 'Идет поиск адреса...';
+                 nameInput.value = '';
+                 if (currentPlacemark) { currentPlacemark.update({ title: 'поиск...' }); } // Обновляем title у маркера
+
+                 try {
+                    const addressDetails = await fetchReverseGeocode(coords, YANDEX_API_KEY);
+                    displayResult(addressDetails, coords); // Отображаем результат
+                 } catch (error) {
+                     console.error("Ошибка при получении адреса:", error);
+                     addressInput.value = 'Ошибка определения адреса';
+                     nameInput.value = '';
+                      if (currentPlacemark) { currentPlacemark.update({ title: 'Ошибка адреса' }); }
+                 }
+            }
+
+            // --- Отображение/перемещение метки ---
+            function showOrMovePlacemark(coords, YMapDefaultMarkerComponent) {
+                if (currentPlacemark) {
+                    console.log("Перемещение существующей метки.");
+                    // Обновляем координаты существующей метки
+                     currentPlacemark.update({ coordinates: coords });
+                } else {
+                    console.log("Создание новой метки.");
+                    // Создаем новую метку
+                    currentPlacemark = new YMapDefaultMarkerComponent({
+                        coordinates: coords,
+                        color: {day:"#ffa500",night:"#ffa500"},
+                        draggable: true,
+                        title: 'поиск...' // Начальный title
+                    });
+
+                    // Добавляем слушатель события окончания перетаскивания
+                    const { YMapListener } = ymaps3;
+                    const markerListener = new YMapListener({
+                         onDragEnd: (obj) => { // obj здесь - это сам маркер
+                             console.log("Перетаскивание метки завершено.");
+                             handleCoordsSelection(obj.coordinates, YMapDefaultMarkerComponent);
+                         }
+                     });
+                    currentPlacemark.addChild(markerListener); // Вешаем слушатель на маркер
+
+                    // Добавляем метку на карту
+                    if (mapInstance) {
+                        mapInstance.addChild(currentPlacemark);
+                    } else {
+                         console.error("Экземпляр карты не найден для добавления метки.");
+                    }
+                }
+            }
+
+            // --- Обратное геокодирование через HTTP API ---
+            async function fetchReverseGeocode(coords, apiKey) {
+                const [lon, lat] = coords; // API 3.0 дает [lon, lat]
+                // HTTP Геокодер принимает координаты в формате "долгота,широта"
+                const geocodeParam = `${lon},${lat}`;
+                const url = `https://geocode-maps.yandex.ru/1.x/?apikey=${apiKey}&format=json&geocode=${geocodeParam}&results=1`;
+
+                console.log("Запрос обратного геокодирования:", url);
+                const response = await fetch(url);
+                if (!response.ok) {
+                     throw new Error(`Ошибка сети геокодера: ${response.status} ${response.statusText}`);
+                }
+                const data = await response.json();
+                console.log("Ответ геокодера:", data);
+
+                const featureMember = data?.response?.GeoObjectCollection?.featureMember;
+                if (featureMember && featureMember.length > 0) {
+                    const geoObject = featureMember[0]?.GeoObject;
+                    const addressLine = geoObject?.metaDataProperty?.GeocoderMetaData?.text; // Полный адрес
+                    const objectName = geoObject?.name; // Название объекта (улица, город, POI)
+                    const objectKind = geoObject?.metaDataProperty?.GeocoderMetaData?.kind; // Тип ('house', 'street', 'locality', 'poi', 'business', etc.)
+                    const objectCity = geoObject?.metaDataProperty?.GeocoderMetaData?.AddressDetails?.Country?.AdministrativeArea?.Locality?.LocalityName;
+                    const objectCity2 = geoObject?.metaDataProperty?.GeocoderMetaData?.AddressDetails?.Country?.AdministrativeArea?.SubAdministrativeArea?.Locality?.LocalityName; // Тип ('house', 'street', 'locality', 'poi', 'business', etc.)
+
+
+                    console.log(`Найден объект: Name='${objectName}', Kind='${objectKind}', Address='${addressLine}'`);
+                    let CityName = ''
+                    if (objectCity) {
+                        CityName = objectCity
+                    } else if (objectCity2) {
+                        CityName = objectCity2
+                    }
+                    let placeName = '';
+                     // Простая логика: если это не дом/улица/город/район, то считаем 'name' названием места
+                    if (objectKind && !['house', 'street', 'locality', 'district', 'area', 'province', 'country', 'hydro'].includes(objectKind)) {
+                        placeName = objectName;
+                    } else if (objectKind === 'metro'){
+                        placeName = `ст. метро ${objectName}`;
+                    }
+                     // Можно добавить доп. логику для других kind, если нужно
+
+                    return {
+                        address: addressLine || 'Адрес не определен',
+                        name: placeName,
+                        description: objectName,
+                        city: CityName,
+                        kind: objectKind // Возвращаем и тип, если нужен для дальнейшей логики
+                    };
+                } else {
+                    // Ничего не найдено
+                    return { address: 'Адрес не определен', name: '', kind: null };
+                }
+            }
+
+            // --- Отображение результата в полях ---
+            function displayResult(addressDetails, coords) {
+                 addressInput.value = addressDetails.address;
+                 nameInput.value = addressDetails.name;
+                 cityInput.value = addressDetails.city;
+                 descriptionInput.value = addressDetails.description
+
+                 // Обновляем title маркера
+                  if (currentPlacemark) {
+                      currentPlacemark.update({
+                         title: addressDetails.name || addressDetails.address.split(',').slice(0,2).join(',') // Короткий title
+                      });
+                  }
+            }
+
+            // --- Отображение координат ---
+            function displayCoords(coords) {
+                // Отображаем как [долгота, широта]
+                coordsInput.value = coords.map(c => c.toFixed(6)).join(', ');
+            }
+
+             // --- Функция отображения ошибки (без изменений) ---
+             function displayMapError(container, message) { /* ... */ }
+
+        }); // Конец DOMContentLoaded
+    </script>
+    <script>
+        const clickableImage = document.getElementById('clickable-img');
+        const realFileInput = document.getElementById('logo'); // ID из виджета формы
+
+
+        const bgOverlay1 = document.querySelector('.hero-background-overlay');
+        const bgOverlay2 = document.querySelector('.hero-background-overlay2');
+        const bgOverlay3 = document.querySelector('.hero-background-overlay3');
+
+        if (clickableImage && realFileInput) {
+            // 1. При клике на видимое изображение, программно кликаем на скрытый input[type=file]
+            clickableImage.addEventListener('click', () => {
+                realFileInput.click();
+            });
+
+            // 2. (Опционально) Предпросмотр выбранного изображения
+            realFileInput.addEventListener('change', function(event) {
+                if (event.target.files && event.target.files[0]) {
+                    const reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        const imageUrl = e.target.result;
+                        clickableImage.src = imageUrl;
+                        bgOverlay1.style.backgroundImage = `url('${imageUrl}')`;
+                        bgOverlay2.style.backgroundImage = `url('${imageUrl}')`;
+                        bgOverlay3.style.backgroundImage = `url('${imageUrl}')`;
+                    }
+                    reader.readAsDataURL(event.target.files[0]); // Читаем файл как Data URL
+                }
+            });
+
+
+        } else {
+            console.error("Required elements (clickable-avatar or id_avatar_input) not found.");
+        }
+    </script>
+{% endblock scripts %}

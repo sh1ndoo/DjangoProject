@@ -10,5 +10,6 @@ urlpatterns = [
     path('events/', events, name='events'),
     path('event/<slug:event_name>', event, name='event'),
     path('category/<slug:category_name>', category, name='category'),
+    path('create_event', create_event, name='create_event'),
     path('', home_page, name='home'),
 ]
