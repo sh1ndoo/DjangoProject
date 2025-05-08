@@ -19,7 +19,10 @@
             <input type="text" class="search-input" placeholder="Поиск...">
         </div>
          <!-- Login/Profile buttons using btn-secondary -->
-        <button onclick="window.location.href = '{% url "login" %}';" class="btn btn-secondary">Войти</button>
-        <button onclick="window.location.href = '{{ profile.get_absolute_url }}';" class="btn btn-secondary">Профиль</button>
+        {% if not user.is_authenticated %}
+            <button onclick="window.location.href = '{% url "users:login" %}';" class="btn btn-secondary">Войти</button>
+        {% else %}
+            <button onclick="window.location.href = '{% url 'users:user_detail' user.username %}';" class="btn btn-secondary">Профиль</button>
+        {% endif %}
     </div>
 </header>

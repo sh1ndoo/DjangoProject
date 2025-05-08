@@ -1,0 +1,156 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title|default:"Регистрация" }}</title>
+    <link type="text/css" href="{% static 'events_app/css/styles.css' %}" rel="stylesheet">
+</head>
+<body class="login-page-body"> {# Используем тот же класс для общего фона и центрирования #}
+
+    <div class="login-container">
+        <div class="login-box"> {# Немного шире для формы регистрации #}
+            <img src="{% static 'events_app/images/logo.png' %}" alt="Логотип КОТ" class="login-logo">
+            <h1 class="login-title">КОТ</h1>
+            <p class="login-subtitle">Регистрация нового пользователя</p>
+
+            <form class="login-form" method="post">
+                {% csrf_token %}
+
+                {# Вывод не-полевых ошибок, если есть #}
+                {% if form.non_field_errors %}
+                    <div class="form-group error-summary">
+                        {% for error in form.non_field_errors %}
+                            <p class="error-text">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="form-group">
+                    <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <div class="field-errors">
+                            {% for error in form.username.errors %}
+                                <small class="error-text">{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+                    {{ form.first_name }}
+                    {% if form.first_name.errors %}
+                        <div class="field-errors">
+                            {% for error in form.first_name.errors %}
+                                <small class="error-text">{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
+                    {{ form.last_name }}
+                    {% if form.last_name.errors %}
+                        <div class="field-errors">
+                            {% for error in form.last_name.errors %}
+                                <small class="error-text">{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                        <div class="field-errors">
+                            {% for error in form.email.errors %}
+                                <small class="error-text">{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
+                    {{ form.password1 }}
+                    {% if form.password1.errors %}
+                        <div class="field-errors">
+                            {% for error in form.password1.errors %}
+                                <small class="error-text">{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.password2.id_for_label }}">{{ form.password2.label }}</label>
+                    {{ form.password2 }}
+                    {% if form.password2.errors %}
+                        <div class="field-errors">
+                            {% for error in form.password2.errors %}
+                                <small class="error-text">{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+            </form>
+
+            <div class="login-links">
+                <p>Уже есть аккаунт? <a href="{% url 'users:login' %}" class="form-link">Войти</a></p> {# Ссылка на страницу входа #}
+            </div>
+
+        </div>
+    </div>
+
+    {# Можно добавить стили для .field-errors и .error-text в styles.css, если их нет #}
+    <style>
+        .login-box { max-width: 420px; /* Чуть шире для формы регистрации */ }
+        .login-form label {
+            display: block;
+            text-align: left;
+            font-size: 0.85em;
+            color: var(--color-text-muted);
+            margin-bottom: 5px;
+        }
+        .field-errors {
+            margin-top: 5px;
+            text-align: left;
+        }
+        .error-text {
+            color: #ff6b6b; /* Яркий красный для ошибок */
+            font-size: 0.8em;
+        }
+        .error-summary {
+            background-color: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            padding: 10px;
+            border-radius: var(--border-radius-sm);
+            margin-bottom: 15px;
+        }
+        .error-summary .error-text {
+            font-size: 0.85em;
+            margin: 0;
+        }
+        .login-links {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: var(--color-text-muted);
+        }
+        .login-links .form-link {
+            color: var(--color-accent-primary);
+            font-weight: 500;
+        }
+        .login-links .form-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</body>
+</html>

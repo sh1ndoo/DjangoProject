@@ -18,12 +18,16 @@ from django.conf.urls import handler404
 from django.contrib import admin
 from django.urls import path, include
 from debug_toolbar.toolbar import debug_toolbar_urls
+
+import documents_app
 from events_app.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('events_app.urls')),
+    path('users/', include('users.urls', namespace='users')),
+    path('documents/', include('documents_app.urls', namespace='documents')),
 ] + debug_toolbar_urls()
 
-handler404 = page_not_found
+# handler404 = page_not_found
 

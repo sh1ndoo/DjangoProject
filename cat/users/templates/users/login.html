@@ -1,0 +1,46 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link type="text/css" href="{% static 'events_app/css/styles.css' %}" rel="stylesheet">
+    <!-- Consider adding FontAwesome if icons are needed -->
+</head>
+<body class="login-page-body">
+
+    <div class="login-container">
+        <div class="login-box">
+            <img src="{% static 'events_app/images/logo.png' %}" alt="Логотип КОТ" class="login-logo">
+            <h1 class="login-title">КОТ</h1>
+            <p class="login-subtitle">Красноярск открытый тебе</p>
+
+            <form class="login-form" action="#" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form.username }}
+                </div>
+                <div class="form-group">
+                    {{ form.password }}
+                </div>
+                <a href="#" class="forgot-password">Забыли пароль?</a>
+
+                <!-- Changed btn-login to btn-primary -->
+                <button type="submit" class="btn btn-primary">Войти</button>
+            </form>
+
+            <div class="social-login">
+                 <!-- Added btn-social class and specific btn-vk/btn-google -->
+                <button type="button" class="btn btn-social btn-vk">VK</button>
+                <button type="button" class="btn btn-social btn-google">Google</button>
+            </div>
+
+            <!-- Kept btn-register class (styled as outline) -->
+            <button type="button" class="btn btn-register" onclick="window.location.href='{% url 'users:registration' %}';">Зарегистрироваться</button>
+
+        </div>
+    </div>
+</body>
+</html>

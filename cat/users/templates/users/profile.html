@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        <div class="profile-container-new"> <!-- Added container -->
+            <header class="profile-cover">
+                <!-- Фоновая картинка будет в CSS или inline style -->
+                <button class="btn btn-cover-edit">
+                    <i class="fas fa-pencil-alt"></i> Изменить обложку
+                </button>
+            </header>
+
+            <!-- Блок 2: Основная информация -->
+            <section class="profile-info-card">
+                <img src="{{ user.avatar.url }}" alt="Аватар" class="profile-avatar-overlap">
+
+                <div class="profile-info-content">
+                    <div class="profile-text-details">
+                        <h1 class="profile-user-name">
+                            {{ user.first_name }} {{ user.last_name }} {{ user.username }}
+                        </h1>
+                        <p class="profile-user-status">
+                            {{ user.about }}
+                        </p>
+                    </div>
+                    <div class="profile-card-actions">
+                        <!-- Changed buttons to use btn-action -->
+                        <button onclick="window.location.href = '{% url "users:user_update" user.username %}';" class="btn btn-action">Редактировать</button>
+                        <button class="btn btn-action">
+                            Ещё <i class="fas fa-caret-down"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Блок 3: Статистика -->
+            <section class="profile-user-stats">
+                <div class="stat-item">
+                    <span class="stat-icon"><i class="fas fa-star"></i></span>
+                    <span class="stat-label">Рейтинг</span>
+                    <span class="stat-value">{{ user.rating }}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon"><i class="fas fa-map-marker-alt"></i></span>
+                    <span class="stat-label">Местоположение</span>
+                    <span class="stat-value">{{ user.address }}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon"><i class="fas fa-thumbs-up"></i></span>
+                    <span class="stat-label">Оценок</span>
+                    <span class="stat-value">{{ user.reviews|length }}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon"><i class="fas fa-flag"></i></span>
+                    <span class="stat-label">Посещено мероприятий</span>
+                    <span class="stat-value">{{ user.events|length }}</span>
+                </div>
+            </section>
+            <!-- Блок с кнопкой "Создать событие" -->
+            <div class="profile-create-event-wrapper">
+                <button onclick="window.location.href = '{% url "create_event" %}';" class="btn btn-primary btn-create-event"> <!-- Added distinct class -->
+                    <i class="fas fa-plus"></i> Создать событие
+                </button>
+            </div>
+                <!-- / Блок с кнопкой "Создать событие" -->
+            <!-- Блок 4: Табы -->
+            <nav class="profile-user-tabs">
+                <button class="profile-tab-link active" data-tab-target="#content-liked">Понравившиеся</button>
+                <button class="profile-tab-link" data-tab-target="#content-my-events">Ваши мероприятия</button>
+                <button class="profile-tab-link" data-tab-target="#content-reviews">Оценки</button>
+            </nav>
+
+            <!-- Блок 5: Контент табов -->
+            <div class="profile-tab-content-area">
+                <div id="content-liked" class="profile-tab-pane active">
+                    <div class="liked-placeholder">
+                        <i class="fas fa-heart big-heart-icon"></i>
+                        <p>Здесь будут понравившиеся мероприятия</p> <!-- Added text -->
+                    </div>
+                </div>
+                <div id="content-my-events" class="profile-tab-pane">
+                     <p class="tab-placeholder-text">Здесь будут ваши мероприятия.</p>
+                </div>
+                <div id="content-reviews" class="profile-tab-pane">
+                    <p class="tab-placeholder-text">Здесь будут ваши оценки.</p>
+                </div>
+            </div>
+            <form action="{% url 'users:logout' %}" method="post" style="display: inline;"> {# style="display: inline;" чтобы форма не занимала всю ширину и выглядела как часть строки #}
+                {% csrf_token %} {# Обязательный токен безопасности для POST форм #}
+                <button type="submit" class="btn btn-action">Выйти</button> {# Кнопка, отправляющая форму #}
+            </form>
+        </div> <!-- /profile-container-new -->
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        // JS for tabs remains the same
+        const profileTabLinks = document.querySelectorAll('.profile-user-tabs .profile-tab-link');
+        const profileTabPanes = document.querySelectorAll('.profile-tab-content-area .profile-tab-pane');
+
+        profileTabLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                const targetPaneSelector = link.getAttribute('data-tab-target');
+                const targetPane = document.querySelector(targetPaneSelector);
+
+                profileTabLinks.forEach(l => l.classList.remove('active'));
+                profileTabPanes.forEach(p => p.classList.remove('active'));
+
+                link.classList.add('active');
+                if (targetPane) {
+                    targetPane.classList.add('active');
+                }
+            });
+        });
+    </script>
+{% endblock %}

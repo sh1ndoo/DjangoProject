@@ -99,7 +99,7 @@
                     <button type="submit" class="btn btn-primary btn-submit-event">
                         <i class="fas fa-check"></i> Создать событие
                     </button>
-                    <a href="{% url 'profile' profile.url %}" class="btn btn-secondary">Отмена</a>
+                    <a href="{% url 'users:user_detail' user.username %}" class="btn btn-secondary">Отмена</a>
                 </div>
             </form>
         </div> <!-- /event-detail-container -->

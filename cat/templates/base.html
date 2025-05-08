@@ -5,10 +5,10 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <title>{{ title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>КOT Красноярск</title>
     <link type="text/css" href="{% static 'events_app/css/styles.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+{#    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">#}
     <script src="https://kit.fontawesome.com/4ce7cb957f.js" crossorigin="anonymous"></script>
     <style>
         .fa-lg {
@@ -21,7 +21,7 @@
 </head>
 <body>
     <div class="container">
-        {% show_header cat_selected profile %}
+        {% show_header cat_selected user %}
         {% block content %}
         {% endblock %}
     </div>

@@ -51,12 +51,12 @@ class CategoriesAdmin(admin.ModelAdmin):
     ordering = ('id',)
 
 
-@admin.register(Profiles)
-class ProfilesAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'url')
-    list_display_links = ('id', 'name')
-    search_fields = ('name',)
-    ordering = ('id',)
+# @admin.register(Profiles)
+# class ProfilesAdmin(admin.ModelAdmin):
+#     list_display = ('id', 'name', 'url')
+#     list_display_links = ('id', 'name')
+#     search_fields = ('name',)
+#     ordering = ('id',)
 
 
 @admin.register(Locations)

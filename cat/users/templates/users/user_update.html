@@ -1,0 +1,89 @@
+<!{% extends 'base.html' %}
+
+{% block content %}
+    <form action="" method="post" class="event-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="profile-container-new"> <!-- Added container -->
+            <header class="profile-cover">
+            </header>
+
+            <!-- Блок 2: Основная информация -->
+            <section class="profile-info-card">
+                <img src="{{ user.avatar.url }}" alt="Аватар" class="profile-avatar-overlap" id="clickable-img" style="cursor: pointer">
+                {{ form.avatar }}
+
+                <div class="profile-info-content">
+                    <div class="profile-text-details">
+                        <h1 class="profile-user-name">
+                            {{ form.first_name }} {{ form.last_name }} {{ form.username }}
+                        </h1>
+                        <p class="profile-user-status">
+                            {{ form.about }}
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Блок 3: Статистика -->
+            <section class="profile-user-stats">
+                <div class="stat-item">
+                    <span class="stat-icon"><i class="fas fa-star"></i></span>
+                    <span class="stat-label">Рейтинг</span>
+                    <span class="stat-value">{{ user.rating }}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon"><i class="fas fa-map-marker-alt"></i></span>
+                    <span class="stat-label">Местоположение</span>
+                    <span class="stat-value">{{ user.address }}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon"><i class="fas fa-thumbs-up"></i></span>
+                    <span class="stat-label">Оценок</span>
+                    <span class="stat-value">{{ user.reviews|length }}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon"><i class="fas fa-flag"></i></span>
+                    <span class="stat-label">Посещено мероприятий</span>
+                    <span class="stat-value">{{ user.events|length }}</span>
+                </div>
+            </section>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-submit-event">
+                    <i class="fas fa-check"></i> Сохранить изменения
+                </button>
+                <a href="{% url 'users:user_detail' user.username %}" class="btn btn-secondary">Назад</a>
+            </div>
+        </div> <!-- /profile-container-new -->
+    </form>
+{% endblock %}
+
+{% block scripts %}
+        <script>
+        const clickableImage = document.getElementById('clickable-img');
+        const realFileInput = document.getElementById('avatar'); // ID из виджета формы
+
+
+        if (clickableImage && realFileInput) {
+            // 1. При клике на видимое изображение, программно кликаем на скрытый input[type=file]
+            clickableImage.addEventListener('click', () => {
+                realFileInput.click();
+            });
+
+            // 2. (Опционально) Предпросмотр выбранного изображения
+            realFileInput.addEventListener('change', function(event) {
+                if (event.target.files && event.target.files[0]) {
+                    const reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        clickableImage.src = e.target.result;
+                    }
+                    reader.readAsDataURL(event.target.files[0]); // Читаем файл как Data URL
+                }
+            });
+
+
+        } else {
+            console.error("Required elements (clickable-avatar or id_avatar_input) not found.");
+        }
+    </script>
+{% endblock %}

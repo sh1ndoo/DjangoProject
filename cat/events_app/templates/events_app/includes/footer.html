@@ -42,9 +42,9 @@
         <div class="footer-section footer-nav">
             <h4 class="footer-title">ПРО КОТ</h4>
             <ul>
-                <li><a href="#">Юридическая страничка</a></li>
+                <li><a href="{% url 'documents:documents_list' %}">Юридическая страничка</a></li>
                 <li><a href="#">Всё о комьюнити</a></li>
-                <li><a href="#">О проекте</a></li>
+                <li><a href="{% url 'about' %}">О проекте</a></li>
             </ul>
         </div>
 
@@ -55,7 +55,7 @@
                 <input type="email" placeholder="Ваша почта" required>
                 <button type="submit" class="btn btn-subscribe">Подписаться</button>
             </form>
-            <p class="newsletter-disclaimer">Нажимая кнопку «Подписаться», вы соглашаетесь с <a href="#">правилами</a></p>
+            <p class="newsletter-disclaimer">Нажимая кнопку «Подписаться», вы соглашаетесь с <a href="{% url 'documents:documents_list' %}">правилами</a></p>
         </div>
 
     </div>

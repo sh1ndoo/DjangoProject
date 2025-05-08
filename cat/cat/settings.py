@@ -18,6 +18,7 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 TAGGIT_STRIP_UNICODE_WHEN_SLUGIFYING=True
 
+AUTH_USER_MODEL = 'users.User'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -33,29 +34,6 @@ ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 INTERNAL_IPS = ["127.0.0.1", "localhost"]
 
 
-
-
-# AWS_ACCESS_KEY_ID = B2_KEY_ID # Да, имя переменной как для AWS S3
-# AWS_SECRET_ACCESS_KEY = B2_APPLICATION_KEY # Да, имя переменной как для AWS S3
-# AWS_STORAGE_BUCKET_NAME = B2_BUCKET_NAME
-# S3_REGION_NAME = 'us-east-005'
-# S3_ENDPOINT = f"s3.us-east-005.backblazeb2.com"
-# AWS_S3_ENDPOINT_URL = f"https://{AWS_S3_ENDPOINT}"
-# AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_ENDPOINT}'
-#
-#
-# AWS_S3_OBJECT_PARAMETERS = {
-#     'CacheControl': 'max-age=86400', # Кэширование на стороне клиента (1 день)
-# }
-# AWS_LOCATION = 'media' # Префикс (папка) внутри бакета для медиафайлов, если нужен
-# AWS_DEFAULT_ACL = 'private' # Для B2 обычно не используется ACL в стиле S3, лучше 'private' или
-# # AWS_S3_FILE_OVERWRITE = False # Не перезаписывать файлы с одинаковым именем (True по умолчанию)
-# AWS_QUERYSTRING_AUTH = True # Генерировать подписанные URL для приватных файлов (важно!)
-# AWS_S3_SIGNATURE_VERSION = 's3v4' # Обычно требуется для B2
-#
-#
-#
-# MEDIA_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/{AWS_LOCATION}/' # Пример URL для медиа
 MEDIA_URL = '/media/' # Или как настроено в urls.py для локальной разработки
 MEDIA_ROOT = BASE_DIR / 'media'
 # DEFAULT_FILE_STORAGE = 'storages.backends.b2.B2Storage'
@@ -64,15 +42,11 @@ STORAGES = {
     "default": {
         "BACKEND": "storages.backends.s3.S3Storage",
         "OPTIONS": {
-            # --- Аутентификация ---
-            # Используем ключи из .env
-            # (Используем альтернативные имена из документации django-storages)
             "access_key": B2_KEY_ID,
             "secret_key": B2_APPLICATION_KEY,
 
             # --- Настройки бакета и эндпоинта ---
             "bucket_name": B2_BUCKET_NAME,
-            # endpoint_url КРАЙНЕ ВАЖЕН для B2 и других S3-совместимых!
             "endpoint_url": "https://s3.us-east-005.backblazeb2.com",  # Например, 's3.us-east-005.backblazeb2.com'
 
             # --- Настройки генерации URL и доступа ---
@@ -81,8 +55,6 @@ STORAGES = {
             "signature_version": 's3v4',  # <-- ВАЖНО для B2!
             "default_acl": None,  # B2 обычно не использует ACL как S3, лучше None или private
 
-            # --- Опционально, но полезно ---
-            # Имя региона может помочь boto3, хотя endpoint_url важнее
             "region_name": 'us-east-005',  # Укажите ваш регион B2
             "object_parameters": {  # Доп. параметры для ВСЕХ загружаемых файлов
                 'CacheControl': 'max-age=86400',  # Кэшировать на 1 день
@@ -111,6 +83,8 @@ INSTALLED_APPS = [
     "debug_toolbar",
     'storages',
     'events_app.apps.EventsConfig',
+    'users.apps.UsersConfig',
+    'documents_app.apps.DocumentsAppConfig',
 ]
 
 MIDDLEWARE = [

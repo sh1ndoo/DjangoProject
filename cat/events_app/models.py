@@ -14,6 +14,8 @@ from taggit.managers import TaggableManager
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFit, Transpose
 
+from cat import settings
+
 russian_months = [
     "января",  # 1
     "февраля",  # 2
@@ -32,17 +34,7 @@ russian_months = [
 events_count = 0
 
 
-def save_image_from_url(url, model_instance):
-    response = requests.get(url, stream=True)
-    if response.status_code == 200:
 
-        file_name = url.split('/')[-1] + str(datetime.now().timestamp()).replace('.', '')
-        image_file = File(response.raw, name=file_name)
-
-        model_instance.image = image_file
-        model_instance.save()
-    else:
-        print("Failed to download image")
 
 
 class ChildrenEventModel(models.Manager):
@@ -68,7 +60,7 @@ class Events(models.Model):
     logo = ProcessedImageField(verbose_name='Логотип', blank=True, null=True,
                                processors=[
                                             Transpose(), # Исправляет ориентацию по EXIF (важно!)
-                                            ResizeToFit(width=1920, upscale=False) # Макс. ширина 1920px, не увеличивать маленькие
+                                            ResizeToFit(width=500, upscale=False) # Макс. ширина 1920px, не увеличивать маленькие
                                           ],
                                format='WEBP', # Или 'WEBP'
                                options={'quality': 80}, default='base_event_logo.webp')
@@ -85,7 +77,7 @@ class Events(models.Model):
     is_active = models.BooleanField(default=True, verbose_name='Активно')
     views_count = models.IntegerField(default=0, verbose_name='Кол-во просмотров', blank=True)
     is_by_user = models.BooleanField(default=False, verbose_name='Создано пользователем')
-    creator = models.ForeignKey('Profiles', on_delete=models.DO_NOTHING, related_name='events', verbose_name='Создатель', blank=True, null=True)
+    # creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='events', verbose_name='Создатель', blank=True, null=True)
 
 
     children = ChildrenEventModel
@@ -203,37 +195,34 @@ class Events(models.Model):
 
 
 
-class Profiles(models.Model):
-    class Meta:
-        indexes = [
-            models.Index(fields=['name', 'url']),
-        ]
-        verbose_name = 'Профиль'
-        verbose_name_plural = 'Профили'
-
-    name = models.CharField(max_length=50)
-    email = models.EmailField(max_length=500, default="", unique=True)
-    phone = models.CharField(max_length=12, default="", unique=True)
-    password = models.CharField(max_length=50)
-    url = models.SlugField(max_length=50, unique=True)
-    avatar_img = models.TextField(default="")
-    background_img = models.TextField(default="")
-    rating = models.IntegerField(default=0)
-    address = models.TextField(default="")
-    events_count = models.IntegerField(default=0)
-    reviews_count = models.IntegerField(default=0)
-    likes = models.TextField(default="")
-    reviews = models.TextField(default="")
-    users_events = models.TextField(default="")
-    views_count = models.IntegerField(default=0)
-
-    def __str__(self):
-        return self.name
-
-    def get_absolute_url(self):
-        return reverse(
-            'profile',
-            kwargs={'profile_url': self.url})
+# class Profiles(models.Model):
+#     class Meta:
+#         verbose_name = 'Профиль'
+#         verbose_name_plural = 'Профили'
+#
+#     name = models.CharField(max_length=50)
+#     email = models.EmailField(max_length=500, default="", unique=True)
+#     phone = models.CharField(max_length=12, default="", unique=True)
+#     password = models.CharField(max_length=50)
+#     url = models.SlugField(max_length=50, unique=True)
+#     avatar_img = models.TextField(default="")
+#     background_img = models.TextField(default="")
+#     rating = models.IntegerField(default=0)
+#     address = models.TextField(default="")
+#     events_count = models.IntegerField(default=0)
+#     reviews_count = models.IntegerField(default=0)
+#     likes = models.TextField(default="")
+#     reviews = models.TextField(default="")
+#     users_events = models.TextField(default="")
+#     views_count = models.IntegerField(default=0)
+#
+#     def __str__(self):
+#         return self.name
+#
+#     def get_absolute_url(self):
+#         return reverse(
+#             'profile',
+#             kwargs={'profile_url': self.url})
 
 
 class Categories(models.Model):

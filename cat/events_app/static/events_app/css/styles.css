@@ -150,7 +150,9 @@ h3 { font-size: 1.1em; } /* Default for filters/sub-sections */
     width: 1em;
     display: inline-block; /* Prevents extra space */
 }
-
+pre {
+    font-family: var(--font-family-base), serif; /* Или любое другое семейство шрифтов */
+}
 /* Primary Action Button */
 .btn-primary {
     background-color: var(--color-accent-primary);
@@ -962,8 +964,9 @@ h3 { font-size: 1.1em; } /* Default for filters/sub-sections */
     margin-bottom: var(--space-md);
 }
 
-.login-form input[type="email"],
-.login-form input[type="password"] {
+.login-form input[type="text"],
+.login-form input[type="password"],
+.login-form input[type="email"] {
     display: block;
     width: 100%;
     background-color: var(--color-bg-input);
